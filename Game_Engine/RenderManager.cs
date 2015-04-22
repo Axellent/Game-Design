@@ -11,10 +11,10 @@ namespace Game_Engine{
 			this.graphics = graphics;
 		}
 
-		public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice){
-			spriteBatch.Begin();
-			graphicsDevice.Clear(Color.CornflowerBlue);
-			spriteBatch.End();
+		public void Draw(SpriteBatch batch, GraphicsDevice device){
+			batch.Begin();
+			device.Clear(Color.CornflowerBlue);
+			batch.End();
 		}
 	}
 }
