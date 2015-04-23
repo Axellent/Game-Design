@@ -38,7 +38,8 @@ namespace Game_Engine{
 
 		protected override void Update(GameTime gameTime){
 			inputManager.HandleInput();
-			physicsManager.UpdatePhysics(new Vector2(inputManager.WorldX, inputManager.WorldY), sceneManager.SceneObjects);
+			physicsManager.UpdatePhysics(new Vector2(inputManager.WorldX, inputManager.WorldY), new Vector2(inputManager.OldWorldX, inputManager.OldWorldY), sceneManager.SceneObjects);
+			sceneManager.SceneObjects = physicsManager.SceneObjects;
 			base.Update(gameTime);
 		}
 
