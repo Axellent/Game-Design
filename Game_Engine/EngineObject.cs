@@ -7,6 +7,7 @@ namespace Game_Engine{
 		private float y;
 		private float width;
 		private float height;
+		private float rotation;
 
 		public float X{
 			get{
@@ -41,6 +42,15 @@ namespace Game_Engine{
 			}
 			set{
 				height = value;
+			}
+		}
+
+		public float Rotation{
+			get{
+				return rotation;
+			}
+			set{
+				rotation = value;
 			}
 		}
 	}

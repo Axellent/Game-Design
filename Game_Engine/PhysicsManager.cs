@@ -20,10 +20,14 @@ namespace Game_Engine{
 
 		}
 
-		public void UpdatePhysics(Vector2 worldPos, Vector2 oldWorldPos, List<SceneObject> sceneObjects){
+		public void UpdatePhysics(Vector2 worldPos, Vector2 oldWorldPos, List<SceneObject> sceneObjects, float playerRotation){
 			for(int i = 0; i < sceneObjects.Count; i++){
-				sceneObjects[i].X += oldWorldPos.X - worldPos.X;
-				sceneObjects[i].Y += oldWorldPos.Y - worldPos.Y;
+				if (!sceneObjects[i].Texture.Name.Equals ("player_s")) {
+					sceneObjects[i].X += oldWorldPos.X - worldPos.X;
+					sceneObjects[i].Y += oldWorldPos.Y - worldPos.Y;
+				} else {
+					sceneObjects[i].Rotation = playerRotation;
+				}
 			}
 			this.sceneObjects = sceneObjects;
 		}

@@ -66,23 +66,23 @@ namespace Game_Engine{
 			KeyboardState keyboardState = Keyboard.GetState();
 
 			oldWorldX = worldX;
-			OldWorldY = worldY;
+			oldWorldY = worldY;
 
 			if (keyboardState.IsKeyDown(Keys.Left)){
 				playerRotation = (float)Math.PI / 2;
-				worldX += PLAYER_MOVE_SPEED;
+				worldX -= PLAYER_MOVE_SPEED;
 			}
 			if (keyboardState.IsKeyDown(Keys.Right)){
 				playerRotation = (float)Math.PI * (float)1.5;
-				worldX -= PLAYER_MOVE_SPEED;
+				worldX += PLAYER_MOVE_SPEED;
 			}
 			if (keyboardState.IsKeyDown(Keys.Up)){
 				playerRotation = (float)Math.PI;
-				worldY += PLAYER_MOVE_SPEED;
+				worldY -= PLAYER_MOVE_SPEED;
 			}
 			if (keyboardState.IsKeyDown(Keys.Down)){
 				playerRotation = 0;
-				worldY -= PLAYER_MOVE_SPEED;
+				worldY += PLAYER_MOVE_SPEED;
 			}
 		}
 	}

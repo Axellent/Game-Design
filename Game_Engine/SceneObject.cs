@@ -15,7 +15,7 @@ namespace Game_Engine{
 			}
 		}
 		
-		public SceneObject(Texture2D texture, float x, float y, float width, float height){
+		public SceneObject(Texture2D texture, float x, float y, float width, float height, float rotation){
 			this.texture = texture;
 			X = x;
 			Y = y;
