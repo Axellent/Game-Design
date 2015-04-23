@@ -25,12 +25,25 @@ namespace Game_Engine{
 		}
 
 		protected override void LoadContent(){
+			Texture2D player;
+
 			spriteBatch = new SpriteBatch(GraphicsDevice);
+			renderManager.LoadContent(Content);
+
+			player = renderManager.Player_s;
+			sceneManager.AddSceneObject(new SceneObject(player, GraphicsDevice.Viewport.Width / 2 - player.Width / 2, GraphicsDevice.Viewport.Height / 2 - player.Height / 2,
+				player.Width, player.Height));
 			base.LoadContent();
 		}
 
 		protected override void Update(GameTime gameTime){
-			renderManager.Draw(spriteBatch, GraphicsDevice);
+			inputManager.HandleInput();
+			physicsManager.UpdatePhysics(new Vector2(inputManager.WorldX, inputManager.WorldY), sceneManager.SceneObjects);
+			base.Update(gameTime);
+		}
+
+		protected override void Draw(GameTime gameTime){
+			renderManager.Draw(spriteBatch, GraphicsDevice, sceneManager.SceneObjects);
 			base.Draw(gameTime);
 		}
 	}
