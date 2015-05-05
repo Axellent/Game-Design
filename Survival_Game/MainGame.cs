@@ -6,7 +6,8 @@ namespace Survival_Game{
 	public class MainGame{
 		
 		public MainGame(){
-			GameEngine engine = new GameEngine ();
+			
+			GameEngine engine = new GameEngine();
 			engine.Run();
 		}
 
@@ -15,4 +16,3 @@ namespace Survival_Game{
 		}
 	}
 }
-
