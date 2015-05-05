@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,6 +13,26 @@ namespace Game_Engine{
 		SceneManger sceneManager;
 		PhysicsManager physicsManager;
 		SoundManager soundManager;
+		List<Entity> entities;
+		List<string> gameContent;
+
+		public List<Entity> Entities{
+			get{
+				return entities;
+			}
+			set{
+				entities = value;
+			}
+		}
+
+		public List<string> GameContent{
+			get{
+				return gameContent;
+			}
+			set{
+				gameContent = value;
+			}
+		}
 
 		public GameEngine(){
 			graphics = new GraphicsDeviceManager(this);

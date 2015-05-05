@@ -42,7 +42,8 @@ namespace Game_Engine{
 				else{
 					Rectangle playerRectangle = new Rectangle(0, 0, Convert.ToInt32(sceneObjects[i].Width), Convert.ToInt32(sceneObjects[i].Height));
 					Vector2 playerOrigin = new Vector2(sceneObjects[i].Width / 2, sceneObjects[i].Height / 2);
-					batch.Draw (sceneObjects[i].Texture, new Vector2(sceneObjects[i].X, sceneObjects[i].Y), playerRectangle, tintColor, sceneObjects[i].Rotation, playerOrigin, 1.0f, SpriteEffects.None, 1);
+					batch.Draw (sceneObjects[i].Texture, new Vector2(sceneObjects[i].X, sceneObjects[i].Y),
+						playerRectangle, tintColor, sceneObjects[i].Rotation, playerOrigin, 1.0f, SpriteEffects.None, 1);
 				}
 			}
 
