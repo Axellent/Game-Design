@@ -4,8 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game_Engine{
 
+	/* Author: Axel Sigl */
 	public class AnimatedEntity : Entity{
 		Texture2D texture;
+		int layer;
 
 		public Texture2D Texture{
 			get{
@@ -16,8 +18,13 @@ namespace Game_Engine{
 			}
 		}
 
-		public AnimatedEntity(){
-
+		public int Layer{
+			get{
+				return layer;
+			}
+			set{
+				layer = value;
+			}
 		}
 
 		public AnimatedEntity(float x, float y, float width, float height, float rotation, BoundingBox hitbox, 

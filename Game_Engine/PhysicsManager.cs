@@ -21,7 +21,7 @@ namespace Game_Engine{
 		public PhysicsManager(){
 
 		}
-
+				
 		public void UpdatePhysics(Vector2 worldPos, Vector2 oldWorldPos, List<SceneObject> sceneObjects, float playerRotation){
 			for(int i = 0; i < sceneObjects.Count; i++){
 				if (!sceneObjects[i].Texture.Name.Equals ("player_s")) {
@@ -32,7 +32,7 @@ namespace Game_Engine{
 				}
 			}
 			this.sceneObjects = sceneObjects;
-			observer.OnNext();
+			//observer.OnNext();
 		}
 
 		public IDisposable Subscribe (IObserver<Entity> observer)
@@ -53,6 +53,9 @@ namespace Game_Engine{
 			{
 				_observer = null;
 			}
+		}
+		public void UpdatePhysics(List<Entity> entities){
+
 		}
 	}
 }

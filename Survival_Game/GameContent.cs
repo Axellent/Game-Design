@@ -11,7 +11,7 @@ namespace Survival_Game
 		public GameContent ()
 		{
 			ObjectObserver objectObserver = new ObjectObserver ();
-			objectObserver.
+			//objectObserver.
 		}
 
 		public void CreatePlayer()
