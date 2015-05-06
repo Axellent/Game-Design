@@ -31,6 +31,10 @@ namespace Game_Engine{
 			}
 			this.sceneObjects = sceneObjects;
 		}
+
+		public void CollisionDetection(){
+			
+		}
 	}
 }
 
