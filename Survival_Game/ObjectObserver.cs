@@ -7,7 +7,7 @@ namespace Survival_Game
 	public class ObjectObserver : IObserver<Entity>
 	{
 		List<string> playersByID;
-		private IDisposable playerRemoval;
+		private IDisposable removableObserver;
 
 		public ObjectObserver ()
 		{
@@ -16,7 +16,7 @@ namespace Survival_Game
 
 		public void Unsubscribe()
 		{
-			playerRemoval.Dispose();
+			removableObserver.Dispose();
 			playersByID.Clear();
 		}
 
