@@ -14,6 +14,10 @@ namespace Survival_Game
 			playersByID = new List<string> ();
 		}
 
+		public void AddDisposableOBserver(IDisposable disposableObserver){
+			removableObserver = disposableObserver;
+		}
+
 		public void Unsubscribe()
 		{
 			removableObserver.Dispose();
