@@ -1,6 +1,7 @@
 ﻿using System;
 using Game_Engine;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace Survival_Game
 {
@@ -14,7 +15,8 @@ namespace Survival_Game
 		{
 			ID = playerID;
 			name = playerName;
-			actor = new ActorEntity ();
+			//Filled these parameters with temp values, replace with player data. - Axel
+			actor = new ActorEntity(0, 0, 50, 50, 0, new BoundingBox(), null, true);
 		}
 	}
 }

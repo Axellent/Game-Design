@@ -2,7 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Game_Engine{
-	
+
+	/* I will probably remove this, avoid using it for now */
 	public class SceneObject : EngineObject{
 		private Texture2D texture;
 

@@ -1,7 +1,8 @@
 ﻿using System;
 
 namespace Game_Engine{
-	
+
+	/* I will probably remove this, avoid using it for now */
 	public abstract class EngineObject{
 		private float x;
 		private float y;

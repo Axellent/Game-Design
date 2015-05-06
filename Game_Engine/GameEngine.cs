@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game_Engine{
 
+	/* Author: Axel Sigl */
 	public class GameEngine : Game{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
@@ -14,7 +15,7 @@ namespace Game_Engine{
 		PhysicsManager physicsManager;
 		SoundManager soundManager;
 		List<Entity> entities;
-		List<string> gameContent;
+		List<Texture2D> gameContent;
 
 		public List<Entity> Entities{
 			get{
@@ -25,7 +26,7 @@ namespace Game_Engine{
 			}
 		}
 
-		public List<string> GameContent{
+		public List<Texture2D> GameContent{
 			get{
 				return gameContent;
 			}
@@ -43,30 +44,29 @@ namespace Game_Engine{
 			sceneManager = new SceneManger();
 			physicsManager = new PhysicsManager();
 			soundManager = new SoundManager();
+
+			entities = new List<Entity>();
 		}
 
 		protected override void LoadContent(){
-			Texture2D player;
 
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-			renderManager.LoadContent(Content);
+			//Change second parameter to list of content names
+			gameContent = renderManager.LoadContent(Content, new List<string>());
 
-			player = renderManager.Player_s;
-			sceneManager.AddSceneObject(new SceneObject(renderManager.tmp, GraphicsDevice.Viewport.Width / 2 - renderManager.tmp.Width / 2, 100, renderManager.tmp.Width, renderManager.tmp.Height, 0));
-			sceneManager.AddSceneObject(new SceneObject(player, GraphicsDevice.Viewport.Width / 2 - player.Width / 2, GraphicsDevice.Viewport.Height / 2 - player.Height / 2,
-				player.Width, player.Height, 0));
 			base.LoadContent();
 		}
 
 		protected override void Update(GameTime gameTime){
-			inputManager.HandleInput();
-			physicsManager.UpdatePhysics(new Vector2(inputManager.WorldX, inputManager.WorldY), new Vector2(inputManager.OldWorldX, inputManager.OldWorldY), sceneManager.SceneObjects, inputManager.PlayerRotation);
-			sceneManager.SceneObjects = physicsManager.SceneObjects;
+			string action;
+
+			action = inputManager.HandleInput();
+			physicsManager.UpdatePhysics(entities);
 			base.Update(gameTime);
 		}
 
 		protected override void Draw(GameTime gameTime){
-			renderManager.Draw(spriteBatch, GraphicsDevice, sceneManager.SceneObjects);
+			renderManager.Draw(spriteBatch, GraphicsDevice, entities);
 			base.Draw(gameTime);
 		}
 	}
