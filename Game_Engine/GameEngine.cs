@@ -34,7 +34,7 @@ namespace Game_Engine{
 			}
 		}
 
-		public GameEngine(){
+		public GameEngine(IObserver<Entity> observer){
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
@@ -42,6 +42,7 @@ namespace Game_Engine{
 			inputManager = new InputManager();
 			sceneManager = new SceneManger();
 			physicsManager = new PhysicsManager();
+			physicsManager.Subscribe (observer);
 			soundManager = new SoundManager();
 		}
 

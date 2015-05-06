@@ -14,7 +14,7 @@ namespace Survival_Game
 		{
 			ID = playerID;
 			name = playerName;
-			actor = new ActorEntity ();
+			actor = new ActorEntity();
 		}
 	}
 }
