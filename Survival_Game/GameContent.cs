@@ -12,7 +12,7 @@ namespace Survival_Game
 		public GameContent ()
 		{
 			keyBindings = new Dictionary<string, List<string>> ();
-			//objectObserver.
+
 		}
 
 		public void DefineKeybindingPlayer1(){
