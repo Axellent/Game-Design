@@ -4,8 +4,10 @@ using Microsoft.Xna.Framework;
 
 namespace Game_Engine{
 
-	public class PhysicsManager{
+	public class PhysicsManager : IObservable<Entity>{
+		
 		private List<SceneObject> sceneObjects;
+		private IObserver<Entity> observer;
 
 		public List<SceneObject> SceneObjects{
 			get{
@@ -30,7 +32,14 @@ namespace Game_Engine{
 				}
 			}
 			this.sceneObjects = sceneObjects;
+			observer.OnNext();
 		}
+
+		public IDisposable Subscribe (IObserver<Entity> observer)
+		{
+			this.observer = observer;
+		}
+
 	}
 }
 

@@ -5,10 +5,23 @@ namespace Survival_Game{
 
 	public class MainGame{
 		
+		private GameEngine engine;
+
 		public MainGame(){
 			
-			GameEngine engine = new GameEngine();
+			ObjectObserver observer = new ObjectObserver ();
+			engine = new GameEngine(observer);
 			engine.Run();
+		}
+
+		public void LoadContent()
+		{
+			
+		}
+
+		public void Update()
+		{
+
 		}
 
 		public static void Main(){
