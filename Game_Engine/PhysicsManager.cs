@@ -5,33 +5,13 @@ using Microsoft.Xna.Framework;
 namespace Game_Engine{
 
 	public class PhysicsManager : IObservable<Entity>{
-		
-		private List<SceneObject> sceneObjects;
 		private IObserver<Entity> observer;
-
-		public List<SceneObject> SceneObjects{
-			get{
-				return sceneObjects;
-			}
-			set{
-				sceneObjects = value;
-			}
-		}
 
 		public PhysicsManager(){
 
 		}
 				
-		public void UpdatePhysics(Vector2 worldPos, Vector2 oldWorldPos, List<SceneObject> sceneObjects, float playerRotation){
-			for(int i = 0; i < sceneObjects.Count; i++){
-				if (!sceneObjects[i].Texture.Name.Equals ("player_s")) {
-					sceneObjects[i].X += oldWorldPos.X - worldPos.X;
-					sceneObjects[i].Y += oldWorldPos.Y - worldPos.Y;
-				} else {
-					sceneObjects[i].Rotation = playerRotation;
-				}
-			}
-			this.sceneObjects = sceneObjects;
+		public void UpdatePhysics(List<Entity> entities){
 			//observer.OnNext();
 		}
 
@@ -54,8 +34,9 @@ namespace Game_Engine{
 				_observer = null;
 			}
 		}
-		public void UpdatePhysics(List<Entity> entities){
 
+		public void CollisionDetection(){
+			
 		}
 	}
 }
