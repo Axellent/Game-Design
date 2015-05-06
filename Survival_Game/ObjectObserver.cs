@@ -1,30 +1,26 @@
 ﻿using System;
 using Game_Engine;
 using System.Collections.Generic;
+
 namespace Survival_Game
 {
-	public class PlayerObserver : IObserver<ActorEntity>
+	public class ObjectObserver : IObserver<Entity>
 	{
 		List<string> playersByID;
-		private IDisposable playerRemoval;
+		private IDisposable removableObserver;
 
-		public PlayerObserver ()
+		public ObjectObserver ()
 		{
 			playersByID = new List<string> ();
 		}
 
-		private void Subscribe(PlayerProvider provider)
-		{
-			playerRemoval = provider.Subscribe (this);
-		}
-
 		public void Unsubscribe()
 		{
-			playerRemoval.Dispose();
+			removableObserver.Dispose();
 			playersByID.Clear();
 		}
 
-		public void OnNext (ActorEntity value)
+		public void OnNext (Entity value)
 		{
 			throw new NotImplementedException ();
 		}
@@ -40,4 +36,3 @@ namespace Survival_Game
 		}
 	}
 }
-

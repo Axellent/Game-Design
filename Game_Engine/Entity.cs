@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace Game_Engine{
 
+	/* Author: Axel Sigl */
 	public class Entity{
 		float x, y, width, height, rotation;
 		BoundingBox hitbox;
@@ -59,15 +60,6 @@ namespace Game_Engine{
 			set{
 				hitbox = value;
 			}
-		}
-
-		public Entity(){
-			x = 0;
-			y = 0;
-			width = 0;
-			height = 0;
-			rotation = 0;
-			hitbox = new BoundingBox();
 		}
 
 		public Entity(float x, float y, float width, float height, float rotation, BoundingBox hitbox){

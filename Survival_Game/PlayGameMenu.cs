@@ -2,11 +2,10 @@
 
 namespace Survival_Game
 {
-	public class StartMenu
+	public class PlayGameMenu
 	{
-		public StartMenu ()
+		public PlayGameMenu ()
 		{
-			
 		}
 	}
 }

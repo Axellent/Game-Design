@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 namespace Game_Engine{
 
 	public class InputManager{
+
 		public const float PLAYER_MOVE_SPEED = 2;
 
 
@@ -63,6 +64,7 @@ namespace Game_Engine{
 			}
 		}
 
+
 		public List<KeyBind> KeyBind{
 			get{ 
 				return keyBinds;
@@ -73,13 +75,10 @@ namespace Game_Engine{
 		}
 
 		public InputManager(){
-			oldWorldX = 0;
-			oldWorldY = 0;
-			worldX = 0;
-			worldY = 0;
 		}
 
-		public String HandleInput(){
+
+		/*public String HandleInput(){
 			KeyboardState keyboardState = Keyboard.GetState();
 			GamePadState gamepadstate = GamePad.GetState (PlayerIndex.One);
 			KeyClass kc = new KeyClass (keyboardState.GetPressedKeys());
@@ -96,7 +95,7 @@ namespace Game_Engine{
 			}
 
 			return "none";
-		}
+		}*/
 
 		/*public void HandleInput(){
 			KeyboardState keyboardState = Keyboard.GetState();
@@ -144,6 +143,18 @@ namespace Game_Engine{
 					worldY += PLAYER_MOVE_SPEED;
 				}
 		}*/
+
+		public string HandleInput(){
+			KeyboardState keyboardState = Keyboard.GetState();
+			Keys[] keys = keyboardState.GetPressedKeys();
+
+			if (keys.Length > 0) {
+				string keyValue = keys[0].ToString();
+				/* Check if keyValue is equal to any of the keyBind inputs and return
+				 * the action if so. */
+			}
+			return "none";
+		}
+
 	}
 }
-
