@@ -21,10 +21,11 @@ namespace Game_Engine{
 			}
 		}
 				
-		public void UpdatePhysics(List<Entity> entities){
+		public List<KeyValuePair<Entity, Entity>> UpdatePhysics(List<Entity> entities){
 			List<KeyValuePair<Entity, Entity>> collisionPairs;
 
 			collisionPairs = CollisionDetection(entities);
+			return collisionPairs;
 		}
 
 

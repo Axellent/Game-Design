@@ -20,6 +20,7 @@ namespace Game_Engine{
 		List<string> contentNames;
 		List<KeyBind> keyBinds = new List<KeyBind>();
 		List<KeyBind> actions = new List<KeyBind>();
+		List<KeyValuePair<Entity, Entity>> collisionPairs;
 
 		public List<string> ContentNames {
 			get {
@@ -105,7 +106,7 @@ namespace Game_Engine{
 		protected override void Update(GameTime gameTime){
 			//TODO:resolve these actions
 			actions = inputManager.HandleInput(keyBinds);
-			physicsManager.UpdatePhysics(entities);
+			collisionPairs = physicsManager.UpdatePhysics(entities);
 			foreach(KeyBind action in actions){
 				observer.OnNext (action);
 			}
