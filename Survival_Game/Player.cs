@@ -40,7 +40,7 @@ namespace Survival_Game
 			}
 		}
 
-		public Player (string playerName, bool isController, int X, int Y, int width, int height, int rotation, BoundingBox hitbox, int layer, Texture2D texture, bool playerControlled) 
+		public Player (string playerName, bool isController, int X, int Y, int width, int height, int rotation, BoundingBox? hitbox, int layer, Texture2D texture, bool playerControlled) 
 			: base(playerName, X, Y, width, height,  rotation, hitbox, layer, texture, playerControlled)
 		{
 			name = playerName;

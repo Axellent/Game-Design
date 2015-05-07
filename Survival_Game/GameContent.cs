@@ -5,12 +5,15 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 
 namespace Survival_Game{
+	
+	//author Rasmus Bäckerhall
 	public class GameContent{
 
 		public GameContent (){
 			
 		}
 
+		//defines the content that should be loaded by the engine
 		public List<string> LoadGameContent(){
 			List<string> gameContent = new List<string>();
 			gameContent.Add ("player_s");
@@ -19,6 +22,7 @@ namespace Survival_Game{
 			return gameContent;
 		}
 
+		//Keyboard Setup 1 
 		public List<KeyBind> DefineKeybindingSetup1(string playerID){
 			List<KeyBind> keybinds = new List<KeyBind> ();
 			KeyBind keybind1 = new KeyBind ();
@@ -56,6 +60,7 @@ namespace Survival_Game{
 			return keybinds;
 		}
 
+		//Keyboard Setup 2
 		public List<KeyBind> DefineKeybindSetup2(string playerID){
 			List<KeyBind> keybinds = new List<KeyBind> ();
 			KeyBind keybind1 = new KeyBind ();
@@ -92,6 +97,7 @@ namespace Survival_Game{
 			return keybinds;
 		}
 
+		//gamePad setup
 		public List<KeyBind> DefineKeybindingForGamePad(string playerID){
 			List<KeyBind> keybinds = new List<KeyBind> ();
 			KeyBind keybind1 = new KeyBind ();

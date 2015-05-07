@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Survival_Game
 {
+	//author Rasmus Bäckerhall
 	public class EntityObserver : IObserver<KeyBind>
 	{
 		float playerSpeed = 2.0F;
@@ -27,7 +28,7 @@ namespace Survival_Game
 			this.engine = engine;
 		}
 
-		public void AddDisposableOBserver(IDisposable disposableObserver){
+		public void AddDisposableObserver(IDisposable disposableObserver){
 			removableObserver = disposableObserver;
 		}
 
@@ -37,6 +38,7 @@ namespace Survival_Game
 			//players.Clear();
 		}
 
+		//Called by engine. In this method all the changes to the player is made
 		public void OnNext (KeyBind value)
 		{
 			Entity entity = engine.Entities.Find (x => x.ID.Equals (value.EntityID));
@@ -72,6 +74,7 @@ namespace Survival_Game
 			oldEntity = entity;
 		}
 
+		//inputs an player that should be checked for collision with an other player
 		public bool checkCollision(Player player){
 			foreach(KeyValuePair<Entity, Entity> collision in engine.CollisionPairs){
 				if ((player.Name + player.ID).Equals (collision.Key.ID) || (player.Name + player.ID).Equals (collision.Value.ID))

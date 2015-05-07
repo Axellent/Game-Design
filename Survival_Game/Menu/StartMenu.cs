@@ -3,6 +3,7 @@ using Survival_Game;
 
 namespace Survival_Game
 {
+	//TODO: in iteration 3
 	public class StartMenu
 	{
 		public StartMenu (){

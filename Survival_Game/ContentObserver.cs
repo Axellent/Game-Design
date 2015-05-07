@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace Survival_Game
 {
+	//author Rasmus Bäckerhall
 	public class ContentObserver : IObserver<List<Texture2D>>
 	{
 		private GameEngine engine;
@@ -31,7 +32,10 @@ namespace Survival_Game
 		public void AddDisposableOBserver(IDisposable disposableObserver){
 			removeableObserver = disposableObserver;
 		}
-			
+
+		//Defines which content should be loaded for the specified entity
+		//TODO iteration3: Add first of all add more content but also be 
+		//able to load content not only for a player
 		public void OnNext (List<Texture2D> value)
 		{
 			foreach (Player player in players){

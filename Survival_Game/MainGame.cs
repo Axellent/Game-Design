@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace Survival_Game{
 
+	//author: Rasmus Bäckerhall
 	public class MainGame{
 		
 		private GameEngine engine;
@@ -18,30 +19,41 @@ namespace Survival_Game{
 			engine.Run();
 		}
 
+		//Loads the content to game engine. Most instances will be moved to the menu classes in iteration 3
 		private void LoadContent()
 		{
-			List<KeyBind> keybinds = new List<KeyBind> ();
+			//TODO: Add Menus
 			//MenuController menuController = new MenuController (new StartMenu(), new OptionMenu(), new PlayGameMenu());
+
 			GameContent contentManager = new GameContent();
+
+			//Defines all keybinds
+			List<KeyBind> keybinds = new List<KeyBind> ();
 			keybinds = contentManager.DefineKeybindingSetup1 ("player1");
 			keybinds.AddRange(contentManager.DefineKeybindSetup2 ("player2"));
 			keybinds.AddRange (contentManager.DefineKeybindingForGamePad ("player3"));
+
+			//Sends the keybinds to the engine
 			foreach (KeyBind keybind in keybinds) {
 				engine.KeyBind.Add (keybind);
 			}
 			engine.ContentNames = contentManager.LoadGameContent ();
 
-			Player player1 = new Player ("player1", false, 0, 0, 72, 62, 0, new BoundingBox(), 1, null, true);
-			Player player2 = new Player ("player2", false, 400, 200, 72, 62, 0, new BoundingBox (), 1, null, true);
-			Player player3 = new Player ("player3", true, 400, 0, 72, 62, 0, new BoundingBox(), 1, null, true);
+			//The players will be defined in a menu
+			Player player1 = new Player ("player1", false, 0, 0, 72, 62, 0, null, 1, null, true);
+			Player player2 = new Player ("player2", false, 400, 200, 72, 62, 0, null , 1, null, true);
+			Player player3 = new Player ("player3", true, 400, 0, 72, 62, 0, null, 1, null, true);
 
+			//Adds the players to engine
 			engine.Entities.Add (player1);
 			engine.Entities.Add (player2);
 			engine.Entities.Add (player3);
 
+			//Creates observers
 			entityObserver = new EntityObserver (engine);
 			contentObserver = new ContentObserver (engine, entityObserver);
 
+			//Adds the players to observers for modification
 			contentObserver.Players.Add (player1);
 			contentObserver.Players.Add (player2);
 			contentObserver.Players.Add (player3);
@@ -49,6 +61,7 @@ namespace Survival_Game{
 			entityObserver.Players.Add (player2);
 			entityObserver.Players.Add (player3);
 
+			//Subscribes the observers to the engine and sends a disposable to the observers.
 			IDisposable dis = engine.Subscribe (entityObserver);
 			entityObserver.AddDisposableOBserver(dis);
 			dis = engine.Subscribe (contentObserver);

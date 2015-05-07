@@ -2,6 +2,7 @@
 
 namespace Survival_Game
 {
+	//TODO: in iteration 3
 	public class OptionMenu
 	{
 		public OptionMenu (){
