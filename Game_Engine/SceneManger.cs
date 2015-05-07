@@ -18,8 +18,7 @@ namespace Game_Engine{
 			foreach(Entity entity in entities){
 				var entityType = entity.GetType();
 				if(entityType == typeof(AnimatedEntity)
-					|| entityType == typeof(ActorEntity)
-					|| entityType == typeof(StaticEntity)){
+					|| entityType.IsSubclassOf(typeof(AnimatedEntity))){
 					animatedEntities.Add((AnimatedEntity)entity);
 				}
 			}
