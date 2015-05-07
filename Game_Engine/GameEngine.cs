@@ -75,7 +75,7 @@ namespace Game_Engine{
 		}
 
 		protected override void Update(GameTime gameTime){
-			List<string> actions;
+			List<KeyBind> actions;
 
 			//TODO:resolve these actions
 			actions = inputManager.HandleInput(keyBinds);

@@ -15,8 +15,8 @@ namespace Game_Engine{
 		}
 
 
-		public List<string> HandleInput(List<KeyBind> keyBinds){
-			List<string> actions = new List<string>();
+		public List<KeyBind> HandleInput(List<KeyBind> keyBinds){
+			List<KeyBind> actions = new List<KeyBind>();
 			KeyboardState keyboardState = Keyboard.GetState();
 			GamePadState gamepadstate = GamePad.GetState (PlayerIndex.One);
 			Keys[] pressedKeys = keyboardState.GetPressedKeys();
@@ -27,15 +27,12 @@ namespace Game_Engine{
 				foreach (KeyBind kb in keyBinds) {
 					foreach (String key in kb.Keys) {
 						if (key.Equals(keyValue)) {
-							actions.Add(kb.Action);
+							actions.Add(kb);
 							break;
 						}
 						
 					}
 				}
-			}
-			else{
-				actions.Add("none");
 			}
 			return actions;
 		}
