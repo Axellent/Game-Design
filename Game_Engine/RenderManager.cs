@@ -9,8 +9,24 @@ namespace Game_Engine{
 	public class RenderManager{
 		private GraphicsDeviceManager graphics;
 
+		public void Initialise(){
+			graphics.CreateDevice();
+			graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.DisplayMode.Width;
+			graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
+			//graphics.IsFullScreen = true;
+			graphics.ApplyChanges();
+
+			//base.Initialize();
+		}
+
+		public void stopFullScreen(){
+			graphics.IsFullScreen = false;
+			graphics.ApplyChanges();
+		}
+			
 		public RenderManager(GraphicsDeviceManager graphics){
 			this.graphics = graphics;
+			Initialise ();
 		}
 
 		public List<Texture2D> LoadContent(ContentManager Content, List<string> contentFiles){
@@ -34,6 +50,8 @@ namespace Game_Engine{
 
 			batch.End();
 		}
+
+
 	}
 }
 
