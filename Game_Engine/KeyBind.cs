@@ -17,11 +17,11 @@ namespace Game_Engine
 				isController = value;
 			}
 		}
-
-		private Dictionary<string, string> keys;
+			
+		private List<string> keys;
 		private String action;
 
-		public Dictionary<string, string> Keys{
+		public List<string> Keys{
 			get{ 
 				return keys;
 			}
@@ -41,12 +41,7 @@ namespace Game_Engine
 
 		public KeyBind ()
 		{
-			keys = new Dictionary<string, string> ();
-			keys.Add ("up", null);
-			keys.Add ("down", null);
-			keys.Add ("left", null);
-			keys.Add ("right", null);
-			keys.Add ("action", null);
+			keys = new List<string> ();
 		}
 	}
 }
