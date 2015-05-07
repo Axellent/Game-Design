@@ -16,6 +16,7 @@ namespace Game_Engine{
 		SoundManager soundManager;
 		List<Entity> entities;
 		List<Texture2D> gameContent;
+		List<KeyBind> keyBinds = new List<KeyBind>();
 
 		public List<Entity> Entities{
 			get{
@@ -32,6 +33,15 @@ namespace Game_Engine{
 			}
 			set{
 				gameContent = value;
+			}
+		}
+
+		public List<KeyBind> KeyBind{
+			get{ 
+				return keyBinds;
+			}
+			set{ 
+				keyBinds = value;
 			}
 		}
 
@@ -65,7 +75,7 @@ namespace Game_Engine{
 			List<string> actions;
 
 			//TODO:resolve these actions
-			actions = inputManager.HandleInput();
+			actions = inputManager.HandleInput(keyBinds);
 			physicsManager.UpdatePhysics(entities);
 
 			base.Update(gameTime);

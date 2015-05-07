@@ -10,22 +10,12 @@ namespace Game_Engine{
 
 	public class InputManager{
 		//private int player = (int)PlayerIndex.One;
-		private List<KeyBind> keyBinds = new List<KeyBind>();
-
-		public List<KeyBind> KeyBind{
-			get{ 
-				return keyBinds;
-			}
-			set{ 
-				keyBinds = value;
-			}
-		}
 
 		public InputManager(){
 		}
 
 
-		public List<string> HandleInput(){
+		public List<string> HandleInput(List<KeyBind> keyBinds){
 			List<string> actions = new List<string>();
 			KeyboardState keyboardState = Keyboard.GetState();
 			GamePadState gamepadstate = GamePad.GetState (PlayerIndex.One);
