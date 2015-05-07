@@ -21,6 +21,17 @@ namespace Game_Engine{
 				collision = value;
 			}
 		}
+
+		public List<Entity> UpdateHitboxes(List<Entity> entities){
+
+			foreach(Entity entity in entities){
+				entity.HitBox = new BoundingBox(new Vector3(entity.X - (entity.Width / 3),
+					entity.Y -(entity.Height / 3), 0), 
+					new Vector3(entity.X + (entity.Width / 2),
+						entity.Y + (entity.Height / 2), 0));			
+			}
+			return entities;
+		}
 				
 		public List<KeyValuePair<Entity, Entity>> UpdatePhysics(List<Entity> entities){
 			List<KeyValuePair<Entity, Entity>> collisionPairs;
@@ -33,20 +44,12 @@ namespace Game_Engine{
 			List<KeyValuePair<Entity, Entity>> collisionPairs = new List<KeyValuePair<Entity, Entity>>();
 			int i, j;
 
-			/*foreach (Entity e1 in entities) {
-				foreach (Entity e2 in entities) {
-					if (e1.HitBox.Intersects (e2.HitBox))
-						collisionPairs.Add(new KeyValuePair<Entity, Entity> (e1, e2));
-				}
-			}*/
-
 			for (i = 0; i < entities.Count - 1; i++) {
 				for (j = 1; j < entities.Count; j++) {
 
 					if (!entities [i].Equals (entities [j])) {
 						if (entities [i].HitBox.Intersects (entities [j].HitBox)) {
 							collisionPairs.Add (new KeyValuePair<Entity, Entity> (entities [i], entities [j]));
-							Console.WriteLine ("denna funkar nu?" + entities [i].ID + entities [j].ID);
 						}
 
 					}
