@@ -5,7 +5,11 @@ using Microsoft.Xna.Framework;
 namespace Game_Engine{
 
 	public class PhysicsManager{
+<<<<<<< HEAD
+		private IObserver<Entity> observer;
+=======
 		
+>>>>>>> dc204429821227e9319e66dc4f8d7aa10e2fb272
 		private bool collision = false;
 
 		public PhysicsManager(){
@@ -27,9 +31,7 @@ namespace Game_Engine{
 			collisionPairs = CollisionDetection(entities);
 			return collisionPairs;
 		}
-
-
-
+			
 		public List<KeyValuePair<Entity, Entity>> CollisionDetection(List<Entity> entities){
 			List<KeyValuePair<Entity, Entity>> collisionPairs = new List<KeyValuePair<Entity, Entity>>();
 			int i, j;
