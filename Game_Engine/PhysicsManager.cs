@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace Game_Engine{
 
-	public class PhysicsManager : IObservable<Entity>{
+	public class PhysicsManager{
 		private IObserver<Entity> observer;
 		private bool collision = false;
 
@@ -25,38 +25,6 @@ namespace Game_Engine{
 			List<KeyValuePair<Entity, Entity>> collisionPairs;
 
 			collisionPairs = CollisionDetection(entities);
-		}
-
-		public IDisposable Subscribe (IObserver<Entity> observer)
-		{
-			this.observer = observer;
-
-			return new UnSubscriber (this.observer);
-		}
-
-		private class UnSubscriber : IDisposable {
-			private IObserver<Entity> _observer;
-
-			public UnSubscriber(IObserver<Entity> observer)
-			{
-				_observer = observer;	
-			}
-			public void Dispose ()
-			{
-				_observer = null;
-			}
-		}
-
-		public void OnNext(){
-			throw new NotImplementedException();
-		}
-
-		public void OnError(){
-			throw new NotImplementedException();
-		}
-
-		public void OnCompleted(){
-			throw new NotImplementedException();
 		}
 
 		public List<KeyValuePair<Entity, Entity>> CollisionDetection(List<Entity> entities){

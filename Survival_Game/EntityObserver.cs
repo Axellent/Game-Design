@@ -4,16 +4,25 @@ using System.Collections.Generic;
 
 namespace Survival_Game
 {
-	public class ObjectObserver : IObserver<KeyBind>
+	public class EntityObserver : IObserver<KeyBind>
 	{
 		float playerSpeed = 2.0F;
 		GameEngine engine;
-		List<string> playersByID;
+		private List<Player> players;
 		private IDisposable removableObserver;
 
-		public ObjectObserver (GameEngine engine)
+		public List<Player> Players {
+			get {
+				return players;
+			}
+			set {
+				players = value;
+			}
+		}
+
+		public EntityObserver (GameEngine engine)
 		{
-			playersByID = new List<string> ();
+			this.players = new List<Player> ();
 			this.engine = engine;
 		}
 
@@ -24,20 +33,25 @@ namespace Survival_Game
 		public void Unsubscribe()
 		{
 			removableObserver.Dispose();
-			playersByID.Clear();
+			//players.Clear();
 		}
 
 		public void OnNext (KeyBind value)
 		{
 			Entity entity = engine.Entities.Find (x => x.ID.Equals (value.EntityID));
+			Player player = players.Find (x => (x.Name + x.ID).Equals (value.EntityID));
+			player.IsMoving = true;
 			switch (value.Action) {
 			case "up":
 				entity.Y -= playerSpeed;
-				entity.Rotation = (float)Math.PI - entity.Rotation/2;
+				/*if ()
+					entity.Rotation = (float)Math.PI - entity.Rotation / 2;
+				else*/
+				entity.Rotation = (float)Math.PI;
 				break;
 			case "down":
 				entity.Y += playerSpeed;
-				entity.Rotation = 0 + entity.Rotation / 2;
+				entity.Rotation = 0;
 				break;
 			case "left":
 				entity.X -= playerSpeed;
@@ -59,7 +73,9 @@ namespace Survival_Game
 
 		public void OnCompleted ()
 		{
-			playersByID.Clear();
+			foreach (Player player in players) {
+				player.IsMoving = false;
+			}
 		}
 	}
 }
