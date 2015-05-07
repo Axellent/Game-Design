@@ -32,6 +32,7 @@ namespace Game_Engine{
 			}
 		}
 
+
 		public List<string> ContentNames {
 			get {
 				return contentNames;
@@ -69,17 +70,20 @@ namespace Game_Engine{
 		}
 
 		public GameEngine(){
-			graphics = new GraphicsDeviceManager(this);
+			graphics = new GraphicsDeviceManager (this);
 			Content.RootDirectory = "Content";
 
-			renderManager = new RenderManager(graphics);
-			inputManager = new InputManager();
-			sceneManager = new SceneManger();
-			physicsManager = new PhysicsManager();
-			soundManager = new SoundManager();
+			renderManager = new RenderManager (graphics);
+			inputManager = new InputManager ();
+			sceneManager = new SceneManger ();
+			physicsManager = new PhysicsManager ();
+			soundManager = new SoundManager ();
 
-			entities = new List<Entity>();
+			entities = new List<Entity> ();
+
+
 		}
+
 
 		public IDisposable Subscribe (IObserver<KeyBind> observer)
 		{
@@ -126,12 +130,19 @@ namespace Game_Engine{
 		}
 
 		protected override void Update(GameTime gameTime){
+			
+			foreach(Entity entity in entities){ // denna ska nog ligga överst i funktionen 
+				entity.HitBox = new BoundingBox(new Vector3(entity.X - (entity.Width / 2),entity.Y -(entity.Height / 2) ,0), 
+					new Vector3(entity.X + (entity.Width / 2), entity.Y + (entity.Height / 2) ,0));			
+			}
 			//TODO:resolve these actions
 			actions = inputManager.HandleInput(keyBinds);
 			collisionPairs = physicsManager.UpdatePhysics(entities);
 			foreach(KeyBind action in actions){
 				entityObserver.OnNext (action);
 			}
+
+		
 			contentObserver.OnNext (GameContent);
 			entityObserver.OnCompleted ();
 			base.Update(gameTime);

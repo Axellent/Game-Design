@@ -16,7 +16,12 @@ namespace Game_Engine{
 			//graphics.IsFullScreen = true;
 			graphics.ApplyChanges();
 
+
 			//base.Initialize();
+
+
+			new Viewport();
+
 		}
 
 		public void stopFullScreen(){
