@@ -6,10 +6,6 @@ namespace Game_Engine{
 
 	public class PhysicsManager{
 
-		private IObserver<Entity> observer;
-
-		
-
 		private bool collision = false;
 
 		public PhysicsManager(){

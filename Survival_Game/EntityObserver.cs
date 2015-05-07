@@ -7,6 +7,7 @@ namespace Survival_Game
 	public class EntityObserver : IObserver<KeyBind>
 	{
 		float playerSpeed = 2.0F;
+		private Entity oldEntity;
 		GameEngine engine;
 		private List<Player> players;
 		private IDisposable removableObserver;
@@ -39,7 +40,11 @@ namespace Survival_Game
 		public void OnNext (KeyBind value)
 		{
 			Entity entity = engine.Entities.Find (x => x.ID.Equals (value.EntityID));
-			Player player = players.Find (x => (x.Name + x.ID).Equals (value.EntityID));
+			Player player = players.Find (x => (x.Name).Equals (value.EntityID));
+			if (checkCollision (player)) {
+				player.IsMoving = false;
+				entity = oldEntity;
+			}
 			player.IsMoving = true;
 			switch (value.Action) {
 			case "up":
@@ -64,6 +69,15 @@ namespace Survival_Game
 			case "action":
 				break;
 			}
+			oldEntity = entity;
+		}
+
+		public bool checkCollision(Player player){
+			foreach(KeyValuePair<Entity, Entity> collision in engine.CollisionPairs){
+				if ((player.Name + player.ID).Equals (collision.Key.ID) || (player.Name + player.ID).Equals (collision.Value.ID))
+					return true;
+			}
+			return false;
 		}
 
 		public void OnError (Exception error)

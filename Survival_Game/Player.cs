@@ -2,16 +2,25 @@
 using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Survival_Game
 {
-	public class Player
+	public class Player : ActorEntity
 	{
 		private string name;
-		private int iD;
 		private bool isMoving;
 		private int health;
-		private ActorEntity actor;
+		private bool isController;
+
+		public bool IsControll {
+			get {
+				return isController;
+			}
+			set {
+				isController = value;
+			}
+		}
 
 		public bool IsMoving {
 			get {
@@ -31,32 +40,14 @@ namespace Survival_Game
 			}
 		}
 
-		public int ID {
-			get {
-				return iD;
-			}
-			set {
-				iD = value;
-			}
-		}
-
-		public ActorEntity Actor {
-			get {
-				return actor;
-			}
-			set {
-				actor = value;
-			}
-		}
-
-		public Player (int playerID, string playerName)
+		public Player (string playerName, bool isController, int X, int Y, int width, int height, int rotation, BoundingBox hitbox, int layer, Texture2D texture, bool playerControlled) 
+			: base(playerName, X, Y, width, height,  rotation, hitbox, layer, texture, playerControlled)
 		{
-			iD = playerID;
 			name = playerName;
 			isMoving = false;
 			health = 100;
+			this.isController = isController;
 			//Filled these parameters with temp values, replace with player data. - Axel
-			actor = new ActorEntity("" + iD, 0, 0, 50, 50, 0, new BoundingBox(), 1, null, true);
 		}
 	}
 }
