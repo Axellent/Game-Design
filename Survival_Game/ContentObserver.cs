@@ -35,7 +35,7 @@ namespace Survival_Game
 		public void OnNext (List<Texture2D> value)
 		{
 			foreach (Player player in players){
-				AnimatedEntity e = (AnimatedEntity)engine.Entities.Find (x => x.ID.Equals (player.Name + player.ID));
+				AnimatedEntity e = (AnimatedEntity) engine.Entities.Find (x => x.ID.Equals (player.Name));
 				if (e.Texture != null) {
 					if (player.IsMoving) {
 						if (e.Texture.Name.Equals("player_r")) {

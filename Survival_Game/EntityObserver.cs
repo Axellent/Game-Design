@@ -40,7 +40,7 @@ namespace Survival_Game
 		public void OnNext (KeyBind value)
 		{
 			Entity entity = engine.Entities.Find (x => x.ID.Equals (value.EntityID));
-			Player player = players.Find (x => (x.Name + x.ID).Equals (value.EntityID));
+			Player player = players.Find (x => (x.Name).Equals (value.EntityID));
 			if (checkCollision (player)) {
 				player.IsMoving = false;
 				entity = oldEntity;

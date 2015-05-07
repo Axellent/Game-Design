@@ -9,9 +9,18 @@ namespace Survival_Game
 	public class Player : ActorEntity
 	{
 		private string name;
-		private int iD;
 		private bool isMoving;
 		private int health;
+		private bool isController;
+
+		public bool IsControll {
+			get {
+				return isController;
+			}
+			set {
+				isController = value;
+			}
+		}
 
 		public bool IsMoving {
 			get {
@@ -31,22 +40,13 @@ namespace Survival_Game
 			}
 		}
 
-		public int ID {
-			get {
-				return iD;
-			}
-			set {
-				iD = value;
-			}
-		}
-
-		public Player (int playerID, string playerName, int X, int Y, int width, int height, int rotation, BoundingBox hitbox, int layer, Texture2D texture, bool playerControlled) 
-			: base(playerName + playerID , X, Y, width, height,  rotation, hitbox, layer, texture, playerControlled)
+		public Player (string playerName, bool isController, int X, int Y, int width, int height, int rotation, BoundingBox hitbox, int layer, Texture2D texture, bool playerControlled) 
+			: base(playerName, X, Y, width, height,  rotation, hitbox, layer, texture, playerControlled)
 		{
-			iD = playerID;
 			name = playerName;
 			isMoving = false;
 			health = 100;
+			this.isController = isController;
 			//Filled these parameters with temp values, replace with player data. - Axel
 		}
 	}

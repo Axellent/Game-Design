@@ -92,14 +92,41 @@ namespace Survival_Game{
 			return keybinds;
 		}
 
-		public void DefineKeybindingForGamePad(int playerID){
-			KeyBind keybinding = new KeyBind ();
-			keybinding.IsController = true;
-			keybinding.Keys.Add ("up");
-			keybinding.Keys.Add ("left");
-			keybinding.Keys.Add ("down");
-			keybinding.Keys.Add ("right");
-			keybinding.Keys.Add ("x");
+		public List<KeyBind> DefineKeybindingForGamePad(string playerID){
+			List<KeyBind> keybinds = new List<KeyBind> ();
+			KeyBind keybind1 = new KeyBind ();
+			keybind1.Keys.Add ("up");
+			keybind1.Keys.Add (playerID);
+			keybind1.Keys.Add ("up");
+			keybind1.IsController = true;
+			KeyBind keybind2 = new KeyBind ();
+			keybind2.Keys.Add ("left");
+			keybind2.Keys.Add (playerID);
+			keybind2.Keys.Add ("left");
+			keybind2.IsController = true;
+			KeyBind keybind3 = new KeyBind ();
+			keybind3.Keys.Add ("down");
+			keybind3.Keys.Add (playerID);
+			keybind3.Keys.Add ("down");
+			keybind3.IsController = true;
+			KeyBind keybind4 = new KeyBind ();
+			keybind4.Keys.Add ("right");
+			keybind4.Keys.Add (playerID);
+			keybind4.Keys.Add ("right");
+			keybind4.IsController = true;
+			KeyBind keybind5 = new KeyBind ();
+			keybind5.Keys.Add ("x");
+			keybind5.Keys.Add (playerID);
+			keybind5.Keys.Add ("action");
+			keybind5.IsController = true;
+
+			keybinds.Add (keybind1);
+			keybinds.Add (keybind2);
+			keybinds.Add (keybind3);
+			keybinds.Add (keybind4);
+			keybinds.Add (keybind5);
+
+			return keybinds;
 		}
 
 		/*public void CreatePlayerBindings(int controllerSetup, string player)
