@@ -7,10 +7,21 @@ namespace Game_Engine
 {
 	public class KeyBind
 	{
-		private List<String> keys;
+		private bool isController=false;
+
+		public bool IsController {
+			get {
+				return isController;
+			}
+			set {
+				isController = value;
+			}
+		}
+
+		private Dictionary<string, string> keys;
 		private String action;
 
-		public List<String> Keys{
+		public Dictionary<string, string> Keys{
 			get{ 
 				return keys;
 			}
@@ -30,6 +41,12 @@ namespace Game_Engine
 
 		public KeyBind ()
 		{
+			keys = new Dictionary<string, string> ();
+			keys.Add ("up", null);
+			keys.Add ("down", null);
+			keys.Add ("left", null);
+			keys.Add ("right", null);
+			keys.Add ("action", null);
 		}
 	}
 }

@@ -19,6 +19,7 @@ namespace Survival_Game{
 		public void LoadContent()
 		{
 			
+			MenuController menuController = MenuController (new StartMenu(), new OptionMenu(), new PlayGameMenu());
 		}
 
 		public void Update()

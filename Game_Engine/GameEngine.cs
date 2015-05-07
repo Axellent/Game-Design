@@ -48,7 +48,7 @@ namespace Game_Engine{
 			entities = new List<Entity>();
 		}
 
-		public IDisposable SubscribeObserver(IObserver<Entity> observer){){
+		public IDisposable SubscribeObserver(IObserver<Entity> observer){
 			return physicsManager.Subscribe (observer);
 		}
 
