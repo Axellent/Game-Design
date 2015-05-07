@@ -35,6 +35,9 @@ namespace Survival_Game{
 			Player player2 = new Player ("player2", false, 400, 200, 72, 62, 0, new BoundingBox (), 1, null, true);
 			Player player3 = new Player ("player3", true, 400, 0, 72, 62, 0, new BoundingBox(), 1, null, true);
 
+			/*player1.HitBox = new BoundingBox(new Vector3(player1.X - (player1.Width / 2), player1.Y - (player1.Height / 2), 0), 
+				new Vector3(player1.X + (player1.Width / 2), player1.Y + (player1.Height / 2), 0));*/
+
 			engine.Entities.Add (player1);
 			engine.Entities.Add (player2);
 			engine.Entities.Add (player3);

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Game_Engine{
 
+	/* Author: Andreas Lönnermark */
 	public class InputManager{
 		//private int player = (int)PlayerIndex.One;
 
@@ -18,8 +19,9 @@ namespace Game_Engine{
 		public List<KeyBind> HandleInput(List<KeyBind> keyBinds){
 			List<KeyBind> actions = new List<KeyBind>();
 			KeyboardState keyboardState = Keyboard.GetState();
-			GamePadState gamepadstate = GamePad.GetState (PlayerIndex.One);
+			GamePadState gamepadState = GamePad.GetState (PlayerIndex.One);
 			Keys[] pressedKeys = keyboardState.GetPressedKeys();
+			//Buttons[] pressedButtons = gamepadState.GetVirtualButtons();
 
 			if (pressedKeys.Length > 0) {
 				foreach (Keys k in pressedKeys){
@@ -35,6 +37,8 @@ namespace Game_Engine{
 					}
 				}
 			}
+
+
 			return actions;
 		}
 
