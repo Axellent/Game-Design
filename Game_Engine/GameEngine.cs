@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Game_Engine{
 
 	/* Author: Axel Sigl */
-	public class GameEngine : Game, IObservable<Entity>{
+	public class GameEngine : Game, IObservable<KeyBind>{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		RenderManager renderManager;
@@ -16,9 +16,19 @@ namespace Game_Engine{
 		SoundManager soundManager;
 		List<Entity> entities;
 		List<Texture2D> gameContent;
-		IObserver<Entity> observer;
+		IObserver<KeyBind> observer;
+		List<string> contentNames;
 		List<KeyBind> keyBinds = new List<KeyBind>();
 		List<KeyBind> actions = new List<KeyBind>();
+
+		public List<string> ContentNames {
+			get {
+				return contentNames;
+			}
+			set {
+				contentNames = value;
+			}
+		}
 
 		public List<Entity> Entities{
 			get{
@@ -60,7 +70,7 @@ namespace Game_Engine{
 			entities = new List<Entity>();
 		}
 
-		public IDisposable Subscribe (IObserver<Entity> observer)
+		public IDisposable Subscribe (IObserver<KeyBind> observer)
 		{
 			this.observer = observer;
 			return new Unsubscriber (observer);
@@ -68,9 +78,9 @@ namespace Game_Engine{
 
 		private class Unsubscriber : IDisposable {
 
-			private IObserver<Entity> _observer;
+			private IObserver<KeyBind> _observer;
 
-			public Unsubscriber(IObserver<Entity> observer){
+			public Unsubscriber(IObserver<KeyBind> observer){
 				_observer = observer;
 			}
 
@@ -81,11 +91,11 @@ namespace Game_Engine{
 		}
 
 		protected override void LoadContent(){
-			List<string> contentNames = new List<string>();
+			//List<string> contentNames = new List<string>();
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			//TODO: move to survival game
-			contentNames.Add("player_s");
+			//contentNames.Add("player_s");
 
 			gameContent = renderManager.LoadContent(Content, contentNames);
 			entities.Add(new ActorEntity("player1", 0, 0, 50, 50, 0, new BoundingBox(), 1, gameContent[0], false));
@@ -96,7 +106,9 @@ namespace Game_Engine{
 			//TODO:resolve these actions
 			actions = inputManager.HandleInput(keyBinds);
 			physicsManager.UpdatePhysics(entities);
-
+			foreach(KeyBind action in actions){
+				observer.OnNext (action);
+			}
 			base.Update(gameTime);
 		}
 

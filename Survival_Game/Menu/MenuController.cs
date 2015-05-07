@@ -6,6 +6,8 @@ namespace Survival_Game
 	{
 		public enum Menu {StartMenu, OptionMenu, PlayGameMenu, None};
 
+		private Menu menu;
+
 		private StartMenu SMenu;
 		private OptionMenu OMenu;
 		private PlayGameMenu PGMenu;
@@ -16,6 +18,10 @@ namespace Survival_Game
 			OMenu = optionMenu;
 			PGMenu = PlayGameMenu;
 			SMenu.LoadContent ();
+		}
+
+		private void OnClick(){
+			
 		}
 	}
 }

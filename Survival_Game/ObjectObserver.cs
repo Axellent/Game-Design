@@ -4,15 +4,17 @@ using System.Collections.Generic;
 
 namespace Survival_Game
 {
-	public class ObjectObserver : IObserver<Entity>
+	public class ObjectObserver : IObserver<KeyBind>
 	{
+		float playerSpeed = 2.0F;
+		GameEngine engine;
 		List<string> playersByID;
-		List<string> actions;
 		private IDisposable removableObserver;
 
-		public ObjectObserver ()
+		public ObjectObserver (GameEngine engine)
 		{
 			playersByID = new List<string> ();
+			this.engine = engine;
 		}
 
 		public void AddDisposableOBserver(IDisposable disposableObserver){
@@ -25,30 +27,25 @@ namespace Survival_Game
 			playersByID.Clear();
 		}
 
-		public void OnNext (Entity value)
+		public void OnNext (KeyBind value)
 		{
-			switch (actions [0]) {
-			case "moveUp":
+			Entity entity = engine.Entities.Find (x => x.ID.Equals (value.EntityID));
+			switch (value.Action) {
+			case "up":
+				entity.Y -= playerSpeed;
 				break;
-			case "moveDown":
+			case "down":
+				entity.Y += playerSpeed;
 				break;
-			case "moveLeft":
+			case "left":
+				entity.X += playerSpeed;
 				break;
-			case "moveRight":
+			case "right":
+				entity.X -= playerSpeed;
 				break;
 			case "action":
 				break;
 			}
-
-			if (actions [0] == "moveUp") {
-
-			}
-
-			actions.RemoveAt (0);
-		}
-
-		public void AddAction (List<string> _actions){
-			this.actions = _actions;
 		}
 
 		public void OnError (Exception error)

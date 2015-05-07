@@ -11,6 +11,15 @@ namespace Survival_Game
 		private int ID;
 		private ActorEntity actor;
 
+		public ActorEntity Actor {
+			get {
+				return actor;
+			}
+			set {
+				actor = value;
+			}
+		}
+
 		public Player (int playerID, string playerName)
 		{
 			ID = playerID;
