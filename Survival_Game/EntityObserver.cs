@@ -42,8 +42,8 @@ namespace Survival_Game
 		{
 			Entity entity = engine.Entities.Find (x => x.ID.Equals (value.EntityID));
 			Player player = players.Find (x => (x.Name).Equals (value.EntityID));
-			Vector3 newMinVector;
-			Vector3 newMaxVector;
+			//Vector3 newMinVector;
+			//Vector3 newMaxVector;
 
 			if (checkCollision (player)) {
 				player.IsMoving = false;
@@ -64,35 +64,14 @@ namespace Survival_Game
 				break;
 			case "down":
 				entity.Y += playerSpeed;
-
-				/*newMinVector = entity.HitBox.Min;
-				newMaxVector = entity.HitBox.Max;
-				newMinVector.Y += playerSpeed;
-				newMaxVector.Y += playerSpeed;
-				entity.HitBox = new BoundingBox(newMinVector, newMaxVector);*/
-
 				entity.Rotation = 0;
 				break;
 			case "left":
 				entity.X -= playerSpeed;
-
-				/*newMinVector = entity.HitBox.Min;
-				newMaxVector = entity.HitBox.Max;
-				newMinVector.X -= playerSpeed;
-				newMaxVector.X -= playerSpeed;
-				entity.HitBox = new BoundingBox(newMinVector, newMaxVector);*/
-
 				entity.Rotation = (float)Math.PI/2;
  				break;
 			case "right":
 				entity.X += playerSpeed;
-
-				/*newMinVector = entity.HitBox.Min;
-				newMaxVector = entity.HitBox.Max;
-				newMinVector.X += playerSpeed;
-				newMaxVector.X += playerSpeed;
-				entity.HitBox = new BoundingBox(newMinVector, newMaxVector);*/
-
 				entity.Rotation = -(float)Math.PI/2;
 				break;
 			case "action":

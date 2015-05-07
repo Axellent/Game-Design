@@ -31,6 +31,7 @@ namespace Survival_Game{
 			}
 			engine.ContentNames = contentManager.LoadGameContent ();
 
+
 			Player player1 = new Player ("player1", false, 100, 100, 72, 62, 0,
 				new BoundingBox(new Vector3(100 - (72 / 2), 100 - (62 / 2), 0),
 				new Vector3(100 + (72 / 2), 100 + (62 / 2), 0)), 1, null, true);
