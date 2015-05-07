@@ -39,7 +39,7 @@ namespace Game_Engine
 			}
 		}
 
-		public KeyBind ()
+		public KeyBind()
 		{
 			keys = new List<string> ();
 		}
