@@ -11,20 +11,14 @@ namespace Survival_Game{
 			
 			ObjectObserver observer = new ObjectObserver ();
 			engine = new GameEngine();
-			IDisposable dis = engine.SubscribeObserver (observer);
+			IDisposable dis = engine.Subscribe (observer);
 			observer.AddDisposableOBserver(dis);
 			engine.Run();
 		}
 
-		public void LoadContent()
+		public void LoadContent(GameEngine engine)
 		{
-			
 			MenuController menuController = new MenuController (new StartMenu(), new OptionMenu(), new PlayGameMenu());
-		}
-
-		public void Update()
-		{
-
 		}
 
 		public static void Main(){

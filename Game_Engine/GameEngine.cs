@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Game_Engine{
 
 	/* Author: Axel Sigl */
-	public class GameEngine : Game{
+	public class GameEngine : Game, IObservable<Entity>{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		RenderManager renderManager;
@@ -16,6 +16,7 @@ namespace Game_Engine{
 		SoundManager soundManager;
 		List<Entity> entities;
 		List<Texture2D> gameContent;
+		private IObserver<Entity> observer;
 
 		public List<Entity> Entities{
 			get{
@@ -48,8 +49,24 @@ namespace Game_Engine{
 			entities = new List<Entity>();
 		}
 
-		public IDisposable SubscribeObserver(IObserver<Entity> observer){
-			return physicsManager.Subscribe (observer);
+		public IDisposable Subscribe (IObserver<Entity> observer)
+		{
+			this.observer = observer;
+			return new Unsubscriber (observer);
+		}
+
+		private class Unsubscriber : IDisposable {
+
+			private IObserver<Entity> _observer;
+
+			public Unsubscriber(IObserver<Entity> observer){
+				_observer = observer;
+			}
+
+			public void Dispose ()
+			{
+				_observer = null;
+			}
 		}
 
 		protected override void LoadContent(){
