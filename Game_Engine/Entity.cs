@@ -5,8 +5,18 @@ namespace Game_Engine{
 
 	/* Author: Axel Sigl */
 	public class Entity{
+		string id;
 		float x, y, width, height, rotation;
 		BoundingBox hitbox;
+
+		public string ID{
+			get{
+				return id;
+			}
+			set{
+				id = value;
+			}
+		}
 
 		public float X{
 			get{
@@ -62,7 +72,8 @@ namespace Game_Engine{
 			}
 		}
 
-		public Entity(float x, float y, float width, float height, float rotation, BoundingBox hitbox){
+		public Entity(string id, float x, float y, float width, float height, float rotation, BoundingBox hitbox){
+			this.id = id;
 			this.x = x;
 			this.y = y;
 			this.width = width;

@@ -16,7 +16,7 @@ namespace Survival_Game
 			ID = playerID;
 			name = playerName;
 			//Filled these parameters with temp values, replace with player data. - Axel
-			actor = new ActorEntity(0, 0, 50, 50, 0, new BoundingBox(), 1, null, true);
+			actor = new ActorEntity("player1", 0, 0, 50, 50, 0, new BoundingBox(), 1, null, true);
 		}
 	}
 }
