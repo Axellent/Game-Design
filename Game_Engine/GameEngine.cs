@@ -45,7 +45,7 @@ namespace Game_Engine{
 			}
 		}
 
-		public GameEngine(IObserver<Entity> observer){
+		public GameEngine(){
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
@@ -53,10 +53,13 @@ namespace Game_Engine{
 			inputManager = new InputManager();
 			sceneManager = new SceneManger();
 			physicsManager = new PhysicsManager();
-			physicsManager.Subscribe(observer);
 			soundManager = new SoundManager();
 
 			entities = new List<Entity>();
+		}
+
+		public IDisposable SubscribeObserver(IObserver<Entity> observer){
+			return physicsManager.Subscribe (observer);
 		}
 
 		protected override void LoadContent(){

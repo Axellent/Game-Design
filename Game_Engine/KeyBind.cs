@@ -17,19 +17,9 @@ namespace Game_Engine
 				isController = value;
 			}
 		}
-
-		//private Dictionary<string, string> keys;
+			
 		private List<string> keys;
 		private String action;
-
-		/*public Dictionary<string, string> Keys{
-			get{ 
-				return keys;
-			}
-			set{
-				keys = value;
-			}
-		}*/
 
 		public List<string> Keys{
 			get{ 
@@ -51,6 +41,7 @@ namespace Game_Engine
 
 		public KeyBind ()
 		{
+			keys = new List<string> ();
 		}
 	}
 }
