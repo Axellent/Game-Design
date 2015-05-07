@@ -22,15 +22,16 @@ namespace Game_Engine{
 			Keys[] pressedKeys = keyboardState.GetPressedKeys();
 
 			if (pressedKeys.Length > 0) {
-				string keyValue = pressedKeys[0].ToString();
+				foreach(Keys key in pressedKeys){
+					string keyValue = key.ToString();
 
-				foreach (KeyBind kb in keyBinds) {
-					foreach (String key in kb.Keys) {
-						if (key.Equals(keyValue)) {
-							actions.Add(kb);
-							break;
+					foreach (KeyBind kb in keyBinds) {
+						foreach (String strKey in kb.Keys) {
+							if (strKey.Equals(keyValue)) {
+								actions.Add(kb);
+								break;
+							}
 						}
-						
 					}
 				}
 			}

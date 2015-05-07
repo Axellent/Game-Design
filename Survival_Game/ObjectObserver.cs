@@ -33,15 +33,19 @@ namespace Survival_Game
 			switch (value.Action) {
 			case "up":
 				entity.Y -= playerSpeed;
+				entity.Rotation = (float)Math.PI - entity.Rotation/2;
 				break;
 			case "down":
 				entity.Y += playerSpeed;
+				entity.Rotation = 0 + entity.Rotation / 2;
 				break;
 			case "left":
-				entity.X += playerSpeed;
-				break;
-			case "right":
 				entity.X -= playerSpeed;
+				entity.Rotation = (float)Math.PI/2;
+ 				break;
+			case "right":
+				entity.X += playerSpeed;
+				entity.Rotation = -(float)Math.PI/2;
 				break;
 			case "action":
 				break;
