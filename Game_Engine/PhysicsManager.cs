@@ -6,13 +6,25 @@ namespace Game_Engine{
 
 	public class PhysicsManager : IObservable<Entity>{
 		private IObserver<Entity> observer;
+		private bool collision = false;
 
 		public PhysicsManager(){
 
 		}
+
+		public bool Collision {
+			get {
+				return collision;
+			}
+			set {
+				collision = value;
+			}
+		}
 				
 		public void UpdatePhysics(List<Entity> entities){
-			//observer.OnNext();
+			List<KeyValuePair<Entity, Entity>> collisionPairs;
+
+			collisionPairs = CollisionDetection(entities);
 		}
 
 		public IDisposable Subscribe (IObserver<Entity> observer)
@@ -35,8 +47,29 @@ namespace Game_Engine{
 			}
 		}
 
-		public void CollisionDetection(){
-			
+		public void OnNext(){
+			throw new NotImplementedException();
+		}
+
+		public void OnError(){
+			throw new NotImplementedException();
+		}
+
+		public void OnCompleted(){
+			throw new NotImplementedException();
+		}
+
+		public List<KeyValuePair<Entity, Entity>> CollisionDetection(List<Entity> entities){
+			List<KeyValuePair<Entity, Entity>> collisionPairs = new List<KeyValuePair<Entity, Entity>>();
+
+			foreach (Entity e1 in entities) {
+				foreach (Entity e2 in entities) {
+					if (e1.HitBox.Intersects (e2.HitBox))
+						collisionPairs.Add(new KeyValuePair<Entity, Entity> (e1, e2));
+				}
+			}
+
+			return collisionPairs;
 		}
 	}
 }
