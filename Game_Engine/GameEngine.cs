@@ -71,7 +71,7 @@ namespace Game_Engine{
 			contentNames.Add("player_s");
 
 			gameContent = renderManager.LoadContent(Content, contentNames);
-			entities.Add(new ActorEntity("player1", 0, 0, 50, 50, 0, new BoundingBox(), 1, gameContent[0], false));
+			entities.Add(new ActorEntity("player1", 100, 100, 72, 50, 0, new BoundingBox(), 1, gameContent[0], false));
 			base.LoadContent();
 		}
 

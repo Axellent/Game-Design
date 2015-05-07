@@ -11,8 +11,8 @@ namespace Game_Engine{
 
 		public void Initialise(){
 			graphics.CreateDevice();
-			graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.DisplayMode.Width;
-			graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
+			//graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.DisplayMode.Width;
+			//graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
 			//graphics.IsFullScreen = true;
 			graphics.ApplyChanges();
 
@@ -39,13 +39,18 @@ namespace Game_Engine{
 		}
 
 		public void Draw(SpriteBatch batch, GraphicsDevice device, List<AnimatedEntity> entities){
+			Rectangle rect;
+			Vector2 origin;
 			Color tintColor = Color.White;
 
 			batch.Begin();
 			device.Clear(Color.DarkOliveGreen);
 
 			foreach(AnimatedEntity entity in entities){
-				batch.Draw(entity.Texture, new Vector2(entity.X, entity.Y));
+				rect = new Rectangle(0, 0, Convert.ToInt32(entity.Width), Convert.ToInt32(entity.Height));
+				origin = new Vector2(entity.Width / 2, entity.Height / 2);
+				batch.Draw(entity.Texture, new Vector2(entity.X, entity.Y), rect, tintColor, entity.Rotation,
+					origin, 1.0f, SpriteEffects.None, 1);
 			}
 
 			batch.End();
