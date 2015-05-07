@@ -14,7 +14,7 @@ namespace Survival_Game{
 		}
 
 		public List<string> LoadGameContent(){
-			List<string> gameContent;
+			List<string> gameContent = new List<string>();
 			gameContent.Add ("player_s");
 			gameContent.Add ("player_r");
 			gameContent.Add ("player_l");
@@ -23,32 +23,32 @@ namespace Survival_Game{
 
 		public void DefineKeybindingSetup1(string player){
 			KeyBind keybinding = new KeyBind ();
-			keybinding.Keys.Add("up","W");
-			keybinding.Keys.Add ("left","A");
-			keybinding.Keys.Add ("down","S");
-			keybinding.Keys.Add ("right","D");
-			keybinding.Keys.Add ("action","F");
+			keybinding.Keys.Add("w");
+			keybinding.Keys.Add ("a");
+			keybinding.Keys.Add ("s");
+			keybinding.Keys.Add ("d");
+			keybinding.Keys.Add ("f");
 			keyBindings.Add (player, keybinding);
 		}
 
 		public void DefineKeybindingSetup2(string player){
 			KeyBind keybinding = new KeyBind ();
-			keybinding.Keys.Add ("up", "I");
-			keybinding.Keys.Add ("left","J");
-			keybinding.Keys.Add ("down","K");
-			keybinding.Keys.Add ("right","L");
-			keybinding.Keys.Add ("action","Add");
+			keybinding.Keys.Add ("i");
+			keybinding.Keys.Add ("j");
+			keybinding.Keys.Add ("k");
+			keybinding.Keys.Add ("l");
+			keybinding.Keys.Add ("Add");
 			keyBindings.Add (player, keybinding);
 		}
 
 		public void DefineKeybindingForGamePad(string player){
 			KeyBind keybinding = new KeyBind ();
 			keybinding.IsController = true;
-			keybinding.Keys.Add ("up", "Up");
-			keybinding.Keys.Add ("left","Left");
-			keybinding.Keys.Add ("down","Down");
-			keybinding.Keys.Add ("right","Right");
-			keybinding.Keys.Add ("action","X");
+			keybinding.Keys.Add ("up");
+			keybinding.Keys.Add ("left");
+			keybinding.Keys.Add ("down");
+			keybinding.Keys.Add ("right");
+			keybinding.Keys.Add ("x");
 			keyBindings.Add (player, keybinding);
 		}
 
