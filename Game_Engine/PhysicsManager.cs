@@ -5,11 +5,11 @@ using Microsoft.Xna.Framework;
 namespace Game_Engine{
 
 	public class PhysicsManager{
-<<<<<<< HEAD
+
 		private IObserver<Entity> observer;
-=======
+
 		
->>>>>>> dc204429821227e9319e66dc4f8d7aa10e2fb272
+
 		private bool collision = false;
 
 		public PhysicsManager(){
