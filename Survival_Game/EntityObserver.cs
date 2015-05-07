@@ -1,6 +1,7 @@
 ﻿using System;
 using Game_Engine;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace Survival_Game
 {
@@ -41,6 +42,9 @@ namespace Survival_Game
 		{
 			Entity entity = engine.Entities.Find (x => x.ID.Equals (value.EntityID));
 			Player player = players.Find (x => (x.Name).Equals (value.EntityID));
+			Vector3 newMinVector;
+			Vector3 newMaxVector;
+
 			if (checkCollision (player)) {
 				player.IsMoving = false;
 				entity = oldEntity;
@@ -49,21 +53,46 @@ namespace Survival_Game
 			switch (value.Action) {
 			case "up":
 				entity.Y -= playerSpeed;
-				/*if ()
-					entity.Rotation = (float)Math.PI - entity.Rotation / 2;
-				else*/
+
+				/*newMinVector = entity.HitBox.Min;
+				newMaxVector = entity.HitBox.Max;
+				newMinVector.Y -= playerSpeed;
+				newMaxVector.Y -= playerSpeed;
+				entity.HitBox = new BoundingBox(newMinVector, newMaxVector);*/
+
 				entity.Rotation = (float)Math.PI;
 				break;
 			case "down":
 				entity.Y += playerSpeed;
+
+				/*newMinVector = entity.HitBox.Min;
+				newMaxVector = entity.HitBox.Max;
+				newMinVector.Y += playerSpeed;
+				newMaxVector.Y += playerSpeed;
+				entity.HitBox = new BoundingBox(newMinVector, newMaxVector);*/
+
 				entity.Rotation = 0;
 				break;
 			case "left":
 				entity.X -= playerSpeed;
+
+				/*newMinVector = entity.HitBox.Min;
+				newMaxVector = entity.HitBox.Max;
+				newMinVector.X -= playerSpeed;
+				newMaxVector.X -= playerSpeed;
+				entity.HitBox = new BoundingBox(newMinVector, newMaxVector);*/
+
 				entity.Rotation = (float)Math.PI/2;
  				break;
 			case "right":
 				entity.X += playerSpeed;
+
+				/*newMinVector = entity.HitBox.Min;
+				newMaxVector = entity.HitBox.Max;
+				newMinVector.X += playerSpeed;
+				newMaxVector.X += playerSpeed;
+				entity.HitBox = new BoundingBox(newMinVector, newMaxVector);*/
+
 				entity.Rotation = -(float)Math.PI/2;
 				break;
 			case "action":

@@ -31,9 +31,15 @@ namespace Survival_Game{
 			}
 			engine.ContentNames = contentManager.LoadGameContent ();
 
-			Player player1 = new Player ("player1", false, 0, 0, 72, 62, 0, new BoundingBox(), 1, null, true);
-			Player player2 = new Player ("player2", false, 400, 200, 72, 62, 0, new BoundingBox (), 1, null, true);
-			Player player3 = new Player ("player3", true, 400, 0, 72, 62, 0, new BoundingBox(), 1, null, true);
+			Player player1 = new Player ("player1", false, 100, 100, 72, 62, 0,
+				new BoundingBox(new Vector3(100 - (72 / 2), 100 - (62 / 2), 0),
+				new Vector3(100 + (72 / 2), 100 + (62 / 2), 0)), 1, null, true);
+			Player player2 = new Player ("player2", false, 400, 200, 72, 62, 0,
+				new BoundingBox(new Vector3(400 - (72 / 2), 200 - (62 / 2), 0),
+					new Vector3(400 + (72 / 2), 200 + (62 / 2), 0)), 1, null, true);
+			Player player3 = new Player ("player3", false, 500, 400, 72, 62, 0,
+				new BoundingBox(new Vector3(500 - (72 / 2), 400 - (62 / 2), 0),
+					new Vector3(500 + (72 / 2), 400 + (62 / 2), 0)), 1, null, true);
 
 			engine.Entities.Add (player1);
 			engine.Entities.Add (player2);

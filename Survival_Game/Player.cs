@@ -47,7 +47,6 @@ namespace Survival_Game
 			isMoving = false;
 			health = 100;
 			this.isController = isController;
-			//Filled these parameters with temp values, replace with player data. - Axel
 		}
 	}
 }
