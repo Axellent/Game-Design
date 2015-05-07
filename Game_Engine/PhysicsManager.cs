@@ -41,13 +41,20 @@ namespace Game_Engine{
 
 			for (i = 0; i < entities.Count - 1; i++) {
 				for (j = 1; j < entities.Count; j++) {
-					if (entities [i].HitBox != null) {
-						if (entities[i].HitBox.Intersects (entities[j].HitBox))
-							collisionPairs.Add (new KeyValuePair<Entity, Entity> (entities [i], entities [j]));
+					if (entities[i].HitBox.Intersects (entities[j].HitBox))
+						collisionPairs.Add (new KeyValuePair<Entity, Entity> (entities [i], entities [j]));
 					}
+					if (!entities [i].Equals (entities [j])) {
+						if (entities [i].HitBox.Intersects (entities [j].HitBox)) {
+							if (entities [i].Equals (entities [j])) {
+								Console.WriteLine ("??");
+							} else {
+								collisionPairs.Add (new KeyValuePair<Entity, Entity> (entities [i], entities [j]));
+								Console.WriteLine ("denna funkar nu?" + entities [i].ID + entities [j].ID);
+							}
+						}
 					}
-			}
-
+				}
 			return collisionPairs;
 		}
 	}
