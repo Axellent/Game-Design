@@ -7,7 +7,11 @@ namespace Game_Engine
 {
 	public class KeyBind
 	{
+
 		private bool isController=false;
+		private List<string> keys;
+		private string action;
+		private string entityID;
 
 		public bool IsController {
 			get {
@@ -17,9 +21,6 @@ namespace Game_Engine
 				isController = value;
 			}
 		}
-			
-		private List<string> keys;
-		private String action;
 
 		public List<string> Keys{
 			get{ 
@@ -30,7 +31,7 @@ namespace Game_Engine
 			}
 		}
 
-		public String Action{
+		public string Action{
 			get{
 				return action;
 			}
@@ -39,7 +40,17 @@ namespace Game_Engine
 			}
 		}
 
-		public KeyBind()
+		public string EntityID{
+			get{
+				return entityID;
+			}
+			set{
+				entityID = value;
+			}
+		}
+
+		public KeyBind ()
+
 		{
 			keys = new List<string> ();
 		}
