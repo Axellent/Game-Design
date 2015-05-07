@@ -30,11 +30,11 @@ namespace Survival_Game{
 			}
 			engine.ContentNames = contentManager.LoadGameContent ();
 
-			Player player1 = new Player (1, "player");
-			Player player2 = new Player (2, "player");
+			Player player1 = new Player (1, "player", 0,0,72, 62, 0, new BoundingBox(), 1, null, true);
+			Player player2 = new Player (2, "player", 400, 200, 72, 62, 0, new BoundingBox (), 1, null, true);
 
-			engine.Entities.Add (new ActorEntity(player1.Name + player1.ID, 0, 0, 72, 62, 0, new BoundingBox(), 1, null, true));
-			engine.Entities.Add (new ActorEntity (player2.Name + player2.ID, 150, 150, 72, 62, 0, new BoundingBox (), 1, null, true));
+			engine.Entities.Add (player1);
+			engine.Entities.Add (player2);
 
 			entityObserver = new EntityObserver (engine);
 			contentObserver = new ContentObserver (engine, entityObserver);

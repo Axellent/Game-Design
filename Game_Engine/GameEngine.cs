@@ -23,6 +23,15 @@ namespace Game_Engine{
 		List<KeyBind> actions = new List<KeyBind>();
 		List<KeyValuePair<Entity, Entity>> collisionPairs;
 
+		public List<KeyValuePair<Entity, Entity>> CollisionPairs {
+			get {
+				return collisionPairs;
+			}
+			set {
+				collisionPairs = value;
+			}
+		}
+
 		public List<string> ContentNames {
 			get {
 				return contentNames;
