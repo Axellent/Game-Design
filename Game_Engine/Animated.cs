@@ -28,7 +28,8 @@ namespace Game_Engine{
 		}
 
 		public AnimatedEntity(float x, float y, float width, float height, float rotation, BoundingBox hitbox, 
-			Texture2D texture) : base(x, y, width, height, rotation, hitbox){
+			int layer, Texture2D texture) : base(x, y, width, height, rotation, hitbox){
+			this.layer = layer;
 			this.texture = texture;
 		}
 	}

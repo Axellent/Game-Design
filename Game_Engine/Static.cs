@@ -8,7 +8,7 @@ namespace Game_Engine{
 	public class StaticEntity : AnimatedEntity{
 	
 		public StaticEntity(float x, float y, float width, float height, float rotation, BoundingBox hitbox, 
-			Texture2D texture) : base(x, y, width, height, rotation, hitbox, texture){
+			int layer, Texture2D texture) : base(x, y, width, height, rotation, hitbox, layer, texture){
 		}
 	}
 }

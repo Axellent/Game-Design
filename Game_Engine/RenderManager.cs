@@ -22,17 +22,16 @@ namespace Game_Engine{
 			return content;
 		}
 
-		public void Draw(SpriteBatch batch, GraphicsDevice device, List<Entity> entities){
+		public void Draw(SpriteBatch batch, GraphicsDevice device, List<AnimatedEntity> entities){
 			Color tintColor = Color.White;
 
 			batch.Begin();
 			device.Clear(Color.DarkOliveGreen);
 
-			foreach(Entity entity in entities){
-				// TODO: batch.Draw entity if it is of the AnimatedEntity type
+			foreach(AnimatedEntity entity in entities){
+				batch.Draw(entity.Texture, new Vector2(entity.X, entity.Y));
 			}
 
-			//batch.Draw(player_s, new Vector2(device.Viewport.Width / 2 - player_s.Width / 2, device.Viewport.Height / 2 - player_s.Width / 2));
 			batch.End();
 		}
 	}

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 //using System.Windows.Forms;
@@ -10,60 +9,8 @@ using Microsoft.Xna.Framework.Input;
 namespace Game_Engine{
 
 	public class InputManager{
-
-		public const float PLAYER_MOVE_SPEED = 2;
-
-
-		private float playerRotation = 0;
-		private float oldWorldX;
-		private float oldWorldY;
-		private float worldX;
-		private float worldY;
 		//private int player = (int)PlayerIndex.One;
 		private List<KeyBind> keyBinds = new List<KeyBind>();
-
-		public float PlayerRotation{
-			get{
-				return playerRotation;
-			}
-		}
-
-		public float OldWorldX{
-			get{
-				return oldWorldX;
-			}
-			set{
-				oldWorldX = value;
-			}
-		}
-
-		public float OldWorldY{
-			get{
-				return oldWorldY;
-			}
-			set{
-				oldWorldY = value;
-			}
-		}
-
-		public float WorldX{
-			get{
-				return worldX;
-			}
-			set{
-				worldX = value;
-			}
-		}
-
-		public float WorldY{
-			get{
-				return worldY;
-			}
-			set{
-				worldY = value;
-			}
-		}
-
 
 		public List<KeyBind> KeyBind{
 			get{ 
@@ -78,83 +25,42 @@ namespace Game_Engine{
 		}
 
 
-		/*public String HandleInput(){
+		public List<string> HandleInput(){
+			List<string> actions = new List<string>();
 			KeyboardState keyboardState = Keyboard.GetState();
 			GamePadState gamepadstate = GamePad.GetState (PlayerIndex.One);
-			KeyClass kc = new KeyClass (keyboardState.GetPressedKeys());
+			Keys[] pressedKeys = keyboardState.GetPressedKeys();
 
-			foreach (Keys keys in kc) {
+			if (pressedKeys.Length > 0) {
+				string keyValue = pressedKeys[0].ToString();
+
 				foreach (KeyBind kb in keyBinds) {
 					foreach (String key in kb.Keys) {
-						if (key.Equals(keys)) {
-							return kb.Action;
+						if (key.Equals(keyValue)) {
+							actions.Add(kb.Action);
+							break;
 						}
 						
 					}
 				}
 			}
+			else{
+				actions.Add("none");
+			}
+			return actions;
+		}
 
-			return "none";
-		}*/
-
-		/*public void HandleInput(){
-			KeyboardState keyboardState = Keyboard.GetState();
-			GamePadState gamepadstate = GamePad.GetState (PlayerIndex.One);
-
-			oldWorldX = worldX;
-			oldWorldY = worldY;
-
-
-				if (keyboardState.IsKeyDown (Keys.A) || 
-					gamepadstate.DPad.Left == ButtonState.Pressed) {
-					playerRotation = (float)Math.PI / 2;
-					worldX -= PLAYER_MOVE_SPEED;
-				}
-				if (keyboardState.IsKeyDown (Keys.D) || 
-					gamepadstate.DPad.Right == ButtonState.Pressed){
-					playerRotation = (float)Math.PI * (float)1.5;
-					worldX += PLAYER_MOVE_SPEED;
-				}
-				if (keyboardState.IsKeyDown (Keys.W) || 
-					gamepadstate.DPad.Up == ButtonState.Pressed){
-					playerRotation = (float)Math.PI;
-					worldY -= PLAYER_MOVE_SPEED;
-				}
-				if (keyboardState.IsKeyDown (Keys.S) || 
-					gamepadstate.DPad.Down == ButtonState.Pressed){
-					playerRotation = 0;
-					worldY += PLAYER_MOVE_SPEED;
-				}
-			
-				if (keyboardState.IsKeyDown (Keys.Left)) {
-					playerRotation = (float)Math.PI / 2;
-					worldX -= PLAYER_MOVE_SPEED;
-				}
-				if (keyboardState.IsKeyDown (Keys.Right)) {
-					playerRotation = (float)Math.PI * (float)1.5;
-					worldX += PLAYER_MOVE_SPEED;
-				}
-				if (keyboardState.IsKeyDown (Keys.Up)) {
-					playerRotation = (float)Math.PI;
-					worldY -= PLAYER_MOVE_SPEED;
-				}
-				if (keyboardState.IsKeyDown (Keys.Down)) {
-					playerRotation = 0;
-					worldY += PLAYER_MOVE_SPEED;
-				}
-		}*/
-
-		public string HandleInput(){
+		/*public string HandleInput(){
 			KeyboardState keyboardState = Keyboard.GetState();
 			Keys[] keys = keyboardState.GetPressedKeys();
 
 			if (keys.Length > 0) {
 				string keyValue = keys[0].ToString();
 				/* Check if keyValue is equal to any of the keyBind inputs and return
-				 * the action if so. */
+				 * the action if so. 
 			}
 			return "none";
-		}
+		}*/
 
 	}
 }

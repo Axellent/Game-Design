@@ -18,7 +18,8 @@ namespace Game_Engine{
 		}
 			
 		public ActorEntity(float x, float y, float width, float height, float rotation, BoundingBox hitbox, 
-			Texture2D texture, bool playerControlled) : base(x, y, width, height, rotation, hitbox, texture){
+			int layer, Texture2D texture, bool playerControlled)
+				: base(x, y, width, height, rotation, hitbox, layer, texture){
 			this.playerControlled = playerControlled;
 		}
 	}
