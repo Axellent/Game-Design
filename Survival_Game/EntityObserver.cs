@@ -1,6 +1,7 @@
 ﻿using System;
 using Game_Engine;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace Survival_Game
 {
@@ -53,6 +54,7 @@ namespace Survival_Game
 					engine.Entities [engine.Entities.FindIndex (x => x.ID.Equals (oldEntity.ID))] = oldEntity;
 				return;
 			}
+
 			//Will replace player instance above
 			Player entity = (Player)engine.Entities.Find (x => x.ID.Equals (value.EntityID));
 			Player tempPlayer = new Player (entity.ID,entity.IsControll, 

@@ -39,10 +39,16 @@ namespace Survival_Game{
 			}
 			engine.ContentNames = contentManager.LoadGameContent ();
 
-			//The players will be defined in a menu
-			Player player1 = new Player ("player1", false, 0, 0, 72, 62, 0, new BoundingBox(new Vector3(0- (72/2), 0 - (62/2) ,0), new Vector3( 0 +(72/2), 0 + (62/2) ,0)), 1, null, true);
-			Player player2 = new Player ("player2", false, 400, 200, 72, 62, 0, new BoundingBox (new Vector3(400 - (72/2), 200 -(62/2),0), new Vector3(400 + (72/2), 200 + (62/2),0)), 1, null, true);
-			Player player3 = new Player ("player3", true, 400, 0, 72, 62, 0, new BoundingBox(new Vector3(400-(72/2),0 + (62/2),0) , new Vector3(400-(62/2),0 +(62/2),0)), 1, null, true);
+
+			Player player1 = new Player ("player1", false, 100, 100, 72, 62, 0,
+				new BoundingBox(new Vector3(100 - (72 / 4), 100 - (62 / 4), 0),
+				new Vector3(100 + (72 / 4), 100 + (62 / 4), 0)), 1, null, true);
+			Player player2 = new Player ("player2", false, 400, 200, 72, 62, 0,
+				new BoundingBox(new Vector3(400 - (72 / 4), 200 - (62 / 4), 0),
+					new Vector3(400 + (72 / 4), 200 + (62 / 4), 0)), 1, null, true);
+			Player player3 = new Player ("player3", false, 500, 400, 72, 62, 0,
+				new BoundingBox(new Vector3(500 - (72 / 4), 400 - (62 / 4), 0),
+					new Vector3(500 + (72 / 4), 400 + (62 / 4), 0)), 1, null, true);
 
 			//Adds the players to engine
 			engine.Entities.Add (player1);
@@ -54,6 +60,7 @@ namespace Survival_Game{
 			contentObserver = new ContentObserver (engine, entityObserver);
 
 			//Adds the players to observers for modification
+			//TODO: Remove
 			contentObserver.Players.Add (player1);
 			contentObserver.Players.Add (player2);
 			contentObserver.Players.Add (player3);
