@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survival_Game
 {
+	//author: Rasmus Bäckerhall
 	public class Player : ActorEntity
 	{
 		private string name;
@@ -40,14 +41,14 @@ namespace Survival_Game
 			}
 		}
 
-		public Player (string playerName, bool isController, int X, int Y, int width, int height, int rotation, BoundingBox? hitbox, int layer, Texture2D texture, bool playerControlled) 
+		//Player constructor. Inherits ActorEntity
+		public Player (string playerName, bool isController, float X, float Y, float width, float height, float rotation, BoundingBox hitbox, int layer, Texture2D texture, bool playerControlled) 
 			: base(playerName, X, Y, width, height,  rotation, hitbox, layer, texture, playerControlled)
 		{
 			name = playerName;
 			isMoving = false;
 			health = 100;
 			this.isController = isController;
-			//Filled these parameters with temp values, replace with player data. - Axel
 		}
 	}
 }

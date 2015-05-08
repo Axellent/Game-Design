@@ -2,6 +2,7 @@
 
 namespace Survival_Game
 {
+	//author: Rasmus Bäckerhall
 	//TODO: in iteration 3
 	public class MenuController
 	{

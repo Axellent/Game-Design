@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace Survival_Game
 {
-	//author Rasmus Bäckerhall
+	//author: Rasmus Bäckerhall
 	public class EntityObserver : IObserver<KeyBind>
 	{
 		float playerSpeed = 2.0F;
-		private Entity oldEntity;
+		private List<Entity> oldEntities;
 		GameEngine engine;
 		private List<Player> players;
 		private IDisposable removableObserver;
@@ -24,6 +24,7 @@ namespace Survival_Game
 
 		public EntityObserver (GameEngine engine)
 		{
+			oldEntities = new List<Entity> ();
 			this.players = new List<Player> ();
 			this.engine = engine;
 		}
@@ -39,20 +40,35 @@ namespace Survival_Game
 		}
 
 		//Called by engine. In this method all the changes to the player is made
+		//Hint: Not fully working yet, needs to be more dynamic. The collision management only works at certain key input
 		public void OnNext (KeyBind value)
 		{
-			Entity entity = engine.Entities.Find (x => x.ID.Equals (value.EntityID));
-			Player player = players.Find (x => (x.Name).Equals (value.EntityID));
-			if (checkCollision (player)) {
+			//TODO: Remove to be replaced by Entity further down 
+			Player player = players.Find (x => x.Name.Equals (value.EntityID));
+
+			if (isCollision (player)) {
 				player.IsMoving = false;
-				entity = oldEntity;
+				Entity oldEntity = oldEntities.FindLast (x => x.ID.Equals(player.ID));
+				if (oldEntity != null)
+					engine.Entities [engine.Entities.FindIndex (x => x.ID.Equals (oldEntity.ID))] = oldEntity;
+				return;
 			}
+			//Will replace player instance above
+			Player entity = (Player)engine.Entities.Find (x => x.ID.Equals (value.EntityID));
+			Player tempPlayer = new Player (entity.ID,entity.IsControll, 
+				entity.X, entity.Y, entity.Width, entity.Height, entity.Rotation, 
+				entity.HitBox, entity.Layer, entity.Texture, entity.PlayerControlled);
+			AddEntities (tempPlayer);
+
 			player.IsMoving = true;
+
+			//Manages the entity's movement and rotation
+			//TODO: add rotation for diagonal movement 
 			switch (value.Action) {
 			case "up":
 				entity.Y -= playerSpeed;
 				/*if ()
-					entity.Rotation = (float)Math.PI - entity.Rotation / 2;
+					entity.Rotation = (float)Math.PI - entity.Rotation / 2;  //Not working
 				else*/
 				entity.Rotation = (float)Math.PI;
 				break;
@@ -71,13 +87,24 @@ namespace Survival_Game
 			case "action":
 				break;
 			}
-			oldEntity = entity;
+		}
+
+		//TODO: Needs to be changed. Right now it only work with one player moving...
+		private void AddEntities(Entity entity){
+			if (oldEntities.Count == 2){
+				if (oldEntities.Exists (x => x.ID.Equals (entity.ID))) {
+					oldEntities.Insert (oldEntities.FindIndex (x => x.ID.Equals (entity.ID)), oldEntities.Find (x => x.ID.Equals (entity.ID)));
+					oldEntities.Insert (oldEntities.FindLastIndex (x => x.ID.Equals (entity.ID)), entity);
+					return;
+				}
+			} 
+			oldEntities.Add (entity);
 		}
 
 		//inputs an player that should be checked for collision with an other player
-		public bool checkCollision(Player player){
+		public bool	isCollision(Player player){
 			foreach(KeyValuePair<Entity, Entity> collision in engine.CollisionPairs){
-				if ((player.Name + player.ID).Equals (collision.Key.ID) || (player.Name + player.ID).Equals (collision.Value.ID))
+				if ((player.Name).Equals (collision.Key.ID) || (player.Name).Equals (collision.Value.ID))
 					return true;
 			}
 			return false;

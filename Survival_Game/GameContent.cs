@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Survival_Game{
 	
-	//author Rasmus Bäckerhall
+	//author: Rasmus Bäckerhall
 	public class GameContent{
 
 		public GameContent (){
@@ -23,7 +23,7 @@ namespace Survival_Game{
 		}
 
 		//Keyboard Setup 1 
-		public List<KeyBind> DefineKeybindingSetup1(string playerID){
+		public List<KeyBind> DefineKeybindingsSetup1(string playerID){
 			List<KeyBind> keybinds = new List<KeyBind> ();
 			KeyBind keybind1 = new KeyBind ();
 			keybind1.Keys.Add ("w");
@@ -61,7 +61,7 @@ namespace Survival_Game{
 		}
 
 		//Keyboard Setup 2
-		public List<KeyBind> DefineKeybindSetup2(string playerID){
+		public List<KeyBind> DefineKeybindingsSetup2(string playerID){
 			List<KeyBind> keybinds = new List<KeyBind> ();
 			KeyBind keybind1 = new KeyBind ();
 			keybind1.Keys.Add ("i");
@@ -98,7 +98,7 @@ namespace Survival_Game{
 		}
 
 		//gamePad setup
-		public List<KeyBind> DefineKeybindingForGamePad(string playerID){
+		public List<KeyBind> DefineKeybindingsForGamePad(string playerID){
 			List<KeyBind> keybinds = new List<KeyBind> ();
 			KeyBind keybind1 = new KeyBind ();
 			keybind1.Keys.Add ("up");

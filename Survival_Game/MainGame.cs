@@ -27,13 +27,13 @@ namespace Survival_Game{
 
 			GameContent contentManager = new GameContent();
 
-			//Defines all keybinds
+			//Defines all keybindings
 			List<KeyBind> keybinds = new List<KeyBind> ();
-			keybinds = contentManager.DefineKeybindingSetup1 ("player1");
-			keybinds.AddRange(contentManager.DefineKeybindSetup2 ("player2"));
-			keybinds.AddRange (contentManager.DefineKeybindingForGamePad ("player3"));
+			keybinds = contentManager.DefineKeybindingsSetup1 ("player1");
+			keybinds.AddRange(contentManager.DefineKeybindingsSetup2 ("player2"));
+			keybinds.AddRange (contentManager.DefineKeybindingsForGamePad ("player3"));
 
-			//Sends the keybinds to the engine
+			//Sends the keybindings to the engine
 			foreach (KeyBind keybind in keybinds) {
 				engine.KeyBind.Add (keybind);
 			}

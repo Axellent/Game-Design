@@ -3,6 +3,7 @@ using Survival_Game;
 
 namespace Survival_Game
 {
+	//author: Rasmus Bäckerhall
 	//TODO: in iteration 3
 	public class StartMenu
 	{
@@ -21,7 +22,7 @@ namespace Survival_Game
 		public void Draw(){
 
 		}
-
+		//TODO: add functionality for button click... might be moved to MenuController
 		public MenuController.Menu OnClick(string element){
 
 			if (element.Equals ("Omenu"))
