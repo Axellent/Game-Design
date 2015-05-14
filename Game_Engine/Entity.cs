@@ -3,10 +3,12 @@ using Microsoft.Xna.Framework;
 
 namespace Game_Engine{
 
-	/* Author: Axel Sigl */
+	/* Author: Axel Sigl
+	 * Base class for all entities. */
 	public class Entity{
 		string id;
 		float x, y, width, height, rotation;
+		Vector3 velocity;
 		BoundingBox hitbox;
 
 		public string ID{
@@ -63,6 +65,17 @@ namespace Game_Engine{
 			}
 		}
 
+		/* Velocity vector where the values are the velocities for all it's axes. */
+		public Vector3 Velocity{
+			get{
+				return velocity;
+			}
+			set{
+				velocity = value;
+			}
+		}
+
+		/* 3D rectangle for checking collision of entities. */
 		public BoundingBox HitBox{
 			get{
 				return hitbox;

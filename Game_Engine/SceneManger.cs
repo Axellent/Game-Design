@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 
 namespace Game_Engine{
 
+	/* Governs which entities are currently active and sorts them in order
+	 * to make the RenderManagers life easier. */
 	public class SceneManger{
 		List<Entity> savedEntities;
 
@@ -12,38 +14,41 @@ namespace Game_Engine{
 			savedEntities = new List<Entity>();
 		}
 
-		public List<AnimatedEntity> SortAnimatedEntities(List<Entity> entities){
-			List<AnimatedEntity> animatedEntities = new List<AnimatedEntity>(entities.Count);
+		/* Filters out non-renderable entities and returns the rest,
+		 * sorted by layer. */
+		public List<RenderedEntity> SortRenderedEntities(List<Entity> entities){
+			List<RenderedEntity> renderedEntities = new List<RenderedEntity>(entities.Count);
 
 			foreach(Entity entity in entities){
 				var entityType = entity.GetType();
-				if(entityType == typeof(AnimatedEntity)
-					|| entityType.IsSubclassOf(typeof(AnimatedEntity))){
-					animatedEntities.Add((AnimatedEntity)entity);
+
+				if(entityType == typeof(RenderedEntity)
+					|| entityType.IsSubclassOf(typeof(RenderedEntity))){
+					renderedEntities.Add((RenderedEntity)entity);
 				}
 			}
-			List<AnimatedEntity> sorted = animatedEntities.OrderBy(o=>o.Layer).ToList();
+			List<RenderedEntity> sorted = renderedEntities.OrderBy(o=>o.Layer).ToList();
 
 			return sorted;
 		}
 
-		public List<Entity> AddSavedEntities(List<Entity> entities, BoundingBox limitbox){
-			foreach(Entity savedEntity in savedEntities) {
-				//TODO: add savedEntity to entities if it is inside the limitbox.
+		/* Adds entities priviously outside the limitbox back into the active entities list. */
+		public List<Entity> RestoreSavedEntities(List<Entity> entities, BoundingBox limitbox){
+			foreach(Entity savedEntity in savedEntities){
 				if(limitbox.Intersects(savedEntity.HitBox)){
-					//savedEntities.Remove(savedEntity);
 					entities.Add(savedEntity);
+					savedEntities.Remove(savedEntity);
 				}
 			}
 			return entities;
 		}
 
+		/* Stores away the entities outside the defined limits for improved performance. */
 		public List<Entity> RemoveFarawayEntities(List<Entity> entities, BoundingBox limitbox){
-			// TODO: Remove entities outside the limitbox and add them to savedEntities.
-			foreach (Entity entity in entities) {
-				if (!limitbox.Intersects(entity.HitBox)){					
+			foreach(Entity entity in entities){
+				if(!limitbox.Intersects(entity.HitBox)){					
 					entities.Remove(entity);
-					savedEntities.Add (entity);
+					savedEntities.Add(entity);
 				}
 			}
 			return entities;

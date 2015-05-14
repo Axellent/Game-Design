@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Game_Engine{
 
 	/* Author: Axel Sigl */
-	public class ActorEntity : AnimatedEntity{
+	public class ActorEntity : RenderedEntity{
 		bool playerControlled;
 
 		public bool PlayerControlled{
