@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Game_Engine
 {
+	//author: Andreas Lönnermark
 	public class KeyBind
 	{
 

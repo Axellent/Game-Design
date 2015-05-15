@@ -11,6 +11,7 @@ namespace Survival_Game{
 		private GameEngine engine;
 		private ContentObserver contentObserver;
 		private EntityObserver entityObserver;
+		private CollisionObserver collisionObserver;
 
 		public MainGame(){
 			
@@ -56,23 +57,17 @@ namespace Survival_Game{
 			engine.Entities.Add (player3);
 
 			//Creates observers
+			collisionObserver = new CollisionObserver();
 			entityObserver = new EntityObserver (engine);
 			contentObserver = new ContentObserver (engine, entityObserver);
-
-			//Adds the players to observers for modification
-			//TODO: Remove
-			contentObserver.Players.Add (player1);
-			contentObserver.Players.Add (player2);
-			contentObserver.Players.Add (player3);
-			entityObserver.Players.Add (player1);
-			entityObserver.Players.Add (player2);
-			entityObserver.Players.Add (player3);
 
 			//Subscribes the observers to the engine and sends a disposable to the observers.
 			IDisposable dis = engine.Subscribe (entityObserver);
 			entityObserver.AddDisposableObserver(dis);
 			dis = engine.Subscribe (contentObserver);
 			contentObserver.AddDisposableObserver (dis);
+			dis = engine.Subscribe (collisionObserver);
+			collisionObserver.AddDisposableObserver(dis);
 		}
 
 		public static void Main(){

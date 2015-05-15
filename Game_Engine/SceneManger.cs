@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace Game_Engine{
 
+	//author: Martin Jakobsson
 	public class SceneManger{
 		List<Entity> savedEntities;
 

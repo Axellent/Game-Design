@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Game_Engine{
 
+	//author: Martin Jakobsson
 	public class RenderManager{
 		private GraphicsDeviceManager graphics;
 

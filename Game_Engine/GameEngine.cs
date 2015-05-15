@@ -7,7 +7,7 @@ namespace Game_Engine{
 
 	/* Author: Axel Sigl
 	* Mediator for the game engine. */
-	public class GameEngine : Game, IObservable<KeyBind>, IObservable<List<Texture2D>>{
+	public class GameEngine : Game, IObservable<List<KeyBind>>, IObservable<List<Texture2D>>, IObservable<List<KeyValuePair<Entity, Entity>>>{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		RenderManager renderManager;
@@ -17,22 +17,13 @@ namespace Game_Engine{
 		SoundManager soundManager;
 		List<Entity> entities;
 		List<Texture2D> gameContent;
-		IObserver<KeyBind> entityObserver;
+		IObserver<List<KeyBind>> entityObserver;
 		IObserver<List<Texture2D>> contentObserver;
+		IObserver<List<KeyValuePair<Entity,Entity>>> collisionObserver;
 		List<string> contentNames;
 		List<KeyBind> keyBinds = new List<KeyBind>();
 		List<KeyBind> actions = new List<KeyBind>();
 		List<KeyValuePair<Entity, Entity>> collisionPairs;
-
-		public List<KeyValuePair<Entity, Entity>> CollisionPairs{
-			get{
-				return collisionPairs;
-			}
-			set{
-				collisionPairs = value;
-			}
-		}
-
 
 		public List<string> ContentNames{
 			get{
@@ -84,39 +75,47 @@ namespace Game_Engine{
 			entities = new List<Entity>();
 		}
 
-		public IDisposable Subscribe (IObserver<KeyBind> observer){
+		public Texture2D changeTexture(string textureName){
+			return gameContent.Find (t => t.Name.Equals (textureName));
+		}
+
+		public Entity getEntity(string entityID){
+			return entities.Find (e => e.ID.Equals (entityID));
+		}
+
+		public IDisposable Subscribe(IObserver<List<KeyValuePair<Entity, Entity>>> observer){
+			this.collisionObserver = observer;
+			return new Unsubscriber<IObserver<List<KeyValuePair<Entity, Entity>>>> (observer);
+		}
+
+		public IDisposable Subscribe (IObserver<List<KeyBind>> observer){
 			this.entityObserver = observer;
-			return new Unsubscriber(observer);
+			return new Unsubscriber<IObserver<List<KeyBind>>>(observer);
 		}
 
 		public IDisposable Subscribe (IObserver<List<Texture2D>> observer){
+
 			this.contentObserver = observer;
-			return new Unsubscriber(observer);
+			return new Unsubscriber<IObserver<List<Texture2D>>>(observer);
 		}
 
-		private class Unsubscriber : IDisposable{
+		private class Unsubscriber <T> : IDisposable
+		{
+			private T observer;
 
-			private IObserver<KeyBind> _observer;
-			private IObserver<List<Texture2D>> contentObserver;
-
-			public Unsubscriber(IObserver<KeyBind> observer){
-				_observer = observer;
-			}
-
-			public Unsubscriber(IObserver<List<Texture2D>> observer){
-				contentObserver = observer;	
+			public Unsubscriber(T observer){
+				this.observer = observer;
 			}
 
 			public void Dispose(){
-				_observer = null;
-				contentObserver = null;
+				observer = default(T);
 			}
 		}
 
 		/* Loads all content in contentNames */
 		protected override void LoadContent(){
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-
+			collisionPairs = new List<KeyValuePair<Entity, Entity>> ();
 			gameContent = renderManager.LoadContent(Content, contentNames);
 			contentObserver.OnNext(GameContent);
 
@@ -127,12 +126,9 @@ namespace Game_Engine{
 		protected override void Update(GameTime gameTime){
 			actions = inputManager.HandleInput(keyBinds);
 			entities = physicsManager.UpdateHitboxes(entities);
+			entityObserver.OnNext (actions);
 			collisionPairs = physicsManager.UpdatePhysics(entities);
-
-			foreach(KeyBind action in actions){
-				entityObserver.OnNext (action);
-			}
-		
+			collisionObserver.OnNext (collisionPairs);
 			contentObserver.OnNext(GameContent);
 			entityObserver.OnCompleted();
 			base.Update(gameTime);

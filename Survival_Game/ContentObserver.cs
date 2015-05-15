@@ -9,24 +9,11 @@ namespace Survival_Game
 	public class ContentObserver : IObserver<List<Texture2D>>
 	{
 		private GameEngine engine;
-		private EntityObserver observer;
 		private IDisposable removeableObserver;
-		private List<Player> players;
-
-		public List<Player> Players {
-			get {
-				return players;
-			}
-			set {
-				players = value;
-			}
-		}
 
 		public ContentObserver (GameEngine engine, EntityObserver observer)
 		{
-			this.players = new List<Player> ();
 			this.engine = engine;
-			this.observer = observer;
 		}
 
 		public void AddDisposableObserver(IDisposable disposableObserver){
@@ -39,22 +26,25 @@ namespace Survival_Game
 		*/
 		public void OnNext (List<Texture2D> value)
 		{
-			foreach (Player player in players){
-				AnimatedEntity e = (AnimatedEntity) engine.Entities.Find (x => x.ID.Equals (player.Name));
-				if (e.Texture != null) {
+			foreach (Player player in engine.Entities){
+				if (player.Texture != null) {
 					if (player.IsMoving) {
-						if (e.Texture.Name.Equals("player_r")) {
-							e.Texture = value.Find (x => x.Name.Equals ("player_l"));
-						} else if (e.Texture.Name.Equals ("player_l")) {
-							e.Texture = value.Find (x => x.Name.Equals ("player_r"));
-						} else
-							e.Texture = value.Find (x => x.Name.Equals ("player_r"));
-					} else
-						e.Texture = value.Find (x => x.Name.Equals ("player_s"));
+						if (player.Texture.Name.Equals("player_r") && player.FootTicker>=10) {
+							player.FootTicker = 0;
+							player.Texture = value.Find (x => x.Name.Equals ("player_l"));
+						} else if (player.Texture.Name.Equals ("player_l") && player.FootTicker>=10) {
+							player.FootTicker = 0;
+							player.Texture = value.Find (x => x.Name.Equals ("player_r"));
+						} else if (player.FootTicker == 0)
+							player.Texture = value.Find (x => x.Name.Equals ("player_r"));
+						player.FootTicker += player.MovementSpeed / 4;
+					} else if (!player.Texture.Name.Equals("player_s")){
+						player.FootTicker = 0;
+						player.Texture = value.Find (x => x.Name.Equals ("player_s"));
+					}
 				} else
-					e.Texture = value.Find (x => x.Name.Equals ("player_s"));
+					player.Texture = value.Find (x => x.Name.Equals ("player_s"));
 			}
-					
 		}
 
 		public void OnError (Exception error)
