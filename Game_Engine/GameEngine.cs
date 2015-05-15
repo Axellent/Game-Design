@@ -92,26 +92,8 @@ namespace Game_Engine{
 			this.collisionObserver = observer;
 			return new Unsubscriber<IObserver<List<KeyValuePair<Entity, Entity>>>> (observer);
 		}
-			
-		/* Loads all content in contentNames. 
-		 * Overrides the default MonoGame LoadContent method.*/
-		protected override void LoadContent(){
-			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			gameContent = renderManager.LoadContent(Content, contentNames);
-			contentObserver.OnNext(GameContent);
-
-			base.LoadContent();
-		}
-				
-		protected override void Draw(GameTime gameTime){
-			List<RenderedEntity> rendered = sceneManager.SortRenderedEntities(entities);
-			renderManager.Draw(spriteBatch, GraphicsDevice, rendered);
-			base.Draw(gameTime);
-		}
-
-
-		public IDisposable Subscribe (IObserver<KeyBind> observer){
+		public IDisposable Subscribe (IObserver<List<KeyBind>> observer){
 			this.entityObserver = observer;
 			return new Unsubscriber<IObserver<List<KeyBind>>>(observer);
 		}
@@ -159,11 +141,11 @@ namespace Game_Engine{
 			base.Update(gameTime);
 		}
 
-		/* Draws all animated entities, sorted by layer.
-		 * Overrides the default MonoGame Draw method. */
+		/* Loads all content in contentNames. 
+		 * Overrides the default MonoGame LoadContent method.*/
 		protected override void Draw(GameTime gameTime){
-			List<AnimatedEntity> animated = sceneManager.SortAnimatedEntities(entities);
-			renderManager.Draw(spriteBatch, GraphicsDevice, animated);
+			List<RenderedEntity> rendered = sceneManager.SortRenderedEntities(entities);
+			renderManager.Draw(spriteBatch, GraphicsDevice, rendered);
 			base.Draw(gameTime);
 		}
 	}
