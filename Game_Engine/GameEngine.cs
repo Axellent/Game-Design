@@ -34,6 +34,8 @@ namespace Game_Engine{
 			}
 		}
 
+		/* The entities currently active in the engine,
+		 * this list does not include entities outside render distance. */
 		public List<Entity> Entities{
 			get{
 				return entities;
@@ -43,6 +45,7 @@ namespace Game_Engine{
 			}
 		}
 
+		/* All textures currently loaded. */
 		public List<Texture2D> GameContent{
 			get{
 				return gameContent;
@@ -52,6 +55,7 @@ namespace Game_Engine{
 			}
 		}
 
+		/* Holds all keybinds the game uses. */
 		public List<KeyBind> KeyBind{
 			get{ 
 				return keyBinds;
@@ -75,6 +79,7 @@ namespace Game_Engine{
 			entities = new List<Entity>();
 		}
 
+
 		public Texture2D changeTexture(string textureName){
 			return gameContent.Find (t => t.Name.Equals (textureName));
 		}
@@ -87,8 +92,26 @@ namespace Game_Engine{
 			this.collisionObserver = observer;
 			return new Unsubscriber<IObserver<List<KeyValuePair<Entity, Entity>>>> (observer);
 		}
+			
+		/* Loads all content in contentNames. 
+		 * Overrides the default MonoGame LoadContent method.*/
+		protected override void LoadContent(){
+			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-		public IDisposable Subscribe (IObserver<List<KeyBind>> observer){
+			gameContent = renderManager.LoadContent(Content, contentNames);
+			contentObserver.OnNext(GameContent);
+
+			base.LoadContent();
+		}
+				
+		protected override void Draw(GameTime gameTime){
+			List<RenderedEntity> rendered = sceneManager.SortRenderedEntities(entities);
+			renderManager.Draw(spriteBatch, GraphicsDevice, rendered);
+			base.Draw(gameTime);
+		}
+
+
+		public IDisposable Subscribe (IObserver<KeyBind> observer){
 			this.entityObserver = observer;
 			return new Unsubscriber<IObserver<List<KeyBind>>>(observer);
 		}
@@ -98,6 +121,7 @@ namespace Game_Engine{
 			this.contentObserver = observer;
 			return new Unsubscriber<IObserver<List<Texture2D>>>(observer);
 		}
+
 
 		private class Unsubscriber <T> : IDisposable
 		{
@@ -122,7 +146,8 @@ namespace Game_Engine{
 			base.LoadContent();
 		}
 
-		/* Handles updates to input and physics */
+		/* Handles updates to input and physics.
+		 * Overrides the default MonoGame Update method. */
 		protected override void Update(GameTime gameTime){
 			actions = inputManager.HandleInput(keyBinds);
 			entities = physicsManager.UpdateHitboxes(entities);
@@ -134,7 +159,8 @@ namespace Game_Engine{
 			base.Update(gameTime);
 		}
 
-		/* Draws all animated entities, sorted by layer. */
+		/* Draws all animated entities, sorted by layer.
+		 * Overrides the default MonoGame Draw method. */
 		protected override void Draw(GameTime gameTime){
 			List<AnimatedEntity> animated = sceneManager.SortAnimatedEntities(entities);
 			renderManager.Draw(spriteBatch, GraphicsDevice, animated);
@@ -142,4 +168,3 @@ namespace Game_Engine{
 		}
 	}
 }
-
