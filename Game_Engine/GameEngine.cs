@@ -7,7 +7,7 @@ namespace Game_Engine{
 
 	/* Author: Axel Sigl
 	* Mediator for the game engine. */
-	public class GameEngine : Game, IObservable<List<KeyBind>>, IObservable<List<Texture2D>>, IObservable<List<KeyValuePair<Entity, Entity>>>{
+	public class GameEngine : Game, IObservable<List<KeyBind>>, IObservable<List<Texture2D>>{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		RenderManager renderManager;
@@ -19,11 +19,16 @@ namespace Game_Engine{
 		List<Texture2D> gameContent;
 		IObserver<List<KeyBind>> entityObserver;
 		IObserver<List<Texture2D>> contentObserver;
-		IObserver<List<KeyValuePair<Entity,Entity>>> collisionObserver;
 		List<string> contentNames;
 		List<KeyBind> keyBinds = new List<KeyBind>();
 		List<KeyBind> actions = new List<KeyBind>();
 		List<KeyValuePair<Entity, Entity>> collisionPairs;
+
+		public List<KeyValuePair<Entity, Entity>> CollisionPairs{
+			get{ 
+				return collisionPairs;
+			}
+		}
 
 		public List<string> ContentNames{
 			get{
@@ -87,12 +92,7 @@ namespace Game_Engine{
 		public Entity getEntity(string entityID){
 			return entities.Find (e => e.ID.Equals (entityID));
 		}
-
-		public IDisposable Subscribe(IObserver<List<KeyValuePair<Entity, Entity>>> observer){
-			this.collisionObserver = observer;
-			return new Unsubscriber<IObserver<List<KeyValuePair<Entity, Entity>>>> (observer);
-		}
-
+			
 		public IDisposable Subscribe (IObserver<List<KeyBind>> observer){
 			this.entityObserver = observer;
 			return new Unsubscriber<IObserver<List<KeyBind>>>(observer);
@@ -132,10 +132,9 @@ namespace Game_Engine{
 		 * Overrides the default MonoGame Update method. */
 		protected override void Update(GameTime gameTime){
 			actions = inputManager.HandleInput(keyBinds);
-			entities = physicsManager.UpdateHitboxes(entities);
 			entityObserver.OnNext (actions);
+			entities = physicsManager.UpdateHitboxes(entities);
 			collisionPairs = physicsManager.UpdatePhysics(entities);
-			collisionObserver.OnNext (collisionPairs);
 			contentObserver.OnNext(GameContent);
 			entityObserver.OnCompleted();
 			base.Update(gameTime);

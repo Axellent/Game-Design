@@ -8,14 +8,14 @@ namespace Survival_Game
 	//author: Rasmus Bäckerhall
 	public class EntityObserver : IObserver<List<KeyBind>>
 	{
-		float playerSpeed = 2.0F;
 		GameEngine engine;
+		private float playerSpeed;
 		private IDisposable removableObserver;
-		private float diagonalSpeed;
+		private List<Player> oldPlayers;
 
 		public EntityObserver (GameEngine engine)
 		{
-			diagonalSpeed =(float) Math.Sqrt (Math.Pow (playerSpeed, 2) / 2);
+			oldPlayers = new List<Player> ();
 			this.engine = engine;
 		}
 
@@ -33,63 +33,85 @@ namespace Survival_Game
 		//Hint: Not fully working yet, needs to be more dynamic. The collision management only works at certain key input
 		public void OnNext (List<KeyBind> value)
 		{
-			foreach (Player player in engine.Entities) {
-				List<KeyBind> playerKeyBinds = value.FindAll (x => x.EntityID.Equals (player.ID));
-				if (playerKeyBinds.Count > 1) {
-					playerSpeed = diagonalSpeed;
-				} else
-					playerSpeed = 2.0F;
-				int actionMade = 1;
-				foreach (KeyBind keybind in playerKeyBinds) {
-					player.IsMoving = true;
+			engine.Entities.ForEach (delegate(Entity entity) {
+				if (entity.GetType() == typeof(Player)){
+					Player player = (Player) entity;
+					if (!IsCollision (player)) {
+						AddPlayerToList (player);
+						List<KeyBind> playerKeyBinds = value.FindAll (x => x.EntityID.Equals (player.ID));
+						if (playerKeyBinds.Count > 1) {
+							playerSpeed = (float)Math.Sqrt (Math.Pow (player.MovementSpeed, 2) / 2);
+							;
+						} else
+							playerSpeed = player.MovementSpeed;
+						int actionMade = 1;
+						foreach (KeyBind keybind in playerKeyBinds) {
+							player.IsMoving = true;
 
-					switch (keybind.Action) {
-					case "up":
-						if (actionMade > 1)
-							player.Rotation = (float)Math.PI - player.Rotation/2;
-						else 
-							player.Rotation = (float)Math.PI;
-						player.Y -= playerSpeed;
-						break;
-					case "down":
-						if (actionMade > 1)
-							player.Rotation = 0 + player.Rotation / 2;
-						else
-							player.Rotation = 0;
-						player.Y += playerSpeed;
-						break;
-					case "left":
-						if (actionMade > 1)
-							player.Rotation = player.Rotation/2 + (float) Math.PI / 4; 
-						else 
-							player.Rotation = (float)Math.PI/2;
-						player.X -= playerSpeed;
-						break;
-					case "right":
-						if (actionMade > 1)
-							player.Rotation = - (float)Math.PI / 4 - player.Rotation/2;
-						else
-							player.Rotation = -(float)Math.PI/2;
-						player.X += playerSpeed;
-						break;
-					case "action":
-						break;
-					default: 
-						break;
+							switch (keybind.Action) {
+							case "up":
+								if (actionMade > 1)
+									player.Rotation = (float)Math.PI - player.Rotation / 2;
+								else
+									player.Rotation = (float)Math.PI;
+								player.Y -= playerSpeed;
+								break;
+							case "down":
+								if (actionMade > 1)
+									player.Rotation = 0 + player.Rotation / 2;
+								else
+									player.Rotation = 0;
+								player.Y += playerSpeed;
+								break;
+							case "left":
+								if (actionMade > 1)
+									player.Rotation = player.Rotation / 2 + (float)Math.PI / 4;
+								else
+									player.Rotation = (float)Math.PI / 2;
+								player.X -= playerSpeed;
+								break;
+							case "right":
+								if (actionMade > 1)
+									player.Rotation = -(float)Math.PI / 4 - player.Rotation / 2;
+								else
+									player.Rotation = -(float)Math.PI / 2;
+								player.X += playerSpeed;
+								break;
+							case "action":
+								break;
+							default: 
+								break;
+							}
+							actionMade++;
+						}
+					} else {
+						if (oldPlayers.Exists (p => p.ID.Equals (player.ID))) {
+							Player temp = oldPlayers.Find (p => p.ID.Equals (player.ID));
+							player.X = temp.X;
+							player.Y = temp.Y;
+							player.HitBox = temp.HitBox;
+							player.IsMoving = false;
+						}
 					}
-					actionMade++;
-				}
-			}
+				}			
+			});
+		}
+
+		public void AddPlayerToList(Player player){
+			oldPlayers.RemoveAll (p => p.ID.Equals(player.ID));
+			oldPlayers.Add (new Player(player.ID, player.IsController, player.X, 
+				player.Y, player.Width, player.Height, player.Rotation, player.HitBox, 
+				player.Layer, player.Texture, player.PlayerControlled));
 		}
 
 		//inputs a player that should be checked for collision with an other player
-		/*public bool	isCollision(Player player){
+		public bool	IsCollision(Player player){
 			foreach(KeyValuePair<Entity, Entity> collision in engine.CollisionPairs){
-				if ((player.Name).Equals (collision.Key.ID) || (player.Name).Equals (collision.Value.ID))
+				if ((player.ID).Equals (collision.Key.ID) || (player.ID).Equals (collision.Value.ID))
 					return true;
 			}
 			return false;
-		}*/
+		}
 
 		public void OnError (Exception error)
 		{
