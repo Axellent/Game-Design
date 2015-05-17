@@ -4,7 +4,7 @@ using Survival_Game;
 namespace Survival_Game
 {
 	//author: Rasmus Bäckerhall
-	//TODO: in iteration 3
+	//TODO: 3 buttons for optionmenu, playmenu and exit. 
 	public class StartMenu
 	{
 		public StartMenu (){

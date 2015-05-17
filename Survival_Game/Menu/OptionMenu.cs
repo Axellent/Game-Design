@@ -3,7 +3,7 @@
 namespace Survival_Game
 {
 	//author: Rasmus Bäckerhall
-	//TODO: in iteration 3
+	//TODO: options for fullscreen, options for sound etc.
 	public class OptionMenu
 	{
 		public OptionMenu (){

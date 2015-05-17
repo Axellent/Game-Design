@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Survival_Game
 {
 	//author: Rasmus Bäckerhall
-	//TODO: in iteration 3
+	//TODO: Choose how many players want to play, a back-button and playbutton.
 	public class PlayGameMenu
 	{
 		List<Player> players;

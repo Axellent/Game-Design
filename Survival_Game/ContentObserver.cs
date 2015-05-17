@@ -26,7 +26,7 @@ namespace Survival_Game
 		*/
 		public void OnNext (List<Texture2D> value)
 		{
-			foreach (Player player in engine.Entities){
+			foreach (Player player in engine.Entities){					//move to a method.
 				if (player.Texture != null) {
 					if (player.IsMoving) {
 						if (player.Texture.Name.Equals("player_r") && player.FootTicker>=10) {
