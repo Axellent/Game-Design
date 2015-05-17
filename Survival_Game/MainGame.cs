@@ -14,7 +14,6 @@ namespace Survival_Game{
 		private CollisionObserver collisionObserver;
 
 		public MainGame(){
-			
 			engine = new GameEngine();
 			LoadContent ();
 			engine.Run();
