@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Game_Engine{
 
@@ -24,10 +25,27 @@ namespace Game_Engine{
 		List<KeyBind> actions = new List<KeyBind>();
 		List<KeyValuePair<Entity, Entity>> collisionPairs;
 		Vector3 viewPos = new Vector3(0,0,0);
+		private List<SoundEffectInstance> soundContent;
+		private List<string> soundContentNames;
 
 		public List<KeyValuePair<Entity, Entity>> CollisionPairs{
 			get{ 
 				return collisionPairs;
+			}
+		}
+
+		public List<string> SoundContentNames {
+			get {
+				return soundContentNames;
+			}
+			set {
+				soundContentNames = value;
+			}
+		}
+
+		public List<SoundEffectInstance> SoundContent {
+			get{
+				return soundContent;
 			}
 		}
 
@@ -132,9 +150,10 @@ namespace Game_Engine{
 		protected override void LoadContent(){
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 			collisionPairs = new List<KeyValuePair<Entity, Entity>> ();
-			gameContent = renderManager.LoadContent(Content, contentNames);
-			contentObserver.OnNext(GameContent);
 
+			gameContent = renderManager.LoadContent(Content, contentNames);
+			soundContent = soundManager.LoadContent (Content, soundContentNames);
+			contentObserver.OnNext(GameContent);
 			base.LoadContent();
 		}
 
