@@ -29,6 +29,9 @@ namespace Survival_Game
 			//players.Clear();
 		}
 
+		/* TODO: Make this class more dynamic. Either change name of the class to PlayerObserver,
+		 * or make it able to change in all entities not only in player entities.
+		 */
 		//Called by engine. In this method all the changes to the player is made
 		//Hint: Not fully working yet, needs to be more dynamic. The collision management only works at certain key input
 		public void OnNext (List<KeyBind> value)

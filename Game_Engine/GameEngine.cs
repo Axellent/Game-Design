@@ -23,6 +23,7 @@ namespace Game_Engine{
 		List<KeyBind> keyBinds = new List<KeyBind>();
 		List<KeyBind> actions = new List<KeyBind>();
 		List<KeyValuePair<Entity, Entity>> collisionPairs;
+		Vector3 viewPos = new Vector3(0,0,0);
 
 		public List<KeyValuePair<Entity, Entity>> CollisionPairs{
 			get{ 
@@ -30,6 +31,7 @@ namespace Game_Engine{
 			}
 		}
 
+		/* The names of the content files to be loaded. */
 		public List<string> ContentNames{
 			get{
 				return contentNames;
@@ -70,6 +72,16 @@ namespace Game_Engine{
 			}
 		}
 
+		/* Determines the position of the screen view. */
+		public Vector3 ViewPos{
+			get{
+				return viewPos;
+			}
+			set{
+				viewPos = value;
+			}
+		}
+
 		/* Initialises graphics, content, managers, and entities.*/
 		public GameEngine(){
 			graphics = new GraphicsDeviceManager(this);
@@ -83,7 +95,6 @@ namespace Game_Engine{
 
 			entities = new List<Entity>();
 		}
-
 
 		public Texture2D changeTexture(string textureName){
 			return gameContent.Find (t => t.Name.Equals (textureName));
@@ -105,8 +116,7 @@ namespace Game_Engine{
 		}
 
 
-		private class Unsubscriber <T> : IDisposable
-		{
+		private class Unsubscriber <T> : IDisposable{
 			private T observer;
 
 			public Unsubscriber(T observer){
@@ -144,7 +154,7 @@ namespace Game_Engine{
 		 * Overrides the default MonoGame LoadContent method.*/
 		protected override void Draw(GameTime gameTime){
 			List<RenderedEntity> rendered = sceneManager.SortRenderedEntities(entities);
-			renderManager.Draw(spriteBatch, GraphicsDevice, rendered);
+			renderManager.Draw(spriteBatch, GraphicsDevice, viewPos, rendered);
 			base.Draw(gameTime);
 		}
 	}

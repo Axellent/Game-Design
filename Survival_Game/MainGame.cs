@@ -13,7 +13,6 @@ namespace Survival_Game{
 		private EntityObserver entityObserver;
 
 		public MainGame(){
-			
 			engine = new GameEngine();
 			LoadContent ();
 			engine.Run();
