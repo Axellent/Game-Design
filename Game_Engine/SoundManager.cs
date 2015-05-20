@@ -10,35 +10,33 @@ namespace Game_Engine{
 	//author: Rasmus Bäckerhall
 	public class SoundManager{
 
-		private float volume = 2.0F;
+		private float MasterVolume;		
+		private float backgroundVolume;
+		private float miscVolume;
 
-		public float Volume {
-			get {
-				return volume;
-			}
-			set {
-				volume = value;
-			}
-		}
 
 		public SoundManager(){
 		}
 
-		public List<SoundEffectInstance> LoadContent(ContentManager Content, List<string> audioFiles){
-			List<SoundEffectInstance> content = new List<SoundEffectInstance> ();
+		public List<SoundEffect> LoadContent(ContentManager Content, List<string> audioFiles){
+			List<SoundEffect> content = new List<SoundEffect> ();
 
 			foreach (string audioFile in audioFiles) {
-				content.Add(Content.Load<SoundEffect> (audioFile).CreateInstance());
+				content.Add(Content.Load<SoundEffect> (audioFile));
 			}
 			return content;
 		}
 
-		public SoundEffectInstance createSoundEffectInstance(){
-
+		public void playSounds(List<Entity> entities, BoundingBox limitbox){
 		}
 
-		public void deleteSoundEffectInstance(SoundEffectInstance effectInstance){
-			effectInstance.Dispose ();
+		public void createSoundEffectInstance(Entity entity, SoundEffect effect){
+		}
+
+		public void playSoundEffect(Entity entity){
+		}
+
+		public void deleteEntitySoundInstance(Entity entity){
 		}
 
 		public void stopBackgroundSound(SoundEffectInstance effectInstance){
@@ -50,9 +48,8 @@ namespace Game_Engine{
 		}
 
 		public void playBackgroundSound(SoundEffectInstance effectInstance){
-			effectInstance.
 			effectInstance.IsLooped = true;
-			effectInstance.Volume = volume;
+			effectInstance.Volume = MasterVolume * backgroundVolume;
 			effectInstance.Play ();
 		}
 

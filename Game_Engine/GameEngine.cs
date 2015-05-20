@@ -25,7 +25,7 @@ namespace Game_Engine{
 		List<KeyBind> actions = new List<KeyBind>();
 		List<KeyValuePair<Entity, Entity>> collisionPairs;
 		Vector3 viewPos = new Vector3(0,0,0);
-		private List<SoundEffectInstance> soundContent;
+		private List<SoundEffect> soundContent;
 		private List<string> soundContentNames;
 
 		public List<KeyValuePair<Entity, Entity>> CollisionPairs{
@@ -43,7 +43,7 @@ namespace Game_Engine{
 			}
 		}
 
-		public List<SoundEffectInstance> SoundContent {
+		public List<SoundEffect> SoundContent {
 			get{
 				return soundContent;
 			}
@@ -152,7 +152,11 @@ namespace Game_Engine{
 			collisionPairs = new List<KeyValuePair<Entity, Entity>> ();
 
 			gameContent = renderManager.LoadContent(Content, contentNames);
+			contentNames.Clear ();
+
 			soundContent = soundManager.LoadContent (Content, soundContentNames);
+			soundContentNames.Clear ();
+
 			contentObserver.OnNext(GameContent);
 			base.LoadContent();
 		}

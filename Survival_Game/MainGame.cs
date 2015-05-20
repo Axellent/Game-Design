@@ -37,11 +37,11 @@ namespace Survival_Game{
 				engine.KeyBind.Add (keybind);
 			}
 			engine.ContentNames = contentManager.LoadGameContent ();
-
+			engine.SoundContentNames = contentManager.LoadSoundContent ();
 
 			Player player1 = new Player ("player1", false, 100, 100, 72, 62, 0,
 				new BoundingBox(new Vector3(100 - (72 / 4), 100 - (62 / 4), 0),
-				new Vector3(100 + (72 / 4), 100 + (62 / 4), 0)), 1, null, true);
+					new Vector3(100 + (72 / 4), 100 + (62 / 4), 0)), 1, null, true);
 			Player player2 = new Player ("player2", false, 400, 200, 72, 62, 0,
 				new BoundingBox(new Vector3(400 - (72 / 4), 200 - (62 / 4), 0),
 					new Vector3(400 + (72 / 4), 200 + (62 / 4), 0)), 1, null, true);

@@ -22,6 +22,39 @@ namespace Survival_Game{
 			return gameContent;
 		}
 
+		public List<string> LoadSoundContent(){
+			List<string> soundContent = new List<string> ();
+			soundContent.Add ("DaySound_01");
+			soundContent.Add ("DaySound_02");
+			soundContent.Add ("FootstepHard_01");
+			soundContent.Add ("FootstepHard_02");
+			soundContent.Add ("FootstepHard_03");
+			soundContent.Add ("FootstepHard_04");
+			soundContent.Add ("FootstepHard_05");
+			soundContent.Add ("UIClick_01");
+			soundContent.Add ("UIerror_06");
+			soundContent.Add ("NightCreatureSound_01");
+			soundContent.Add ("NightCreatureSound_02");
+			soundContent.Add ("NightCreatureSound_03");
+			soundContent.Add ("NightCreatureSound_04");
+			soundContent.Add ("NightCreatureSound_05");
+			soundContent.Add ("Bird_01");
+			soundContent.Add ("Bird_02");
+			soundContent.Add ("Bird_03");
+			soundContent.Add ("Bird_04");
+			soundContent.Add ("Bird_05");
+			soundContent.Add ("NightSound_01");
+			soundContent.Add ("Wind_04");
+			soundContent.Add ("Wind_05");
+			soundContent.Add ("BodyHit_01");
+			soundContent.Add ("BodyHit_02");
+			soundContent.Add ("BodyHit_03");
+			soundContent.Add ("BodyHit_04");
+			soundContent.Add ("BodyHit_05");
+
+			return soundContent;
+		}
+
 		//Keyboard Setup 1 
 		public List<KeyBind> DefineKeybindingsSetup1(string playerID){
 			List<KeyBind> keybinds = new List<KeyBind> ();

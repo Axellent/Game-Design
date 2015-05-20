@@ -10,7 +10,7 @@ namespace Survival_Game
 	{
 		GameEngine engine;
 		private float playerSpeed;
-		private IDisposable removableObserver;
+		private IDisposable removeableObserver;
 		private List<Player> oldPlayers;
 
 		public EntityObserver (GameEngine engine)
@@ -20,12 +20,12 @@ namespace Survival_Game
 		}
 
 		public void AddDisposableObserver(IDisposable disposableObserver){
-			removableObserver = disposableObserver;
+			removeableObserver = disposableObserver;
 		}
 
 		public void Unsubscribe()
 		{
-			removableObserver.Dispose();
+			removeableObserver.Dispose();
 			//players.Clear();
 		}
 
@@ -45,7 +45,6 @@ namespace Survival_Game
 						List<KeyBind> playerKeyBinds = value.FindAll (x => x.EntityID.Equals (player.ID));
 						if (playerKeyBinds.Count > 1) {
 							playerSpeed = (float)Math.Sqrt (Math.Pow (player.MovementSpeed, 2) / 2);
-							;
 						} else
 							playerSpeed = player.MovementSpeed;
 						int actionMade = 1;
