@@ -126,8 +126,12 @@ namespace Survival_Game
 
 		public void OnCompleted ()
 		{
-			foreach (Player player in engine.Entities)
-				player.IsMoving = false;
+			foreach(Entity entity in engine.Entities) {
+				if(entity.GetType() == typeof(Player)) {
+					Player player = (Player)entity;
+					player.IsMoving = false;
+				}
+			}
 		}
 	}
 }
