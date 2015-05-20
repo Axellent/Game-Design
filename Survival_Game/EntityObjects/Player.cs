@@ -64,4 +64,4 @@ namespace Survival_Game
 			health = 100;
 			this.isController = isController;
 		}
-	}
+	}}

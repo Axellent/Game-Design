@@ -98,4 +98,4 @@ namespace Survival_Game{
 		public static void Main(){
 			MainGame game = new MainGame();
 		}
-	}
+	}}
