@@ -27,16 +27,16 @@ namespace Game_Engine{
 			return content;
 		}
 
-		public void playSounds(List<Entity> entities, BoundingBox limitbox){
-		}
-
 		public void createSoundEffectInstance(Entity entity, SoundEffect effect){
+		
 		}
 
 		public void playSoundEffect(Entity entity){
+		
 		}
 
 		public void deleteEntitySoundInstance(Entity entity){
+		
 		}
 
 		public void stopBackgroundSound(SoundEffectInstance effectInstance){

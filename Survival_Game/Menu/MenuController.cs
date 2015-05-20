@@ -22,7 +22,8 @@ namespace Survival_Game
 			SMenu.LoadContent ();
 		}
 
-		private void OnClick(){
+		private void OnClick()
+		{
 			
 		}
 	}

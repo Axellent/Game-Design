@@ -14,6 +14,7 @@ namespace Survival_Game
 		}
 
 		public void Update(){
+			
 		}
 
 		//TODO: draw PlayGameMenu

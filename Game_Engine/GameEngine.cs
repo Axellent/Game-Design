@@ -8,7 +8,7 @@ namespace Game_Engine{
 
 	/* Author: Axel Sigl
 	* Mediator for the game engine. */
-	public class GameEngine : Game, IObservable<List<KeyBind>>, IObservable<List<Texture2D>>{
+	public class GameEngine : Game, IObservable<List<Texture2D>>, IObservable<List<Entity>>{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		RenderManager renderManager;
@@ -18,7 +18,7 @@ namespace Game_Engine{
 		SoundManager soundManager;
 		List<Entity> entities;
 		List<Texture2D> gameContent;
-		IObserver<List<KeyBind>> entityObserver;
+		IObserver<List<Entity>> entityObserver;
 		IObserver<List<Texture2D>> contentObserver;
 		List<string> contentNames;
 		List<KeyBind> keyBinds = new List<KeyBind>();
@@ -114,6 +114,10 @@ namespace Game_Engine{
 			entities = new List<Entity>();
 		}
 
+		public List<KeyBind> getActions(){
+			return actions;
+		}
+
 		public Texture2D changeTexture(string textureName){
 			return gameContent.Find (t => t.Name.Equals (textureName));
 		}
@@ -121,10 +125,10 @@ namespace Game_Engine{
 		public Entity getEntity(string entityID){
 			return entities.Find (e => e.ID.Equals (entityID));
 		}
-			
-		public IDisposable Subscribe (IObserver<List<KeyBind>> observer){
+
+		public IDisposable Subscribe (IObserver<List<Entity>> observer){
 			this.entityObserver = observer;
-			return new Unsubscriber<IObserver<List<KeyBind>>>(observer);
+			return new Unsubscriber<IObserver<List<Entity>>>(observer);
 		}
 
 		public IDisposable Subscribe (IObserver<List<Texture2D>> observer){
@@ -161,11 +165,13 @@ namespace Game_Engine{
 			base.LoadContent();
 		}
 
+
+
 		/* Handles updates to input and physics.
 		 * Overrides the default MonoGame Update method. */
 		protected override void Update(GameTime gameTime){
 			actions = inputManager.HandleInput(keyBinds);
-			entityObserver.OnNext (actions);
+			entityObserver.OnNext (entities);
 			entities = physicsManager.UpdateHitboxes(entities);
 			collisionPairs = physicsManager.UpdatePhysics(entities);
 			contentObserver.OnNext(GameContent);

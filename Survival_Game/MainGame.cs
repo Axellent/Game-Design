@@ -2,6 +2,7 @@
 using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Survival_Game{
 
@@ -11,6 +12,7 @@ namespace Survival_Game{
 		private GameEngine engine;
 		private ContentObserver contentObserver;
 		private EntityObserver entityObserver;
+		private SoundEffectInstance backgroundSound;
 
 		public MainGame(){
 			engine = new GameEngine();
@@ -41,13 +43,16 @@ namespace Survival_Game{
 
 			Player player1 = new Player ("player1", false, 100, 100, 72, 62, 0,
 				new BoundingBox(new Vector3(100 - (72 / 4), 100 - (62 / 4), 0),
-					new Vector3(100 + (72 / 4), 100 + (62 / 4), 0)), 1, null, true);
+				new Vector3(100 + (72 / 4), 100 + (62 / 4), 0)), 1, null, true, 
+				keybinds.FindAll(k => k.EntityID.Equals("player3")));
 			Player player2 = new Player ("player2", false, 400, 200, 72, 62, 0,
 				new BoundingBox(new Vector3(400 - (72 / 4), 200 - (62 / 4), 0),
-					new Vector3(400 + (72 / 4), 200 + (62 / 4), 0)), 1, null, true);
+				new Vector3(400 + (72 / 4), 200 + (62 / 4), 0)), 1, null, true, 
+				keybinds.FindAll(k => k.EntityID.Equals("player3")));
 			Player player3 = new Player ("player3", false, 500, 400, 72, 62, 0,
 				new BoundingBox(new Vector3(500 - (72 / 4), 400 - (62 / 4), 0),
-					new Vector3(500 + (72 / 4), 400 + (62 / 4), 0)), 1, null, true);
+					new Vector3(500 + (72 / 4), 400 + (62 / 4), 0)), 1, null, true, 
+				keybinds.FindAll(k => k.EntityID.Equals("player3")));
 
 			//Adds the players to engine
 			engine.Entities.Add (player1);
