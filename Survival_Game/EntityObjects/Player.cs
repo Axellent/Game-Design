@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using Microsoft.Xna.Framework.Audio;
 namespace Survival_Game
 {
 	//author: Rasmus Bäckerhall
@@ -55,7 +55,8 @@ namespace Survival_Game
 		}
 
 		//Player constructor. Inherits ActorEntity
-		public Player (string playerName, bool isController, float X, float Y, float width, float height, float rotation, BoundingBox hitbox, int layer, Texture2D texture, bool playerControlled) 
+		public Player (string playerName, bool isController, float X, float Y, float width, float height,
+				float rotation, BoundingBox hitbox, int layer, Texture2D texture, bool playerControlled) 
 			: base(playerName, X, Y, width, height,  rotation, hitbox, layer, texture, playerControlled)
 		{
 			movementSpeed = 2.0F;
@@ -64,4 +65,3 @@ namespace Survival_Game
 			this.isController = isController;
 		}
 	}
-}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
@@ -40,6 +40,7 @@ namespace Survival_Game{
 				engine.KeyBind.Add (keybind);
 			}
 			engine.ContentNames = contentManager.LoadGameContent ();
+			engine.SoundContentNames = contentManager.LoadSoundContent ();
 
 			BoundingBox tmpPortion = new BoundingBox(new Vector3(0, 0, 0),
 				new Vector3(engine.GraphicsDevice.Viewport.Width, engine.GraphicsDevice.Viewport.Height, 0));
@@ -98,4 +99,3 @@ namespace Survival_Game{
 			MainGame game = new MainGame();
 		}
 	}
-}
