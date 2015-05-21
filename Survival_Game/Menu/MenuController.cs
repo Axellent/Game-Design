@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace Survival_Game
 {
@@ -16,10 +18,11 @@ namespace Survival_Game
 
 		public MenuController (StartMenu startMenu, OptionMenu optionMenu, PlayGameMenu PlayGameMenu )
 		{
+			//Content.RootDirectory = "Content";
 			SMenu = startMenu;
 			OMenu = optionMenu;
 			PGMenu = PlayGameMenu;
-			SMenu.LoadContent ();
+			//SMenu.LoadContent(content);
 		}
 
 		private void OnClick()
