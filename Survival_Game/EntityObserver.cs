@@ -113,7 +113,7 @@ namespace Survival_Game
 			oldPlayers.RemoveAll (p => p.ID.Equals(player.ID));
 			oldPlayers.Add (new Player(player.ID, player.IsController, player.X, 
 				player.Y, player.Width, player.Height, player.Rotation, player.HitBox, 
-				player.Layer, player.Texture, player.PlayerControlled, player.Keybinds));
+				player.Layer, player.Texture, player.PlayerControlled));
 		}
 
 		//inputs a player that should be checked for collision with an other player
@@ -132,8 +132,12 @@ namespace Survival_Game
 
 		public void OnCompleted ()
 		{
-			foreach (Player player in engine.Entities)
-				player.IsMoving = false;
+			foreach(Entity entity in engine.Entities) {
+				if(entity.GetType() == typeof(Player)) {
+					Player player = (Player)entity;
+					player.IsMoving = false;
+				}
+			}
 		}
 	}
 }

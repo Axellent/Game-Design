@@ -9,6 +9,7 @@ namespace Game_Engine{
 	public class Entity{
 		string id;
 		float x, y, width, height, rotation;
+		bool hasCollision;
 		Vector3 velocity;
 		BoundingBox hitbox;
 			
@@ -76,6 +77,15 @@ namespace Game_Engine{
 			}
 		}
 
+		public bool HasCollision{
+			get{
+				return hasCollision;
+			}
+			set{
+				hasCollision = value;
+			}
+		}
+
 		/* 3D rectangle for checking collision of entities. */
 		public BoundingBox HitBox{
 			get{
@@ -94,6 +104,19 @@ namespace Game_Engine{
 			this.height = height;
 			this.rotation = rotation;
 			this.hitbox = hitbox;
+			hasCollision = true;
+		}
+
+		public Entity(string id, float x, float y, float width, float height, float rotation, BoundingBox hitbox,
+			bool hasCollision){
+			this.id = id;
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+			this.rotation = rotation;
+			this.hitbox = hitbox;
+			this.hasCollision = hasCollision;
 		}
 	}
 }

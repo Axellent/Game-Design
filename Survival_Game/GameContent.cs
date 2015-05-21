@@ -16,9 +16,11 @@ namespace Survival_Game{
 		//defines the content that should be loaded by the engine
 		public List<string> LoadGameContent(){
 			List<string> gameContent = new List<string>();
-			gameContent.Add ("player_s");
-			gameContent.Add ("player_r");
-			gameContent.Add ("player_l");
+			gameContent.Add("tile_1");
+			gameContent.Add("tile_2");
+			gameContent.Add("player_s");
+			gameContent.Add("player_r");
+			gameContent.Add("player_l");
 			return gameContent;
 		}
 
@@ -167,17 +169,6 @@ namespace Survival_Game{
 
 			return keybinds;
 		}
-
-		/*public void CreatePlayerBindings(int controllerSetup, string player)
-		{
-			
-			if (controllerSetup == 1) {
-				DefineKeybindingSetup1 (player);
-			} else if (controllerSetup == 2) {
-				DefineKeybindingSetup2 (player);
-			} else
-				DefineKeybindingForGamePad (player); 
-		}*/
 	}
 }
 

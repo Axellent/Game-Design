@@ -1,18 +1,19 @@
-﻿using System;
+using System;
 using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 
 namespace Survival_Game{
 
 	//author: Rasmus Bäckerhall
 	public class MainGame{
-		
 		private GameEngine engine;
 		private ContentObserver contentObserver;
 		private EntityObserver entityObserver;
-		private SoundEffectInstance backgroundSound;
+		int tileNO = 1;
+
+		static int TILE_WIDTH = 50;
+		static int TILE_HEIGHT = 50;
 
 		public MainGame(){
 			engine = new GameEngine();
@@ -41,18 +42,19 @@ namespace Survival_Game{
 			engine.ContentNames = contentManager.LoadGameContent ();
 			engine.SoundContentNames = contentManager.LoadSoundContent ();
 
+			BoundingBox tmpPortion = new BoundingBox(new Vector3(0, 0, 0),
+				new Vector3(engine.GraphicsDevice.Viewport.Width, engine.GraphicsDevice.Viewport.Height, 0));
+			this.GenerateTiles(tmpPortion);
+
 			Player player1 = new Player ("player1", false, 100, 100, 72, 62, 0,
 				new BoundingBox(new Vector3(100 - (72 / 4), 100 - (62 / 4), 0),
-				new Vector3(100 + (72 / 4), 100 + (62 / 4), 0)), 1, null, true, 
-				keybinds.FindAll(k => k.EntityID.Equals("player3")));
+				new Vector3(100 + (72 / 4), 100 + (62 / 4), 0)), 1, null, true);
 			Player player2 = new Player ("player2", false, 400, 200, 72, 62, 0,
 				new BoundingBox(new Vector3(400 - (72 / 4), 200 - (62 / 4), 0),
-				new Vector3(400 + (72 / 4), 200 + (62 / 4), 0)), 1, null, true, 
-				keybinds.FindAll(k => k.EntityID.Equals("player3")));
+					new Vector3(400 + (72 / 4), 200 + (62 / 4), 0)), 1, null, true);
 			Player player3 = new Player ("player3", false, 500, 400, 72, 62, 0,
 				new BoundingBox(new Vector3(500 - (72 / 4), 400 - (62 / 4), 0),
-					new Vector3(500 + (72 / 4), 400 + (62 / 4), 0)), 1, null, true, 
-				keybinds.FindAll(k => k.EntityID.Equals("player3")));
+					new Vector3(500 + (72 / 4), 400 + (62 / 4), 0)), 1, null, true);
 
 			//Adds the players to engine
 			engine.Entities.Add (player1);
@@ -68,6 +70,29 @@ namespace Survival_Game{
 			entityObserver.AddDisposableObserver(dis);
 			dis = engine.Subscribe (contentObserver);
 			contentObserver.AddDisposableObserver (dis);
+		}
+
+		//Generates terrain in a certain portion of the world.
+		public void GenerateTiles(BoundingBox portion){
+			Tile curTile;
+			BoundingBox curTileBox;
+			float curX = portion.Min.X;
+			float curY = portion.Min.Y;
+
+			while(curY <= portion.Max.Y){
+				while(curX <= portion.Max.X) {
+					curTileBox = new BoundingBox();
+					curTile = new Tile("tile" + tileNO, curX, curY, TILE_WIDTH, TILE_HEIGHT,
+						0, curTileBox, 0, null, false);
+					engine.Entities.Add(curTile);
+
+					tileNO++;
+					curX += TILE_WIDTH;
+				}
+				curX = 0;
+				curY += TILE_HEIGHT;
+			}
+			// TODO: Save portion to already generated list.
 		}
 
 		public static void Main(){

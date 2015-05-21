@@ -137,7 +137,6 @@ namespace Game_Engine{
 			return new Unsubscriber<IObserver<List<Texture2D>>>(observer);
 		}
 
-
 		private class Unsubscriber <T> : IDisposable{
 			private T observer;
 
