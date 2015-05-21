@@ -14,10 +14,9 @@ namespace Survival_Game
 	public class StartMenu
 	{
 		private Texture2D menuTexture;
-
 		private Rectangle menuRect;
-
 		private String assetName;
+		//List<GUIElement> main = new List<GUIElement>;
 
 		public StartMenu (String assetName){
 			this.assetName = assetName;
