@@ -10,6 +10,7 @@ namespace Survival_Game{
 		private GameEngine engine;
 		private ContentObserver contentObserver;
 		private EntityObserver entityObserver;
+		private SoundEntity backgroundSound;
 		int tileNO = 1;
 
 		static int TILE_WIDTH = 50;
@@ -24,6 +25,7 @@ namespace Survival_Game{
 		//Loads the content to game engine. Most instances will be moved to the menu classes in iteration 3
 		private void LoadContent()
 		{
+			backgroundSound = new SoundEntity (2.0F, 10.0F);
 			//TODO: Add Menus
 			//MenuController menuController = new MenuController (new StartMenu(), new OptionMenu(), new PlayGameMenu());
 
@@ -34,7 +36,6 @@ namespace Survival_Game{
 			keybinds = contentManager.DefineKeybindingsSetup1 ("player1");
 			keybinds.AddRange(contentManager.DefineKeybindingsSetup2 ("player2"));
 			keybinds.AddRange (contentManager.DefineKeybindingsForGamePad ("player3"));
-
 			//Sends the keybindings to the engine
 			foreach (KeyBind keybind in keybinds) {
 				engine.KeyBind.Add (keybind);

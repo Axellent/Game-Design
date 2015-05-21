@@ -122,7 +122,7 @@ namespace Game_Engine{
 			return gameContent.Find (t => t.Name.Equals (textureName));
 		}
 
-		public Entity getEntity(string entityID){
+		public Entity changeEntity(string entityID){
 			return entities.Find (e => e.ID.Equals (entityID));
 		}
 
@@ -148,7 +148,6 @@ namespace Game_Engine{
 				observer = default(T);
 			}
 		}
-
 		/* Loads all content in contentNames */
 		protected override void LoadContent(){
 			spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -161,20 +160,25 @@ namespace Game_Engine{
 			soundContentNames.Clear ();
 
 			contentObserver.OnNext(GameContent);
+			playBackgroundSound (soundContent.Find(s => s.Name.Equals("DaySound_02")), true);
 			base.LoadContent();
 		}
 
-
+		public void playBackgroundSound(SoundEffect soundEffect, bool isLooped){
+			soundManager.playBackgroundSound (soundEffect, isLooped);
+		}
 
 		/* Handles updates to input and physics.
 		 * Overrides the default MonoGame Update method. */
 		protected override void Update(GameTime gameTime){
+			entities = sceneManager.RestoreSavedEntities (entities, new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (800, 600, 0)));
 			actions = inputManager.HandleInput(keyBinds);
 			entityObserver.OnNext (entities);
 			entities = physicsManager.UpdateHitboxes(entities);
 			collisionPairs = physicsManager.UpdatePhysics(entities);
 			contentObserver.OnNext(GameContent);
 			entityObserver.OnCompleted();
+			entities = sceneManager.RemoveFarawayEntities (entities, new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (800, 600, 0)));
 			base.Update(gameTime);
 		}
 

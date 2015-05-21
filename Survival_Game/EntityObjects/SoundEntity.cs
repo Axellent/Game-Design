@@ -4,10 +4,10 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace Survival_Game
 {
-	public abstract class SoundEntity
+	public class SoundEntity
 	{
 		private float volume;
-		private int duration;
+		private float duration;
 		private SoundEffect soundEffect;
 
 		public SoundEffect SoundEffect {
@@ -28,13 +28,18 @@ namespace Survival_Game
 			}
 		}
 
-		public int Duration {
+		public float Duration {
 			get{
 				return duration;
 			}
 			set {
 				duration = value;
 			}
+		}
+
+		public SoundEntity(float volume, float duration){
+			this.volume = volume;
+			this.duration = duration;
 		}
 	}
 }

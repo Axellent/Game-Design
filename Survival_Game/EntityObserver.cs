@@ -41,7 +41,7 @@ namespace Survival_Game
 			foreach (Entity entity in value) {
 
 				if (entity.GetType () == typeof(Player)) {
-
+					handlePlayer (entity);
 				}
 			}
 		}

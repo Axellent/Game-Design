@@ -35,23 +35,15 @@ namespace Game_Engine{
 
 		/* Adds entities priviously outside the limitbox back into the active entities list. */
 		public List<Entity> RestoreSavedEntities(List<Entity> entities, BoundingBox limitbox){
-			foreach(Entity savedEntity in savedEntities){
-				if(limitbox.Intersects(savedEntity.HitBox)){
-					entities.Add(savedEntity);
-					savedEntities.Remove(savedEntity);
-				}
-			}
+			entities.AddRange (savedEntities.FindAll (e => limitbox.Intersects (e.HitBox)));
+			savedEntities.RemoveAll (e => limitbox.Intersects (e.HitBox));
 			return entities;
 		}
 
 		/* Stores away the entities outside the defined limits for improved performance. */
 		public List<Entity> RemoveFarawayEntities(List<Entity> entities, BoundingBox limitbox){
-			foreach(Entity entity in entities){
-				if(!limitbox.Intersects(entity.HitBox)){					
-					entities.Remove(entity);
-					savedEntities.Add(entity);
-				}
-			}
+			savedEntities.AddRange (entities.FindAll (e => !limitbox.Intersects (e.HitBox)));
+			entities.RemoveAll (e => !limitbox.Intersects (e.HitBox));
 			return entities;
 		}
 	}
