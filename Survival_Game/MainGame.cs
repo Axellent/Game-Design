@@ -13,6 +13,7 @@ namespace Survival_Game{
 		private EntityObserver entityObserver;
 		int tileNO = 1;
 
+
 		int numberOfPlayers = 2;
 		Viewport defaultview;
 		Viewport rightview;
@@ -21,8 +22,10 @@ namespace Survival_Game{
 		Viewport topLeftView;
 		Viewport topRightView;
 
-		static int TILE_WIDTH = 50;
-		static int TILE_HEIGHT = 50;
+
+		const int TILE_WIDTH = 50;
+		const int TILE_HEIGHT = 50;
+
 
 		public MainGame(){
 			engine = new GameEngine();
