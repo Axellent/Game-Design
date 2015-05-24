@@ -21,10 +21,12 @@ namespace Survival_Game{
 		Viewport topView;
 		Viewport topLeftView;
 		Viewport topRightView;
+		private PlayGameMenu menu;
 
 		public MainGame(){
 			engine = new GameEngine();
-			LoadContent ();
+			//menu = new PlayGameMenu(engine);
+			LoadContent();
 			engine.Run();
 		}
 
@@ -148,7 +150,6 @@ namespace Survival_Game{
 				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player1.X - topLeftView.Width / 2, player1.Y - topLeftView.Height / 2, 0), topLeftView, player1));
 				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player3.X - topRightView.Width / 2, player3.Y - topRightView.Height / 2, 0), topRightView, player3));
 			}
-
 		}
 
 		public static void Main(){

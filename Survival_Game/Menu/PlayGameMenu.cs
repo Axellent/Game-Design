@@ -1,5 +1,8 @@
 ﻿using System;
+using Game_Engine;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Survival_Game
 {
@@ -8,11 +11,10 @@ namespace Survival_Game
 	public class PlayGameMenu
 	{
 		List<Player> players;
+		private GameEngine engine;
 
-		public void LoadContent(){
-			players = new List<Player> ();
-
-
+		public PlayGameMenu(GameEngine engine){
+			this.engine = engine;
 		}
 
 		public void Update(){
