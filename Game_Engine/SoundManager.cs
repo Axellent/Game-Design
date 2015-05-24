@@ -54,7 +54,7 @@ namespace Game_Engine{
 				effectInstance.IsLooped = isLooped;
 				effectInstance.Volume = MasterVolume * backgroundVolume;
 				effectInstance.Play ();
-			}catch(NoAudioHardwareException){
+			}catch(NoAudioHardwareException e){
 				
 			}
 		}

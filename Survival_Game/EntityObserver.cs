@@ -99,10 +99,10 @@ namespace Survival_Game
 					default: 
 						break;
 					}
-					foreach (Tuple <Vector3,Viewport, Entity> pair in engine.Viewposes){
+					foreach (Tuple <Vector3,Viewport, Entity> pair in engine.ViewPositions){
 						if(pair.Item3.ID.Equals(player.ID)){
-							engine.Viewposes.Add(new Tuple<Vector3, Viewport, Entity>(new Vector3(player.X- pair.Item2.Width/2, player.Y - pair.Item2.Height/2, 0),pair.Item2, pair.Item3));
-							engine.Viewposes.Remove(pair);
+							engine.ViewPositions.Add(new Tuple<Vector3, Viewport, Entity>(new Vector3(player.X- pair.Item2.Width/2, player.Y - pair.Item2.Height/2, 0),pair.Item2, pair.Item3));
+							engine.ViewPositions.Remove(pair);
 							break;
 						}
 					}
