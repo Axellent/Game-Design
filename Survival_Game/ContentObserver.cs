@@ -31,30 +31,10 @@ namespace Survival_Game
 			for(int i = 0; i < engine.Entities.Count; i++){				//move to a method
 				//Simple fix. -Axel
 				if(engine.Entities[i].GetType() == typeof(Player)) {
-					Player player = (Player)engine.Entities[i];
-
-					if(player.Texture != null) {
-						if(player.IsMoving) {
-							if(player.Texture.Name.Equals("player_r") && player.FootTicker >= 10) {
-								player.FootTicker = 0;
-								player.Texture = value.Find(x => x.Name.Equals("player_l"));
-							} else if(player.Texture.Name.Equals("player_l") && player.FootTicker >= 10) {
-								player.FootTicker = 0;
-								player.Texture = value.Find(x => x.Name.Equals("player_r"));
-							} else if(player.FootTicker == 0)
-								player.Texture = value.Find(x => x.Name.Equals("player_r"));
-							player.FootTicker += player.MovementSpeed / 4;
-						} else if(!player.Texture.Name.Equals("player_s")) {
-							player.FootTicker = 0;
-							player.Texture = value.Find(x => x.Name.Equals("player_s"));
-						}
-					} else {
-						player.Texture = value.Find(x => x.Name.Equals("player_s"));
-					}
-					engine.Entities[i] = player;
+					handlePlayerContent (value, i);
 				}
 
-				if(engine.Entities[i].GetType() == typeof(Tile)) {
+				else if(engine.Entities[i].GetType() == typeof(Tile)) {
 					Tile tile = (Tile)engine.Entities[i];
 
 					if(tile.Texture == null) {
@@ -65,7 +45,50 @@ namespace Survival_Game
 					}
 					engine.Entities[i] = tile;
 				}
+				else if (engine.Entities [i].GetType () == typeof(Button)) {
+					Button button = (Button)engine.Entities [i];
+					if (button.Texture == null) {
+						switch (button.ID) {
+						case "playBtn":
+							engine.addTextureOnEntity ("PlayButton", button.ID);
+							break;
+						case "backBtn":
+							engine.addTextureOnEntity ("BackButton", button.ID);
+							break;
+						}
+					}
+				}
+				else if (engine.Entities [i].GetType () == typeof(RenderedEntity)) {
+					RenderedEntity rendEnt = (RenderedEntity)engine.Entities [i];
+					if (rendEnt.Texture == null) {
+						engine.addTextureOnEntity ("Menu", rendEnt.ID);
+					}
+				}
 			}
+		}
+
+		public void handlePlayerContent(List<Texture2D> texture, int index){
+			Player player = (Player)engine.Entities[index];
+
+			if(player.Texture != null) {
+				if(player.IsMoving) {
+					if(player.Texture.Name.Equals("player_r") && player.FootTicker >= 10) {
+						player.FootTicker = 0;
+						player.Texture = texture.Find(x => x.Name.Equals("player_l"));
+					} else if(player.Texture.Name.Equals("player_l") && player.FootTicker >= 10) {
+						player.FootTicker = 0;
+						player.Texture = texture.Find(x => x.Name.Equals("player_r"));
+					} else if(player.FootTicker == 0)
+						player.Texture = texture.Find(x => x.Name.Equals("player_r"));
+					player.FootTicker += player.MovementSpeed / 4;
+				} else if(!player.Texture.Name.Equals("player_s")) {
+					player.FootTicker = 0;
+					player.Texture = texture.Find(x => x.Name.Equals("player_s"));
+				}
+			} else {
+				player.Texture = texture.Find(x => x.Name.Equals("player_s"));
+			}
+			engine.Entities[index] = player;
 		}
 
 		public void OnError (Exception error)
