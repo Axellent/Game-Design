@@ -24,7 +24,7 @@ namespace Game_Engine{
 		List<KeyBind> keyBinds = new List<KeyBind>();
 		List<KeyBind> actions = new List<KeyBind>();
 		List<KeyValuePair<Entity, Entity>> collisionPairs;
-		Vector3 viewPos = new Vector3(0,0,0);
+		Vector3 viewPos = new Vector3(0, 0, 0);
 		private List<SoundEffect> soundContent;
 		private List<string> soundContentNames;
 
@@ -165,8 +165,15 @@ namespace Game_Engine{
 		protected override void Update(GameTime gameTime){
 			actions = inputManager.HandleInput(keyBinds);
 			entityObserver.OnNext (actions);
+
+			BoundingBox limitBox = new BoundingBox(new Vector3(0, 0, 0),
+				new Vector3(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 0));
+			entities = sceneManager.RemoveFarawayEntities(entities, limitBox);
+			entities = sceneManager.RestoreSavedEntities(entities, limitBox);
+
 			entities = physicsManager.UpdateHitboxes(entities);
 			collisionPairs = physicsManager.UpdatePhysics(entities);
+
 			contentObserver.OnNext(GameContent);
 			entityObserver.OnCompleted();
 			base.Update(gameTime);

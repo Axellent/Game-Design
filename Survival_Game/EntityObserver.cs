@@ -12,11 +12,13 @@ namespace Survival_Game
 		private float playerSpeed;
 		private IDisposable removeableObserver;
 		private List<Player> oldPlayers;
+		List<Portion> generatedPortions;
 
-		public EntityObserver (GameEngine engine)
+		public EntityObserver (GameEngine engine, List<Portion> generatedPortions)
 		{
 			oldPlayers = new List<Player> ();
 			this.engine = engine;
+			this.generatedPortions = generatedPortions;
 		}
 
 		public void AddDisposableObserver(IDisposable disposableObserver){
@@ -58,6 +60,7 @@ namespace Survival_Game
 								else
 									player.Rotation = (float)Math.PI;
 								player.Y -= playerSpeed;
+								CheckPortions(player);
 								break;
 							case "down":
 								if (actionMade > 1)
@@ -100,8 +103,6 @@ namespace Survival_Game
 			});
 		}
 
-
-
 		public void AddPlayerToList(Player player){
 			oldPlayers.RemoveAll (p => p.ID.Equals(player.ID));
 			oldPlayers.Add (new Player(player.ID, player.IsController, player.X, 
@@ -131,6 +132,23 @@ namespace Survival_Game
 					player.IsMoving = false;
 				}
 			}
+		}
+
+		public void CheckPortions(Player player){
+			Portion curPortion = null;
+
+			for(int i = 0; i < generatedPortions.Count; i++){
+				if(player.HitBox.Intersects(generatedPortions[i].Bounds)){
+					curPortion = generatedPortions[i];
+					break;
+				}
+			}
+
+			//TODO: Check if no portion.
+
+			//TODO: Generate adjacent portions
+			BoundingBox bounds = new BoundingBox(new Vector3(curPortion.Bounds.Min.X, curPortion.Bounds.Min.Y, 0),
+				new Vector3(0,0,0));
 		}
 	}
 }
