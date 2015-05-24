@@ -38,4 +38,3 @@ namespace Survival_Game
 		}
 	}
 }
-

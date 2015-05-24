@@ -44,11 +44,11 @@ namespace Survival_Game
 		//Hint: Not fully working yet, needs to be more dynamic. The collision management only works at certain key input
 		public void OnNext (List<Entity> value)
 		{
-			value.ForEach (delegate(Entity entity) {
-				if (entity.GetType() == typeof(Player)){
-					handlePlayer(entity);
+			for (int i = 0; i < value.Count; i++) {
+				if (value[i].GetType () == typeof(Player)) {
+					handlePlayer (value[i]);
 				}
-			});
+			}
 		}
 
 		private void handlePlayer(Entity entity){
@@ -79,6 +79,7 @@ namespace Survival_Game
 						else
 							player.Rotation = 0;
 						player.Y += playerSpeed;
+						CheckPortions (player);
 						break;
 					case "left":
 						if (actionMade > 1)
@@ -86,6 +87,7 @@ namespace Survival_Game
 						else
 							player.Rotation = (float)Math.PI / 2;
 						player.X -= playerSpeed;
+						CheckPortions (player);
 						break;
 					case "right":
 						if (actionMade > 1)
@@ -93,6 +95,7 @@ namespace Survival_Game
 						else
 							player.Rotation = -(float)Math.PI / 2;
 						player.X += playerSpeed;
+						CheckPortions (player);
 						break;
 					case "action":
 						break;
@@ -150,7 +153,10 @@ namespace Survival_Game
 			}
 		}
 
+		//Identifies which portion the player is currently in and generates new portions
+		//next to the current one as necessary.
 		public void CheckPortions(Player player){
+			BoundingBox bounds;
 			Portion curPortion = null;
 
 			for(int i = 0; i < generatedPortions.Count; i++){
@@ -159,12 +165,65 @@ namespace Survival_Game
 					break;
 				}
 			}
+			if(curPortion == null) {
+				return;
+			}
+				
+			bounds = new BoundingBox(new Vector3(curPortion.Bounds.Min.X - Portion.PORTION_WIDTH - Portion.TILE_WIDTH,
+				curPortion.Bounds.Min.Y - Portion.PORTION_HEIGHT - Portion.TILE_HEIGHT, 0),
+				new Vector3(curPortion.Bounds.Max.X - Portion.PORTION_WIDTH - Portion.TILE_WIDTH,
+					curPortion.Bounds.Max.Y - Portion.PORTION_HEIGHT - Portion.TILE_HEIGHT, 0));
+			CheckNewPortion(bounds);
 
-			//TODO: Check if no portion.
+			bounds = new BoundingBox(new Vector3(curPortion.Bounds.Min.X,
+				curPortion.Bounds.Min.Y - Portion.PORTION_HEIGHT - Portion.TILE_HEIGHT, 0),
+				new Vector3(curPortion.Bounds.Max.X,
+					curPortion.Bounds.Max.Y - Portion.PORTION_HEIGHT - Portion.TILE_HEIGHT, 0));
+			CheckNewPortion(bounds);
 
-			//TODO: Generate adjacent portions
-			//BoundingBox bounds = new BoundingBox(new Vector3(curPortion.Bounds.Min.X, curPortion.Bounds.Min.Y, 0),
-			//new Vector3(0,0,0));
+			bounds = new BoundingBox(new Vector3(curPortion.Bounds.Min.X + Portion.PORTION_WIDTH + Portion.TILE_WIDTH,
+				curPortion.Bounds.Min.Y - Portion.PORTION_HEIGHT - Portion.TILE_HEIGHT, 0),
+				new Vector3(curPortion.Bounds.Max.X + Portion.PORTION_WIDTH + Portion.TILE_WIDTH,
+					curPortion.Bounds.Max.Y - Portion.PORTION_HEIGHT - Portion.TILE_HEIGHT, 0));
+			CheckNewPortion(bounds);
+
+			bounds = new BoundingBox(new Vector3(curPortion.Bounds.Min.X + Portion.PORTION_WIDTH + Portion.TILE_WIDTH,
+				curPortion.Bounds.Min.Y, 0),
+				new Vector3(curPortion.Bounds.Max.X + Portion.PORTION_WIDTH + Portion.TILE_WIDTH,
+					curPortion.Bounds.Max.Y, 0));
+			CheckNewPortion(bounds);
+
+			bounds = new BoundingBox(new Vector3(curPortion.Bounds.Min.X + Portion.PORTION_WIDTH + Portion.TILE_WIDTH,
+				curPortion.Bounds.Min.Y + Portion.PORTION_HEIGHT + Portion.TILE_HEIGHT, 0),
+				new Vector3(curPortion.Bounds.Max.X + Portion.PORTION_WIDTH + Portion.TILE_WIDTH,
+					curPortion.Bounds.Max.Y + Portion.PORTION_HEIGHT + Portion.TILE_HEIGHT, 0));
+			CheckNewPortion(bounds);
+
+			bounds = new BoundingBox(new Vector3(curPortion.Bounds.Min.X,
+				curPortion.Bounds.Min.Y + Portion.PORTION_HEIGHT + Portion.TILE_HEIGHT, 0),
+				new Vector3(curPortion.Bounds.Max.X,
+					curPortion.Bounds.Max.Y + Portion.PORTION_HEIGHT + Portion.TILE_HEIGHT, 0));
+			CheckNewPortion(bounds);
+
+			bounds = new BoundingBox(new Vector3(curPortion.Bounds.Min.X - Portion.PORTION_WIDTH - Portion.TILE_WIDTH,
+				curPortion.Bounds.Min.Y + Portion.PORTION_HEIGHT + Portion.TILE_HEIGHT, 0),
+				new Vector3(curPortion.Bounds.Max.X - Portion.PORTION_WIDTH - Portion.TILE_WIDTH,
+					curPortion.Bounds.Max.Y + Portion.PORTION_HEIGHT + Portion.TILE_HEIGHT, 0));
+			CheckNewPortion(bounds);
+
+			bounds = new BoundingBox(new Vector3(curPortion.Bounds.Min.X - Portion.PORTION_WIDTH - Portion.TILE_WIDTH,
+				curPortion.Bounds.Min.Y, 0),
+				new Vector3(curPortion.Bounds.Max.X - Portion.PORTION_WIDTH - Portion.TILE_WIDTH,
+					curPortion.Bounds.Max.Y, 0));
+			CheckNewPortion(bounds);
+		}
+
+		//Generates a new portion if none exists inte the given bounds.
+		public void CheckNewPortion(BoundingBox bounds){
+			if(!Portion.isGenerated(generatedPortions, bounds)) {
+				Portion newPortion = new Portion(bounds);
+				newPortion.AddPortion(generatedPortions, engine.Entities);
+			}
 		}
 	}
 }

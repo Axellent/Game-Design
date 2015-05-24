@@ -11,7 +11,7 @@ namespace Survival_Game{
 		BoundingBox bounds;
 		List<Tile> tiles = new List<Tile>();
 
-		int tileNO = 1;
+		static int tileNO = 1;
 
 		public const int PORTION_WIDTH = 2000;
 		public const int PORTION_HEIGHT = 2000;
@@ -59,26 +59,36 @@ namespace Survival_Game{
 					tileNO++;
 					curX += TILE_WIDTH;
 				}
-				curX = 0;
+				curX = bounds.Min.X;
 				curY += TILE_HEIGHT;
 			}
 		}
 
-		//Generates entities in the portion and adds the portion to the list of already generated portions.
+		/* Generates entities in the portion and adds the portion to the list of already generated portions. */
 		public void AddPortion(List<Portion> generatedPortions, List<Entity> entities){
 			//TODO: Generate all possible entities.
 			GenerateTiles(entities);
 			generatedPortions.Add(this);
 		}
 
-		//Removes all entities in the portion from the engine entities and deletes the portion from the
-		//already generated list.
+		/* Removes all entities in the portion from the engine entities and deletes the portion from the
+		already generated list. */
 		public void RemPortion(List<Portion> generatedPortions, List<Entity> entities){
 			//TODO: Remove all entities from portion.
 			for(int i = 0; i < tiles.Count; i++){
 				entities.Remove(tiles[i]);
 			}
 			generatedPortions.Remove(this);
+		}
+
+		/* Evaluates to true if the BoundingBox intersects any of the generated portions. */
+		public static bool isGenerated(List<Portion> generatedPortions, BoundingBox bounds){
+			for(int i = 0; i < generatedPortions.Count; i++) {
+				if(generatedPortions[i].Bounds.Intersects(bounds)) {
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }
