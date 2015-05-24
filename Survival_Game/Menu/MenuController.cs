@@ -32,6 +32,7 @@ namespace Survival_Game
 		}
 
 		private void playButton(){
+			
 		}
 	}
 }

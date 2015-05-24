@@ -24,25 +24,15 @@ namespace Game_Engine{
 		List<KeyBind> keyBinds = new List<KeyBind>();
 		List<KeyBind> actions = new List<KeyBind>();
 		List<KeyValuePair<Entity, Entity>> collisionPairs;
-		Vector3 viewPos = new Vector3(0, 0, 0);
-		private List<SoundEffect> soundContent;
-		private List<string> soundContentNames;
+		List<SoundEffect> soundContent;
+		List<string> soundContentNames;
 
-		List<Tuple<Vector3,Viewport,Entity>> viewposes = new List<Tuple<Vector3, Viewport, Entity>>();
+		List<Tuple<Vector3,Viewport,Entity>> viewPositions = new List<Tuple<Vector3, Viewport, Entity>>();
+		Vector3 curViewPos = new Vector3(0, 0, 0);
 
 		public List<KeyBind> Actions{
 			get {
 				return actions;
-			}
-		}
-
-		public List<Tuple<Vector3,Viewport, Entity>> Viewposes{
-			get
-			{
-				return viewposes;
-			}
-			set{
-				viewposes = value;
 			}
 		}
 
@@ -108,13 +98,24 @@ namespace Game_Engine{
 			}
 		}
 
-		/* Determines the position of the screen view. */
-		public Vector3 ViewPos{
-			get{
-				return viewPos;
+
+		public List<Tuple<Vector3,Viewport, Entity>> ViewPositions{
+			get
+			{
+				return viewPositions;
 			}
 			set{
-				viewPos = value;
+				viewPositions = value;
+			}
+		}
+
+		/* The current view position. */
+		public Vector3 ViewPos{
+			get{
+				return curViewPos;
+			}
+			set{
+				curViewPos = value;
 			}
 		}
 
@@ -161,6 +162,10 @@ namespace Game_Engine{
 			entities.Add (entity);
 		}
 
+		public void removeAllEntities(){
+			entities.Clear();
+		}
+
 		public IDisposable Subscribe (IObserver<List<Entity>> observer){
 			this.entityObserver = observer;
 			return new Unsubscriber<IObserver<List<Entity>>>(observer);
@@ -182,10 +187,11 @@ namespace Game_Engine{
 				observer = default(T);
 			}
 		}
+
 		/* Loads all content in contentNames */
 		protected override void LoadContent(){
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-			collisionPairs = new List<KeyValuePair<Entity, Entity>> ();
+			collisionPairs = new List<KeyValuePair<Entity, Entity>>();
 
 			gameContent = renderManager.LoadContent(Content, contentNames);
 			contentNames.Clear ();
@@ -195,6 +201,7 @@ namespace Game_Engine{
 
 			contentObserver.OnNext(GameContent);
 			playBackgroundSound (soundContent.Find(s => s.Name.Equals("Sound/DaySound_02")), true);
+
 			base.LoadContent();
 		}
 
@@ -202,25 +209,28 @@ namespace Game_Engine{
 			soundManager.playBackgroundSound (soundEffect, isLooped);
 		}
 
-		/* Handles updates to input and physics.
+		/* Handles updates to input and physics. Also defines the BoundingBox limits for active entities.
 		 * Overrides the default MonoGame Update method. */
 		protected override void Update(GameTime gameTime){
-			entities = sceneManager.RestoreSavedEntities (entities, new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (800, 600, 0)));
 			actions = inputManager.HandleInput(keyBinds);
+			entityObserver.OnNext(entities);
 
-			entityObserver.OnNext (entities);
+			foreach(Tuple<Vector3,Viewport, Entity> pair in viewPositions) {
+				GraphicsDevice.Viewport = pair.Item2;
+				curViewPos = pair.Item1;
 
-			BoundingBox limitBox = new BoundingBox(new Vector3(0, 0, 0),
-				new Vector3(GraphicsDevice.Viewport.Width + 100, GraphicsDevice.Viewport.Height + 100, 0));
-			entities = sceneManager.RemoveFarawayEntities(entities, limitBox);
-			entities = sceneManager.RestoreSavedEntities(entities, limitBox);
+				BoundingBox limitBox = new BoundingBox(new Vector3(curViewPos.X, curViewPos.Y, 0),
+					new Vector3(curViewPos.X + GraphicsDevice.Viewport.Width + 100,
+						curViewPos.Y + GraphicsDevice.Viewport.Height + 100, 0));
+				entities = sceneManager.RemoveFarawayEntities(entities, limitBox);
+				entities = sceneManager.RestoreSavedEntities(entities, limitBox);
+			}
 
 			entities = physicsManager.UpdateHitboxes(entities);
 			collisionPairs = physicsManager.UpdatePhysics(entities);
 
 			contentObserver.OnNext(GameContent);
 			entityObserver.OnCompleted();
-			entities = sceneManager.RemoveFarawayEntities (entities, new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (800, 600, 0)));
 			base.Update(gameTime);
 		}
 
@@ -228,11 +238,8 @@ namespace Game_Engine{
 		 * Overrides the default MonoGame LoadContent method.*/
 		protected override void Draw(GameTime gameTime){
 			List<RenderedEntity> rendered = sceneManager.SortRenderedEntities(entities);
-
-
-				renderManager.Draw (spriteBatch, GraphicsDevice, viewPos, rendered, viewposes);
-			
-				base.Draw (gameTime);
+			renderManager.Draw (spriteBatch, GraphicsDevice, curViewPos, rendered, viewPositions);
+			base.Draw (gameTime);
 
 		}
 	}

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Input;
 using Game_Engine;
+using Survival_Game;
 
 namespace Survival_Game
 {
@@ -29,13 +30,17 @@ namespace Survival_Game
 			btnYPos = engine.getScreenSize ().Height / 2 + 100;
 			backBtn = new Button ("backBtn", btnXPos, btnYPos, 150, 50, 0, 
 				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false);
-			
+
+			//backBtn = new Button("playBtn", engine.getScreenSize().Width/2 - 100, engine.getScreenSize().Height/2 - 100)
+		}
+				
+		public void Update(){
 			menu = new RenderedEntity ("menu", engine.getScreenSize().Width / 2, engine.getScreenSize().Height / 2, 600, 480, 0, 
 				new BoundingBox(), 0, null, false);
 		}
 
 		public void createMenu(){
-			engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (0, 0, 0), engine.GraphicsDevice.Viewport, null));
+			engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (0, 0, 0), engine.GraphicsDevice.Viewport, null));
 			engine.addEntity (backBtn);
 			engine.addEntity (playBtn);
 			engine.addEntity (menu);

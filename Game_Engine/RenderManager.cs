@@ -42,7 +42,8 @@ namespace Game_Engine{
 		}
 
 		/* Draws all renderable entities with respect to their textures, positions, and rotations. */
-		public void Draw(SpriteBatch batch, GraphicsDevice device, Vector3 viewPos, List<RenderedEntity> entities, List<Tuple<Vector3,Viewport, Entity>> viewposes){
+		public void Draw(SpriteBatch batch, GraphicsDevice device, Vector3 viewPos, List<RenderedEntity> entities,
+			List<Tuple<Vector3,Viewport, Entity>> viewposes){
 			Rectangle rect;
 			Vector2 origin;
 			Color tintColor = Color.White;
