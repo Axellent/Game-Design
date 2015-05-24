@@ -122,8 +122,8 @@ namespace Game_Engine{
 			return gameContent.Find (t => t.Name.Equals (textureName));
 		}
 
-		public Entity changeEntity(string entityID){
-			return entities.Find (e => e.ID.Equals (entityID));
+		public void changeEntity(string entityID, float rotation, float X, float Y){
+			
 		}
 
 		public IDisposable Subscribe (IObserver<List<Entity>> observer){
@@ -160,7 +160,7 @@ namespace Game_Engine{
 			soundContentNames.Clear ();
 
 			contentObserver.OnNext(GameContent);
-			playBackgroundSound (soundContent.Find(s => s.Name.Equals("DaySound_02")), true);
+			playBackgroundSound (soundContent.Find(s => s.Name.Equals("Sound\\DaySound_02")), true);
 			base.LoadContent();
 		}
 

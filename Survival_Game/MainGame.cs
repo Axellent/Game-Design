@@ -28,7 +28,6 @@ namespace Survival_Game{
 			backgroundSound = new SoundEntity (2.0F, 10.0F);
 			//TODO: Add Menus
 			//MenuController menuController = new MenuController (new StartMenu(), new OptionMenu(), new PlayGameMenu());
-
 			GameContent contentManager = new GameContent();
 
 			//Defines all keybindings

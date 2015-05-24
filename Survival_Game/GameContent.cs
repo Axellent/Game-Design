@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Text;
+
 using Game_Engine;
 using System.Threading;
 using System.Collections.Generic;
@@ -26,34 +29,20 @@ namespace Survival_Game{
 
 		public List<string> LoadSoundContent(){
 			List<string> soundContent = new List<string> ();
-			soundContent.Add ("DaySound_01");
-			soundContent.Add ("DaySound_02");
-			soundContent.Add ("FootstepHard_01");
-			soundContent.Add ("FootstepHard_02");
-			soundContent.Add ("FootstepHard_03");
-			soundContent.Add ("FootstepHard_04");
-			soundContent.Add ("FootstepHard_05");
-			soundContent.Add ("UIClick_01");
-			soundContent.Add ("UIerror_06");
-			soundContent.Add ("NightCreatureSound_01");
-			soundContent.Add ("NightCreatureSound_02");
-			soundContent.Add ("NightCreatureSound_03");
-			soundContent.Add ("NightCreatureSound_04");
-			soundContent.Add ("NightCreatureSound_05");
-			soundContent.Add ("Bird_01");
-			soundContent.Add ("Bird_02");
-			soundContent.Add ("Bird_03");
-			soundContent.Add ("Bird_04");
-			soundContent.Add ("Bird_05");
-			soundContent.Add ("NightSound_01");
-			soundContent.Add ("Wind_04");
-			soundContent.Add ("Wind_05");
-			soundContent.Add ("BodyHit_01");
-			soundContent.Add ("BodyHit_02");
-			soundContent.Add ("BodyHit_03");
-			soundContent.Add ("BodyHit_04");
-			soundContent.Add ("BodyHit_05");
-
+			string[] str = Directory.GetFiles (Directory.GetCurrentDirectory () + "\\Content\\Sound");
+			string[] sdf = new string[60];
+			string[] temp = new string[1];
+			temp [0] = "Content\\";
+			int i = 0;
+			foreach (string s in str) {
+				if (s.Split('.')[1].Equals("xnb")){
+					sdf[i] = s.Split (temp, StringSplitOptions.RemoveEmptyEntries)[1].Split('.')[0];
+					sdf[i] = sdf [i].Split (temp, StringSplitOptions.RemoveEmptyEntries)[1];
+					sdf[i] = sdf[i].Split('.')[0];
+					soundContent.Add (sdf [i]);
+					i++;
+				}
+			}
 			return soundContent;
 		}
 
