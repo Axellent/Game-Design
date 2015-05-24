@@ -1,8 +1,10 @@
 ﻿using System;
-using Game_Engine;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Input;
+using Game_Engine;
 
 namespace Survival_Game
 {
@@ -10,14 +12,16 @@ namespace Survival_Game
 	//TODO: Choose how many players want to play, a back-button and playbutton.
 	public class PlayGameMenu
 	{
-		List<Player> players;
 		private GameEngine engine;
+		private Button backBtn, playBtn;
 
 		public PlayGameMenu(GameEngine engine){
 			this.engine = engine;
+			//backBtn = new Button("playBtn", engine.getScreenSize().Width/2 - 100, engine.getScreenSize().Height/2 - 100)
 		}
-
+				
 		public void Update(){
+			
 		}
 
 		//TODO: draw PlayGameMenu
@@ -25,16 +29,12 @@ namespace Survival_Game
 
 		}
 
-		//TODO: Add functionality for button click... Might be moved to the MenuController
-		public void OnClick(string element){
-			
-			if (element.Equals ("Play")) {
-				
-			}
-			if (element.Equals ("Back")) {
-				players.Clear ();
-			}
+		public void AddBackBtnListener(Button.click buttonclick){
+			backBtn.clicked += buttonclick;
+		}
+
+		public void AddPlayBtnListener(Button.click buttonclick){
+			playBtn.clicked += buttonclick;
 		}
 	}
 }
-
