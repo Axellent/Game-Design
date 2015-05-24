@@ -15,7 +15,6 @@ namespace Survival_Game{
 			engine = new GameEngine();
 			menu = new PlayGameMenu(engine);
 			menu.LoadGame();
-			//LoadContent ();
 			engine.Run();
 		}
 
