@@ -29,10 +29,10 @@ namespace Survival_Game{
 
 		public List<string> LoadSoundContent(){
 			List<string> soundContent = new List<string> ();
-			string[] str = Directory.GetFiles (Directory.GetCurrentDirectory () + "\\Content\\Sound");
+			string[] str = Directory.GetFiles (Directory.GetCurrentDirectory () + "/Content/Sound");
 			string[] sdf = new string[60];
 			string[] temp = new string[1];
-			temp [0] = "Content\\";
+			temp [0] = "Content/";
 			int i = 0;
 			foreach (string s in str) {
 				if (s.Split('.')[1].Equals("xnb")){

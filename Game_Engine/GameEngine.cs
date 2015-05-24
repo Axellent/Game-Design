@@ -186,7 +186,7 @@ namespace Game_Engine{
 			soundContentNames.Clear ();
 
 			contentObserver.OnNext(GameContent);
-			playBackgroundSound (soundContent.Find(s => s.Name.Equals("Sound\\DaySound_02")), true);
+			//playBackgroundSound (soundContent.Find(s => s.Name.Equals("Sound/DaySound_02")), true);
 			base.LoadContent();
 		}
 
@@ -212,7 +212,7 @@ namespace Game_Engine{
 
 			contentObserver.OnNext(GameContent);
 			entityObserver.OnCompleted();
-			entities = sceneManager.RemoveFarawayEntities (entities, new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (800, 600, 0)));
+			//entities = sceneManager.RemoveFarawayEntities (entities, new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (800, 600, 0)));
 			base.Update(gameTime);
 		}
 

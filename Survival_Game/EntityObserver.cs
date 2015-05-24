@@ -2,10 +2,6 @@
 using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using System;
-using Game_Engine;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Survival_Game
@@ -61,6 +57,7 @@ namespace Survival_Game
 				} else
 					playerSpeed = player.MovementSpeed;
 				int actionMade = 1;
+
 				foreach (KeyBind keybind in playerKeyBinds) {
 					player.IsMoving = true;
 

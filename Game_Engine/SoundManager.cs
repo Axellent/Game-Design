@@ -1,5 +1,4 @@
 ﻿using System;
-
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -50,10 +49,14 @@ namespace Game_Engine{
 		}
 
 		public void playBackgroundSound(SoundEffect effect, bool isLooped){
-			SoundEffectInstance effectInstance = effect.CreateInstance ();
-			effectInstance.IsLooped = isLooped;
-			effectInstance.Volume = MasterVolume * backgroundVolume;
-			effectInstance.Play ();
+			try{
+				SoundEffectInstance effectInstance = effect.CreateInstance ();
+				effectInstance.IsLooped = isLooped;
+				effectInstance.Volume = MasterVolume * backgroundVolume;
+				effectInstance.Play ();
+			}catch(NoAudioHardwareException){
+				
+			}
 		}
 
 		public void playSound(){
