@@ -28,6 +28,20 @@ namespace Game_Engine{
 		private List<SoundEffect> soundContent;
 		private List<string> soundContentNames;
 
+
+
+		List<Tuple<Vector3,Viewport,Entity>> viewposes = new List<Tuple<Vector3, Viewport, Entity>>();
+
+
+		public List<Tuple<Vector3,Viewport, Entity>> Viewposes{
+			get{
+				return viewposes;
+			}
+			set{
+				viewposes = value;
+			}
+		}
+
 		public List<KeyValuePair<Entity, Entity>> CollisionPairs{
 			get{ 
 				return collisionPairs;
@@ -183,8 +197,12 @@ namespace Game_Engine{
 		 * Overrides the default MonoGame LoadContent method.*/
 		protected override void Draw(GameTime gameTime){
 			List<RenderedEntity> rendered = sceneManager.SortRenderedEntities(entities);
-			renderManager.Draw(spriteBatch, GraphicsDevice, viewPos, rendered);
-			base.Draw(gameTime);
+
+
+				renderManager.Draw (spriteBatch, GraphicsDevice, viewPos, rendered, viewposes);
+			
+				base.Draw (gameTime);
+
 		}
 	}
 }

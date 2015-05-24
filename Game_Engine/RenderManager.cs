@@ -19,10 +19,6 @@ namespace Game_Engine{
 
 
 			//base.Initialize();
-
-
-			new Viewport();
-
 		}
 
 		public void stopFullScreen(){
@@ -46,23 +42,28 @@ namespace Game_Engine{
 		}
 
 		/* Draws all renderable entities with respect to their textures, positions, and rotations. */
-		public void Draw(SpriteBatch batch, GraphicsDevice device, Vector3 viewPos, List<RenderedEntity> entities){
+		public void Draw(SpriteBatch batch, GraphicsDevice device, Vector3 viewPos, List<RenderedEntity> entities, List<Tuple<Vector3,Viewport, Entity>> viewposes){
 			Rectangle rect;
 			Vector2 origin;
 			Color tintColor = Color.White;
 
-			batch.Begin(SpriteSortMode.Texture, null, null, null, null, null,
-				Matrix.CreateTranslation(viewPos));
-			device.Clear(Color.DarkOliveGreen);
+			device.Clear (Color.DarkOliveGreen);
 
-			foreach(RenderedEntity entity in entities){
-				rect = new Rectangle(0, 0, Convert.ToInt32(entity.Width), Convert.ToInt32(entity.Height));
-				origin = new Vector2(entity.Width / 2, entity.Height / 2);
-				batch.Draw(entity.Texture, new Vector2(entity.X, entity.Y), rect, tintColor, entity.Rotation,
-					origin, 1.0f, SpriteEffects.None, 1);
+			foreach (Tuple<Vector3,Viewport, Entity> pair in viewposes) {
+				device.Viewport = pair.Item2;
+				viewPos = pair.Item1;
+
+				batch.Begin (SpriteSortMode.Texture, null, null, null, null, null,
+					Matrix.CreateTranslation (-viewPos));
+				
+				foreach (RenderedEntity entity in entities) {
+					rect = new Rectangle (0, 0, Convert.ToInt32 (entity.Width), Convert.ToInt32 (entity.Height));
+					origin = new Vector2 (entity.Width / 2, entity.Height / 2);
+					batch.Draw (entity.Texture, new Vector2 (entity.X, entity.Y), rect, tintColor, entity.Rotation,
+						origin, 1.0f, SpriteEffects.None, 1);
+				}
+				batch.End ();
 			}
-
-			batch.End();
 		}
 	}
 }

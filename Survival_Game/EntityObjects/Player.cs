@@ -65,4 +65,5 @@ namespace Survival_Game
 			this.isController = isController;
 		}
 	}
+
 }

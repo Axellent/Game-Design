@@ -41,9 +41,12 @@ namespace Game_Engine{
 					savedEntities.RemoveAt(i);
 				}
 			}
+			//entities.AddRange (savedEntities.FindAll (e => limitbox.Intersects (e.HitBox)));
+			//savedEntities.RemoveAll (e => limitbox.Intersects (e.HitBox));
 			return entities;
 		}
 
+	
 		/* Stores away the entities outside the defined limits for improved performance. */
 		public List<Entity> RemoveFarawayEntities(List<Entity> entities, BoundingBox limitbox){
 			for(int i = entities.Count - 1; i >= 0; i--){
@@ -52,6 +55,8 @@ namespace Game_Engine{
 					entities.RemoveAt(i);
 				}
 			}
+			//savedEntities.AddRange (entities.FindAll (e => !limitbox.Intersects (e.HitBox)));
+			//entities.RemoveAll (e => !limitbox.Intersects (e.HitBox));
 			return entities;
 		}
 	}

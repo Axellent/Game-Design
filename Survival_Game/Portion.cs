@@ -13,8 +13,8 @@ namespace Survival_Game{
 
 		int tileNO = 1;
 
-		public const int PORTION_WIDTH = 20000;
-		public const int PORTION_HEIGHT = 20000;
+		public const int PORTION_WIDTH = 2000;
+		public const int PORTION_HEIGHT = 2000;
 		public const int TILE_WIDTH = 50;
 		public const int TILE_HEIGHT = 50;
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
@@ -147,8 +147,8 @@ namespace Survival_Game
 			//TODO: Check if no portion.
 
 			//TODO: Generate adjacent portions
-			BoundingBox bounds = new BoundingBox(new Vector3(curPortion.Bounds.Min.X, curPortion.Bounds.Min.Y, 0),
-				new Vector3(0,0,0));
+			//BoundingBox bounds = new BoundingBox(new Vector3(curPortion.Bounds.Min.X, curPortion.Bounds.Min.Y, 0),
+			//new Vector3(0,0,0));
 		}
 	}
 }
