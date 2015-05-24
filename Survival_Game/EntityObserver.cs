@@ -2,10 +2,6 @@
 using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using System;
-using Game_Engine;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Survival_Game

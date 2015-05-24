@@ -33,10 +33,18 @@ namespace Survival_Game{
 		//Loads the content to game engine. Most instances will be moved to the menu classes in iteration 3
 		private void LoadContent()
 		{
-			//PlayGameMenu gameMenu = new PlayGameMenu (engine);
-			//StartMenu startMenu = new StartMenu ("blabla");
-			//OptionMenu optionMenu = new OptionMenu ();
-			//MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu);
+			StartMenu startMenu = new StartMenu ("Main Menu", engine.getScreenSize().X / 2 - 100, 
+										engine.getScreenSize().Y / 2 - 100, 100, 100, 0, new BoundingBox (), 
+										1, null, false, engine);
+
+			PlayGameMenu gameMenu = new PlayGameMenu ("Game Menu", engine.getScreenSize().X / 2 - 100, 
+										engine.getScreenSize().Y / 2 - 100, 100, 100, 0, new BoundingBox (), 
+										1, null, false, engine);
+
+			OptionMenu optionMenu = new OptionMenu ("Options Menu", engine.getScreenSize().X / 2 - 100, 
+				engine.getScreenSize().Y / 2 - 100, 100, 100, 0, new BoundingBox (), 
+				1, null, false, engine);
+			MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu);
 			LoadGame ();
 
 		}

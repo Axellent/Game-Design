@@ -153,6 +153,10 @@ namespace Game_Engine{
 			entities.Add (entity);
 		}
 
+		public void removeAllEntities(){
+			entities.Clear();
+		}
+
 		public IDisposable Subscribe (IObserver<List<Entity>> observer){
 			this.entityObserver = observer;
 			return new Unsubscriber<IObserver<List<Entity>>>(observer);
