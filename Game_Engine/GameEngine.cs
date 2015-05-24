@@ -181,7 +181,7 @@ namespace Game_Engine{
 			entityObserver.OnNext (actions);
 
 			BoundingBox limitBox = new BoundingBox(new Vector3(0, 0, 0),
-				new Vector3(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 0));
+				new Vector3(GraphicsDevice.Viewport.Width + 100, GraphicsDevice.Viewport.Height + 100, 0));
 			entities = sceneManager.RemoveFarawayEntities(entities, limitBox);
 			entities = sceneManager.RestoreSavedEntities(entities, limitBox);
 

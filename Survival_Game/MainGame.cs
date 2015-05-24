@@ -14,7 +14,7 @@ namespace Survival_Game{
 		List<Portion> generatedPortions = new List<Portion>();
 		int tileNO = 1;
 
-		int numberOfPlayers = 2;
+		int numberOfPlayers = 1;
 		Viewport defaultview;
 		Viewport rightview;
 		Viewport leftview;
@@ -54,12 +54,15 @@ namespace Survival_Game{
 			Portion portion = new Portion(portionBounds);
 			portion.AddPortion(generatedPortions, engine.Entities);
 
-			Player player1 = new Player ("player1", false, 100, 100, 72, 62, 0,
-				                 new BoundingBox (new Vector3 (100 - (72 / 4), 100 - (62 / 4), 0),
-					                 new Vector3 (100 + (72 / 4), 100 + (62 / 4), 0)), 1, null, true);
-			Player player2 = new Player ("player2", false, 400, 200, 72, 62, 0,
-				                 new BoundingBox (new Vector3 (400 - (72 / 4), 200 - (62 / 4), 0),
-					                 new Vector3 (400 + (72 / 4), 200 + (62 / 4), 0)), 1, null, true);
+			Player player1 = new Player ("player1", false, engine.GraphicsDevice.Viewport.Width / 2,
+				engine.GraphicsDevice.Viewport.Height / 2, 72, 62, 0,
+				new BoundingBox (new Vector3 (engine.GraphicsDevice.Viewport.Width / 2 - (72 / 4),
+					engine.GraphicsDevice.Viewport.Height / 2 - (62 / 4), 0),
+					new Vector3 (engine.GraphicsDevice.Viewport.Width / 2 + (72 / 4),
+						engine.GraphicsDevice.Viewport.Height / 2 + (62 / 4), 0)), 1, null, true);
+			Player player2 = new Player ("player2", false, 500, 200, 72, 62, 0,
+				                 new BoundingBox (new Vector3 (500 - (72 / 4), 300 - (62 / 4), 0),
+					                 new Vector3 (500 + (72 / 4), 300 + (62 / 4), 0)), 1, null, true);
 			Player player3 = new Player ("player3", false, 500, 400, 72, 62, 0,
 				                 new BoundingBox (new Vector3 (500 - (72 / 4), 400 - (62 / 4), 0),
 					                 new Vector3 (500 + (72 / 4), 400 + (62 / 4), 0)), 1, null, true);
@@ -102,7 +105,9 @@ namespace Survival_Game{
 			if (numberOfPlayers == 1) {
 				defaultview = engine.GraphicsDevice.Viewport;
 
-				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player1.X - defaultview.Width / 2, player1.Y - defaultview.Height / 2, 0), defaultview, player1));
+				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity>
+					(new Vector3 (player1.X - defaultview.Width / 2 + 72,
+						player1.Y - defaultview.Height / 2 + (62 / 2), 0), defaultview, player1));
 			}
 
 			if (numberOfPlayers == 2) {
