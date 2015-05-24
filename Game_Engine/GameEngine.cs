@@ -149,6 +149,10 @@ namespace Game_Engine{
 			entities.Find (e => e.ID.Equals (entityID)).Rotation = rotation;
 		}
 
+		public void addEntity(Entity entity){
+			entities.Add (entity);
+		}
+
 		public IDisposable Subscribe (IObserver<List<Entity>> observer){
 			this.entityObserver = observer;
 			return new Unsubscriber<IObserver<List<Entity>>>(observer);
