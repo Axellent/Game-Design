@@ -13,7 +13,6 @@ namespace Survival_Game{
 		private EntityObserver entityObserver;
 		private SoundEntity backgroundSound;
 		List<Portion> generatedPortions = new List<Portion>();
-		int tileNO = 1;
 
 		int numberOfPlayers = 1;
 		Viewport defaultview;
@@ -117,17 +116,17 @@ namespace Survival_Game{
 				rightview.Height = rightview.Y;
 				leftview.Height = leftview.Y;
 
-				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player2.X - leftview.Width / 2, player2.Y - leftview.Height / 2, 0), leftview, player2));
-				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player3.X - rightview.Width / 2, player3.Y - rightview.Height / 2, 0), rightview, player3));
-				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player1.X - topView.Width / 2, player1.Y - topView.Height / 2, 0), topView, player1));
+				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player2.X - leftview.Width / 2, player2.Y - leftview.Height / 2, 0), leftview, player2));
+				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player3.X - rightview.Width / 2, player3.Y - rightview.Height / 2, 0), rightview, player3));
+				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player1.X - topView.Width / 2, player1.Y - topView.Height / 2, 0), topView, player1));
 			} 
 
 			if (numberOfPlayers == 1) {
 				defaultview = engine.GraphicsDevice.Viewport;
 
-				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity>
-					(new Vector3 (player1.X - defaultview.Width / 2 + 72,
-						player1.Y - defaultview.Height / 2 + (62 / 2), 0), defaultview, player1));
+				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity>
+					(new Vector3 (player1.X - defaultview.Width / 2,
+						player1.Y - defaultview.Height / 2, 0), defaultview, player1));
 			}
 
 			if (numberOfPlayers == 2) {
@@ -139,8 +138,8 @@ namespace Survival_Game{
 				rightview.Width = rightview.Width / 2;
 				rightview.X = leftview.Width;
 
-				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player2.X - leftview.Width / 2, player2.Y - leftview.Height / 2, 0), leftview, player2));
-				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player1.X - rightview.Width / 2, player1.Y - rightview.Height / 2, 0), rightview, player1));
+				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player2.X - leftview.Width / 2, player2.Y - leftview.Height / 2, 0), leftview, player2));
+				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player1.X - rightview.Width / 2, player1.Y - rightview.Height / 2, 0), rightview, player1));
 			}
 
 			if(numberOfPlayers == 4) {
@@ -163,10 +162,10 @@ namespace Survival_Game{
 				topRightView.Width = topLeftView.Width;
 				topRightView.X = topLeftView.Width;
 
-				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player2.X - leftview.Width / 2, player2.Y - leftview.Height / 2, 0), leftview, player2));
-				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player3.X - rightview.Width / 2, player3.Y - rightview.Height / 2, 0), rightview, player3));
-				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player1.X - topLeftView.Width / 2, player1.Y - topLeftView.Height / 2, 0), topLeftView, player1));
-				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player3.X - topRightView.Width / 2, player3.Y - topRightView.Height / 2, 0), topRightView, player3));
+				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player2.X - leftview.Width / 2, player2.Y - leftview.Height / 2, 0), leftview, player2));
+				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player3.X - rightview.Width / 2, player3.Y - rightview.Height / 2, 0), rightview, player3));
+				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player1.X - topLeftView.Width / 2, player1.Y - topLeftView.Height / 2, 0), topLeftView, player1));
+				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player3.X - topRightView.Width / 2, player3.Y - topRightView.Height / 2, 0), topRightView, player3));
 			}
 		}
 
