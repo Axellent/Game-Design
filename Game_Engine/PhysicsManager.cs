@@ -45,9 +45,11 @@ namespace Game_Engine{
 			int i, j;
 
 			for (i = 0; i < entities.Count - 1; i++) {
-				for (j = i + 1; j < entities.Count; j++) {
-					if (entities[i].HasCollision && entities[i].HitBox.Intersects (entities[j].HitBox)){
-						collisionPairs.Add (new KeyValuePair<Entity, Entity> (entities[i], entities[j]));
+				if(entities[i].HasCollision) {
+					for (j = i + 1; j < entities.Count; j++) {
+						if (entities[j].HasCollision && entities[i].HitBox.Intersects (entities[j].HitBox)){
+							collisionPairs.Add (new KeyValuePair<Entity, Entity> (entities[i], entities[j]));
+						}
 					}
 				}
 			}

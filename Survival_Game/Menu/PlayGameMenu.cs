@@ -12,6 +12,8 @@ namespace Survival_Game
 
 		public void LoadContent(){
 			players = new List<Player> ();
+
+
 		}
 
 		public void Update(){

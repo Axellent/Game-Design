@@ -2,7 +2,10 @@
 using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
+using System;
+using Game_Engine;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace Survival_Game
 {
@@ -13,11 +16,13 @@ namespace Survival_Game
 		private float playerSpeed;
 		private IDisposable removeableObserver;
 		private List<Player> oldPlayers;
+		List<Portion> generatedPortions;
 
-		public EntityObserver (GameEngine engine)
+		public EntityObserver (GameEngine engine, List<Portion> generatedPortions)
 		{
 			oldPlayers = new List<Player> ();
 			this.engine = engine;
+			this.generatedPortions = generatedPortions;
 		}
 
 		public void AddDisposableObserver(IDisposable disposableObserver){
@@ -38,19 +43,18 @@ namespace Survival_Game
 		//Hint: Not fully working yet, needs to be more dynamic. The collision management only works at certain key input
 		public void OnNext (List<Entity> value)
 		{
-			foreach (Entity entity in value) {
-
-				if (entity.GetType () == typeof(Player)) {
-					handlePlayer (entity);
+			value.ForEach (delegate(Entity entity) {
+				if (entity.GetType() == typeof(Player)){
+					handlePlayer(entity);
 				}
-			}
+			});
 		}
 
-		public void handlePlayer(Entity entity){
-			Player player = (Player) entity;			
+		private void handlePlayer(Entity entity){
+			Player player = (Player) entity;				//From here, move to a method.
 			if (!IsCollision (player)) {
 				AddPlayerToList (player);
-				List<KeyBind> playerKeyBinds = engine.getActions().FindAll(k => k.EntityID.Equals(player.ID));
+				List<KeyBind> playerKeyBinds = engine.getActions().FindAll (x => x.EntityID.Equals (player.ID));
 				if (playerKeyBinds.Count > 1) {
 					playerSpeed = (float)Math.Sqrt (Math.Pow (player.MovementSpeed, 2) / 2);
 				} else
@@ -66,6 +70,7 @@ namespace Survival_Game
 						else
 							player.Rotation = (float)Math.PI;
 						player.Y -= playerSpeed;
+						CheckPortions(player);
 						break;
 					case "down":
 						if (actionMade > 1)
@@ -106,9 +111,6 @@ namespace Survival_Game
 			}
 		}
 
-		public void handleSound(Entity entity){
-		}
-
 		public void AddPlayerToList(Player player){
 			oldPlayers.RemoveAll (p => p.ID.Equals(player.ID));
 			oldPlayers.Add (new Player(player.ID, player.IsController, player.X, 
@@ -138,6 +140,23 @@ namespace Survival_Game
 					player.IsMoving = false;
 				}
 			}
+		}
+
+		public void CheckPortions(Player player){
+			Portion curPortion = null;
+
+			for(int i = 0; i < generatedPortions.Count; i++){
+				if(player.HitBox.Intersects(generatedPortions[i].Bounds)){
+					curPortion = generatedPortions[i];
+					break;
+				}
+			}
+
+			//TODO: Check if no portion.
+
+			//TODO: Generate adjacent portions
+			//BoundingBox bounds = new BoundingBox(new Vector3(curPortion.Bounds.Min.X, curPortion.Bounds.Min.Y, 0),
+			//new Vector3(0,0,0));
 		}
 	}
 }

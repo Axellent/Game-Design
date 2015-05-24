@@ -37,13 +37,30 @@ namespace Game_Engine{
 		public List<Entity> RestoreSavedEntities(List<Entity> entities, BoundingBox limitbox){
 			entities.AddRange (savedEntities.FindAll (e => limitbox.Intersects (e.HitBox)));
 			savedEntities.RemoveAll (e => limitbox.Intersects (e.HitBox));
+			for(int i = savedEntities.Count - 1; i >= 0; i--){
+				if(limitbox.Intersects(savedEntities[i].HitBox)){
+					entities.Add(savedEntities[i]);
+					savedEntities.RemoveAt(i);
+				}
+			}
+			//entities.AddRange (savedEntities.FindAll (e => limitbox.Intersects (e.HitBox)));
+			//savedEntities.RemoveAll (e => limitbox.Intersects (e.HitBox));
 			return entities;
 		}
 
+	
 		/* Stores away the entities outside the defined limits for improved performance. */
 		public List<Entity> RemoveFarawayEntities(List<Entity> entities, BoundingBox limitbox){
 			savedEntities.AddRange (entities.FindAll (e => !limitbox.Intersects (e.HitBox)));
 			entities.RemoveAll (e => !limitbox.Intersects (e.HitBox));
+			for(int i = entities.Count - 1; i >= 0; i--){
+				if(!limitbox.Intersects(entities[i].HitBox)){
+					savedEntities.Add(entities[i]);
+					entities.RemoveAt(i);
+				}
+			}
+			//savedEntities.AddRange (entities.FindAll (e => !limitbox.Intersects (e.HitBox)));
+			//entities.RemoveAll (e => !limitbox.Intersects (e.HitBox));
 			return entities;
 		}
 	}

@@ -37,8 +37,6 @@ namespace Survival_Game{
 			foreach (string s in str) {
 				if (s.Split('.')[1].Equals("xnb")){
 					sdf[i] = s.Split (temp, StringSplitOptions.RemoveEmptyEntries)[1].Split('.')[0];
-					sdf[i] = sdf [i].Split (temp, StringSplitOptions.RemoveEmptyEntries)[1];
-					sdf[i] = sdf[i].Split('.')[0];
 					soundContent.Add (sdf [i]);
 					i++;
 				}

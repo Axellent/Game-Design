@@ -10,7 +10,8 @@ namespace Survival_Game
 	{
 		private GameEngine engine;
 		private IDisposable removeableObserver;
-		static int nTileTypes = 2;
+
+		const int nTileTypes = 2;
 
 		public ContentObserver (GameEngine engine, EntityObserver observer)
 		{
@@ -21,16 +22,16 @@ namespace Survival_Game
 			removeableObserver = disposableObserver;
 		}
 
-		//Defines which content should be loaded for the specified entity
+		//Defines which content should be ed for the specified entity
 		/*TODO iteration3: First of all add more content to the game engine, but  it should also 
-		 * be able to load content not only for a player but also other kinds of objects
+		 * be able to  content not only for a player but also other kinds of objects
 		*/
 		public void OnNext (List<Texture2D> value)
 		{
-			foreach (Entity entity in engine.Entities){					//move to a method
+			for(int i = 0; i < engine.Entities.Count; i++){				//move to a method
 				//Simple fix. -Axel
-				if(entity.GetType() == typeof(Player)) {
-					Player player = (Player)entity;
+				if(engine.Entities[i].GetType() == typeof(Player)) {
+					Player player = (Player)engine.Entities[i];
 
 					if(player.Texture != null) {
 						if(player.IsMoving) {
@@ -47,17 +48,22 @@ namespace Survival_Game
 							player.FootTicker = 0;
 							player.Texture = value.Find(x => x.Name.Equals("player_s"));
 						}
-					} else
+					} else {
 						player.Texture = value.Find(x => x.Name.Equals("player_s"));
+					}
+					engine.Entities[i] = player;
 				}
 
-				if(entity.GetType() == typeof(Tile)) {
-					Tile tile = (Tile)entity;
+				if(engine.Entities[i].GetType() == typeof(Tile)) {
+					Tile tile = (Tile)engine.Entities[i];
 
 					if(tile.Texture == null) {
-						//TODO: generate different textures randomly for tiles.
-						tile.Texture = value.Find(x => x.Name.Equals("tile_1"));
+						Random r = new Random(int.Parse(Guid.NewGuid().ToString().Substring(0, 8),
+							System.Globalization.NumberStyles.HexNumber));
+						int randInt = r.Next(1, nTileTypes + 1);
+						tile.Texture = value.Find(x => x.Name.Equals("tile_" + randInt));
 					}
+					engine.Entities[i] = tile;
 				}
 			}
 		}

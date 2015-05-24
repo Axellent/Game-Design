@@ -5,7 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survival_Game{
 
-	/* Author: Axel Sigl */
+	/* Author: Axel Sigl
+	 * A small area of terrain typically defined as a physicsless entity.*/
 	public class Tile : StaticEntity{
 
 		public Tile(string id, float x, float y, float width, float height, float rotation, BoundingBox hitbox, 

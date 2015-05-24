@@ -24,9 +24,23 @@ namespace Game_Engine{
 		List<KeyBind> keyBinds = new List<KeyBind>();
 		List<KeyBind> actions = new List<KeyBind>();
 		List<KeyValuePair<Entity, Entity>> collisionPairs;
-		Vector3 viewPos = new Vector3(0,0,0);
+		Vector3 viewPos = new Vector3(0, 0, 0);
 		private List<SoundEffect> soundContent;
 		private List<string> soundContentNames;
+
+
+
+		List<Tuple<Vector3,Viewport,Entity>> viewposes = new List<Tuple<Vector3, Viewport, Entity>>();
+
+
+		public List<Tuple<Vector3,Viewport, Entity>> Viewposes{
+			get{
+				return viewposes;
+			}
+			set{
+				viewposes = value;
+			}
+		}
 
 		public List<KeyValuePair<Entity, Entity>> CollisionPairs{
 			get{ 
@@ -173,9 +187,17 @@ namespace Game_Engine{
 		protected override void Update(GameTime gameTime){
 			entities = sceneManager.RestoreSavedEntities (entities, new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (800, 600, 0)));
 			actions = inputManager.HandleInput(keyBinds);
+
 			entityObserver.OnNext (entities);
+
+			BoundingBox limitBox = new BoundingBox(new Vector3(0, 0, 0),
+				new Vector3(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 0));
+			entities = sceneManager.RemoveFarawayEntities(entities, limitBox);
+			entities = sceneManager.RestoreSavedEntities(entities, limitBox);
+
 			entities = physicsManager.UpdateHitboxes(entities);
 			collisionPairs = physicsManager.UpdatePhysics(entities);
+
 			contentObserver.OnNext(GameContent);
 			entityObserver.OnCompleted();
 			entities = sceneManager.RemoveFarawayEntities (entities, new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (800, 600, 0)));
@@ -186,8 +208,12 @@ namespace Game_Engine{
 		 * Overrides the default MonoGame LoadContent method.*/
 		protected override void Draw(GameTime gameTime){
 			List<RenderedEntity> rendered = sceneManager.SortRenderedEntities(entities);
-			renderManager.Draw(spriteBatch, GraphicsDevice, viewPos, rendered);
-			base.Draw(gameTime);
+
+
+				renderManager.Draw (spriteBatch, GraphicsDevice, viewPos, rendered, viewposes);
+			
+				base.Draw (gameTime);
+
 		}
 	}
 }
