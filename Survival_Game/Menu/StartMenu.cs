@@ -16,10 +16,12 @@ namespace Survival_Game
 		private Texture2D menuTexture;
 		private Rectangle menuRect;
 		private String assetName;
+		List<Button> buttons;
 		//List<GUIElement> main = new List<GUIElement>;
 
 		public StartMenu (String assetName){
 			this.assetName = assetName;
+			buttons = new List<Button>();
 			//Content.RootDirectory = "Content";
 		}
 
@@ -33,7 +35,9 @@ namespace Survival_Game
 		}
 
 		public void Draw(SpriteBatch spritebatch){
+			spritebatch.Begin();
 			spritebatch.Draw(menuTexture, menuRect, Color.Black);
+			spritebatch.End();
 		}
 		//TODO: add functionality for button click... might be moved to MenuController
 		public MenuController.Menu OnClick(string element){

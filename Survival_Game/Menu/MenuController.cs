@@ -16,7 +16,7 @@ namespace Survival_Game
 		private OptionMenu OMenu;
 		private PlayGameMenu PGMenu;
 
-		public MenuController (StartMenu startMenu, OptionMenu optionMenu, PlayGameMenu PlayGameMenu )
+		public MenuController (StartMenu startMenu, OptionMenu optionMenu, PlayGameMenu PlayGameMenu, ContentManager content)
 		{
 			//Content.RootDirectory = "Content";
 			SMenu = startMenu;
