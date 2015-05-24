@@ -8,7 +8,7 @@ namespace Game_Engine{
 
 	/* Author: Axel Sigl
 	* Mediator for the game engine. */
-	public class GameEngine : Game, IObservable<List<KeyBind>>, IObservable<List<Texture2D>>{
+	public class GameEngine : Game, IObservable<List<Texture2D>>, IObservable<List<Entity>>{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		RenderManager renderManager;
@@ -18,7 +18,7 @@ namespace Game_Engine{
 		SoundManager soundManager;
 		List<Entity> entities;
 		List<Texture2D> gameContent;
-		IObserver<List<KeyBind>> entityObserver;
+		IObserver<List<Entity>> entityObserver;
 		IObserver<List<Texture2D>> contentObserver;
 		List<string> contentNames;
 		List<KeyBind> keyBinds = new List<KeyBind>();
@@ -28,13 +28,17 @@ namespace Game_Engine{
 		private List<SoundEffect> soundContent;
 		private List<string> soundContentNames;
 
-
-
 		List<Tuple<Vector3,Viewport,Entity>> viewposes = new List<Tuple<Vector3, Viewport, Entity>>();
 
+		public List<KeyBind> Actions{
+			get {
+				return actions;
+			}
+		}
 
 		public List<Tuple<Vector3,Viewport, Entity>> Viewposes{
-			get{
+			get
+			{
 				return viewposes;
 			}
 			set{
@@ -128,21 +132,33 @@ namespace Game_Engine{
 			entities = new List<Entity>();
 		}
 
-		public Texture2D changeTexture(string textureName){
-			return gameContent.Find (t => t.Name.Equals (textureName));
+		public void addTextureOnEntity(string textureName, string entityID){
+			RenderedEntity rendered = (RenderedEntity)entities.Find (e => e.ID.Equals (entityID));
+			rendered.Texture = gameContent.Find (t => t.Name.Equals (textureName));
 		}
 
-		public Entity getEntity(string entityID){
-			return entities.Find (e => e.ID.Equals (entityID));
+		public Rectangle getScreenSize(){
+			return GraphicsDevice.PresentationParameters.Bounds;
 		}
-			
-		public IDisposable Subscribe (IObserver<List<KeyBind>> observer){
+
+		public void moveEntity(Vector3 velocity, string entityID){
+			entities.Find (e => e.ID.Equals (entityID)).Velocity = velocity;
+		}
+
+		public void setEntityRotation(float rotation, string entityID){
+			entities.Find (e => e.ID.Equals (entityID)).Rotation = rotation;
+		}
+
+		public void addEntity(Entity entity){
+			entities.Add (entity);
+		}
+
+		public IDisposable Subscribe (IObserver<List<Entity>> observer){
 			this.entityObserver = observer;
-			return new Unsubscriber<IObserver<List<KeyBind>>>(observer);
+			return new Unsubscriber<IObserver<List<Entity>>>(observer);
 		}
 
 		public IDisposable Subscribe (IObserver<List<Texture2D>> observer){
-
 			this.contentObserver = observer;
 			return new Unsubscriber<IObserver<List<Texture2D>>>(observer);
 		}
@@ -158,7 +174,6 @@ namespace Game_Engine{
 				observer = default(T);
 			}
 		}
-
 		/* Loads all content in contentNames */
 		protected override void LoadContent(){
 			spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -171,14 +186,21 @@ namespace Game_Engine{
 			soundContentNames.Clear ();
 
 			contentObserver.OnNext(GameContent);
+			playBackgroundSound (soundContent.Find(s => s.Name.Equals("Sound\\DaySound_02")), true);
 			base.LoadContent();
+		}
+
+		public void playBackgroundSound(SoundEffect soundEffect, bool isLooped){
+			soundManager.playBackgroundSound (soundEffect, isLooped);
 		}
 
 		/* Handles updates to input and physics.
 		 * Overrides the default MonoGame Update method. */
 		protected override void Update(GameTime gameTime){
+			entities = sceneManager.RestoreSavedEntities (entities, new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (800, 600, 0)));
 			actions = inputManager.HandleInput(keyBinds);
-			entityObserver.OnNext (actions);
+
+			entityObserver.OnNext (entities);
 
 			BoundingBox limitBox = new BoundingBox(new Vector3(0, 0, 0),
 				new Vector3(GraphicsDevice.Viewport.Width + 100, GraphicsDevice.Viewport.Height + 100, 0));
@@ -190,6 +212,7 @@ namespace Game_Engine{
 
 			contentObserver.OnNext(GameContent);
 			entityObserver.OnCompleted();
+			entities = sceneManager.RemoveFarawayEntities (entities, new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (800, 600, 0)));
 			base.Update(gameTime);
 		}
 

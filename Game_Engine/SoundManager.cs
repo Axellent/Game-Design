@@ -10,8 +10,8 @@ namespace Game_Engine{
 	//author: Rasmus Bäckerhall
 	public class SoundManager{
 
-		private float MasterVolume;		
-		private float backgroundVolume;
+		private float MasterVolume = 1.0F;		
+		private float backgroundVolume = 1.0F;
 		private float miscVolume;
 
 
@@ -27,28 +27,31 @@ namespace Game_Engine{
 			return content;
 		}
 
-		public void playSounds(List<Entity> entities, BoundingBox limitbox){
-		}
-
 		public void createSoundEffectInstance(Entity entity, SoundEffect effect){
+		
 		}
 
-		public void playSoundEffect(Entity entity){
+		public void playSoundEffect(Entity entity, Entity actor){
+			
 		}
 
-		public void deleteEntitySoundInstance(Entity entity){
+		public void deleteEntitySoundEffect(Entity entity){
+		
 		}
 
-		public void stopBackgroundSound(SoundEffectInstance effectInstance){
+		public void stopBackgroundSound(SoundEffect effect){
+			SoundEffectInstance effectInstance = effect.CreateInstance ();
 			effectInstance.Stop ();
 		}
 
-		public void pauseBackgroundSound(SoundEffectInstance effectInstance){
+		public void pauseBackgroundSound(SoundEffect effect){
+			SoundEffectInstance effectInstance = effect.CreateInstance ();
 			effectInstance.Pause ();
 		}
 
-		public void playBackgroundSound(SoundEffectInstance effectInstance){
-			effectInstance.IsLooped = true;
+		public void playBackgroundSound(SoundEffect effect, bool isLooped){
+			SoundEffectInstance effectInstance = effect.CreateInstance ();
+			effectInstance.IsLooped = isLooped;
 			effectInstance.Volume = MasterVolume * backgroundVolume;
 			effectInstance.Play ();
 		}
