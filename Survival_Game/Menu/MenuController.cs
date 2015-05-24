@@ -25,9 +25,13 @@ namespace Survival_Game
 			//SMenu.LoadContent(content);
 		}
 
-		private void OnClick()
+		private void goBackButton()
 		{
 			
+		}
+
+		private void playButton(){
+
 		}
 	}
 }

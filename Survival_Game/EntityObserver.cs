@@ -6,6 +6,7 @@ using System;
 using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Survival_Game
 {
@@ -54,7 +55,7 @@ namespace Survival_Game
 			Player player = (Player) entity;				//From here, move to a method.
 			if (!IsCollision (player)) {
 				AddPlayerToList (player);
-				List<KeyBind> playerKeyBinds = engine.getActions().FindAll (x => x.EntityID.Equals (player.ID));
+				List<KeyBind> playerKeyBinds = engine.Actions.FindAll (x => x.EntityID.Equals (player.ID));
 				if (playerKeyBinds.Count > 1) {
 					playerSpeed = (float)Math.Sqrt (Math.Pow (player.MovementSpeed, 2) / 2);
 				} else
@@ -97,6 +98,13 @@ namespace Survival_Game
 						break;
 					default: 
 						break;
+					}
+					foreach (Tuple <Vector3,Viewport, Entity> pair in engine.Viewposes){
+						if(pair.Item3.ID.Equals(player.ID)){
+							engine.Viewposes.Add(new Tuple<Vector3, Viewport, Entity>(new Vector3(player.X- pair.Item2.Width/2, player.Y - pair.Item2.Height/2, 0),pair.Item2, pair.Item3));
+							engine.Viewposes.Remove(pair);
+							break;
+						}
 					}
 					actionMade++;
 				}

@@ -15,7 +15,7 @@ namespace Survival_Game{
 		List<Portion> generatedPortions = new List<Portion>();
 		int tileNO = 1;
 
-		int numberOfPlayers = 2;
+		int numberOfPlayers = 3;
 		Viewport defaultview;
 		Viewport rightview;
 		Viewport leftview;
@@ -32,6 +32,15 @@ namespace Survival_Game{
 		//Loads the content to game engine. Most instances will be moved to the menu classes in iteration 3
 		private void LoadContent()
 		{
+			//PlayGameMenu gameMenu = new PlayGameMenu (engine);
+			//StartMenu startMenu = new StartMenu ("blabla");
+			//OptionMenu optionMenu = new OptionMenu ();
+			//MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu);
+			LoadGame ();
+
+		}
+
+		private void LoadGame(){
 			backgroundSound = new SoundEntity (2.0F, 10.0F);
 			//TODO: Add Menus
 			//MenuController menuController = new MenuController (new StartMenu(), new OptionMenu(), new PlayGameMenu());
@@ -56,14 +65,14 @@ namespace Survival_Game{
 			portion.AddPortion(generatedPortions, engine.Entities);
 
 			Player player1 = new Player ("player1", false, 100, 100, 72, 62, 0,
-				                 new BoundingBox (new Vector3 (100 - (72 / 4), 100 - (62 / 4), 0),
-					                 new Vector3 (100 + (72 / 4), 100 + (62 / 4), 0)), 1, null, true);
+				new BoundingBox (new Vector3 (100 - (72 / 4), 100 - (62 / 4), 0),
+					new Vector3 (100 + (72 / 4), 100 + (62 / 4), 0)), 1, null, true);
 			Player player2 = new Player ("player2", false, 400, 200, 72, 62, 0,
-				                 new BoundingBox (new Vector3 (400 - (72 / 4), 200 - (62 / 4), 0),
-					                 new Vector3 (400 + (72 / 4), 200 + (62 / 4), 0)), 1, null, true);
+				new BoundingBox (new Vector3 (400 - (72 / 4), 200 - (62 / 4), 0),
+					new Vector3 (400 + (72 / 4), 200 + (62 / 4), 0)), 1, null, true);
 			Player player3 = new Player ("player3", false, 500, 400, 72, 62, 0,
-				                 new BoundingBox (new Vector3 (500 - (72 / 4), 400 - (62 / 4), 0),
-					                 new Vector3 (500 + (72 / 4), 400 + (62 / 4), 0)), 1, null, true);
+				new BoundingBox (new Vector3 (500 - (72 / 4), 400 - (62 / 4), 0),
+					new Vector3 (500 + (72 / 4), 400 + (62 / 4), 0)), 1, null, true);
 
 			//Adds the players to engine
 			engine.Entities.Add (player1);
@@ -138,13 +147,12 @@ namespace Survival_Game{
 				topLeftView.Width = leftview.Width;				
 				topRightView.Width = topLeftView.Width;
 				topRightView.X = topLeftView.Width;
-				
+
 				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player2.X - leftview.Width / 2, player2.Y - leftview.Height / 2, 0), leftview, player2));
 				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player3.X - rightview.Width / 2, player3.Y - rightview.Height / 2, 0), rightview, player3));
 				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player1.X - topLeftView.Width / 2, player1.Y - topLeftView.Height / 2, 0), topLeftView, player1));
 				engine.Viewposes.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player3.X - topRightView.Width / 2, player3.Y - topRightView.Height / 2, 0), topRightView, player3));
 			}
-
 		}
 
 		public static void Main(){

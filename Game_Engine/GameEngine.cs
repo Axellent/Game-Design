@@ -28,13 +28,17 @@ namespace Game_Engine{
 		private List<SoundEffect> soundContent;
 		private List<string> soundContentNames;
 
-
-
 		List<Tuple<Vector3,Viewport,Entity>> viewposes = new List<Tuple<Vector3, Viewport, Entity>>();
 
+		public List<KeyBind> Actions{
+			get {
+				return actions;
+			}
+		}
 
 		public List<Tuple<Vector3,Viewport, Entity>> Viewposes{
-			get{
+			get
+			{
 				return viewposes;
 			}
 			set{
@@ -128,16 +132,21 @@ namespace Game_Engine{
 			entities = new List<Entity>();
 		}
 
-		public List<KeyBind> getActions(){
-			return actions;
+		public void addTextureOnEntity(string textureName, string entityID){
+			RenderedEntity rendered = (RenderedEntity)entities.Find (e => e.ID.Equals (entityID));
+			rendered.Texture = gameContent.Find (t => t.Name.Equals (textureName));
 		}
 
-		public Texture2D changeTexture(string textureName){
-			return gameContent.Find (t => t.Name.Equals (textureName));
+		public Rectangle getScreenSize(){
+			return GraphicsDevice.PresentationParameters.Bounds;
 		}
 
-		public void changeEntity(string entityID, float rotation, float X, float Y){
-			
+		public void moveEntity(Vector3 velocity, string entityID){
+			entities.Find (e => e.ID.Equals (entityID)).Velocity = velocity;
+		}
+
+		public void setEntityRotation(float rotation, string entityID){
+			entities.Find (e => e.ID.Equals (entityID)).Rotation = rotation;
 		}
 
 		public IDisposable Subscribe (IObserver<List<Entity>> observer){
@@ -146,7 +155,6 @@ namespace Game_Engine{
 		}
 
 		public IDisposable Subscribe (IObserver<List<Texture2D>> observer){
-
 			this.contentObserver = observer;
 			return new Unsubscriber<IObserver<List<Texture2D>>>(observer);
 		}
