@@ -12,6 +12,8 @@ namespace Survival_Game{
 		private ContentObserver contentObserver;
 		private EntityObserver entityObserver;
 		private SoundEntity backgroundSound;
+		private GameContent contentManager = new GameContent();
+		private GameState currentState;
 		List<Portion> generatedPortions = new List<Portion>();
 		int tileNO = 1;
 
@@ -33,11 +35,25 @@ namespace Survival_Game{
 		//Loads the content to game engine. Most instances will be moved to the menu classes in iteration 3
 		private void LoadContent()
 		{
-			//PlayGameMenu gameMenu = new PlayGameMenu (engine);
+			engine.ContentNames = contentManager.LoadGameContent ();
+			engine.SoundContentNames = contentManager.LoadSoundContent ();
+
+			//Creates observers
+			entityObserver = new EntityObserver (engine, generatedPortions);
+			contentObserver = new ContentObserver (engine, entityObserver);
+
+			//Subscribes the observers to the engine and sends a disposable to the observers.
+			IDisposable dis = engine.Subscribe (entityObserver);
+			entityObserver.AddDisposableObserver (dis);
+			dis = engine.Subscribe (contentObserver);
+			contentObserver.AddDisposableObserver (dis);
+
+			PlayGameMenu gameMenu = new PlayGameMenu (engine);
+			gameMenu.createMenu ();
 			//StartMenu startMenu = new StartMenu ("blabla");
 			//OptionMenu optionMenu = new OptionMenu ();
 			//MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu);
-			LoadGame ();
+			//LoadGame ();
 
 		}
 
@@ -45,8 +61,6 @@ namespace Survival_Game{
 			backgroundSound = new SoundEntity (2.0F, 10.0F);
 			//TODO: Add Menus
 			//MenuController menuController = new MenuController (new StartMenu(), new OptionMenu(), new PlayGameMenu());
-
-			GameContent contentManager = new GameContent();
 
 			//Defines all keybindings
 			List<KeyBind> keybinds = new List<KeyBind> ();
@@ -57,8 +71,6 @@ namespace Survival_Game{
 			foreach (KeyBind keybind in keybinds) {
 				engine.KeyBind.Add (keybind);
 			}
-			engine.ContentNames = contentManager.LoadGameContent ();
-			engine.SoundContentNames = contentManager.LoadSoundContent ();
 
 			BoundingBox portionBounds = new BoundingBox(new Vector3(0, 0, 0),
 				new Vector3(Portion.PORTION_WIDTH, Portion.PORTION_HEIGHT, 0));
@@ -83,16 +95,6 @@ namespace Survival_Game{
 			engine.Entities.Add (player1);
 			engine.Entities.Add (player2);
 			engine.Entities.Add (player3);
-
-			//Creates observers
-			entityObserver = new EntityObserver (engine, generatedPortions);
-			contentObserver = new ContentObserver (engine, entityObserver);
-
-			//Subscribes the observers to the engine and sends a disposable to the observers.
-			IDisposable dis = engine.Subscribe (entityObserver);
-			entityObserver.AddDisposableObserver (dis);
-			dis = engine.Subscribe (contentObserver);
-			contentObserver.AddDisposableObserver (dis);
 
 			if(numberOfPlayers == 3) {
 				defaultview = engine.GraphicsDevice.Viewport;

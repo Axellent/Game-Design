@@ -36,15 +36,6 @@ namespace Survival_Game
 			spritebatch.Draw(menuTexture, menuRect, Color.Black);
 		}
 		//TODO: add functionality for button click... might be moved to MenuController
-		public MenuController.Menu OnClick(string element){
-
-			if (element.Equals ("Omenu"))
-				return MenuController.Menu.OptionMenu;
-			else if (element.Equals ("PMenu"))
-				return MenuController.Menu.PlayGameMenu;
-
-			return MenuController.Menu.None;
-		}
 	}
 }
 

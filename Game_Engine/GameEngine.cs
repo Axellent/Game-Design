@@ -132,6 +132,14 @@ namespace Game_Engine{
 			entities = new List<Entity>();
 		}
 
+		public void clearEntities(){
+			entities.Clear ();
+		}
+
+		public void setMouseVisibility(bool visible){
+			IsMouseVisible = visible;
+		}
+
 		public void addTextureOnEntity(string textureName, string entityID){
 			RenderedEntity rendered = (RenderedEntity)entities.Find (e => e.ID.Equals (entityID));
 			rendered.Texture = gameContent.Find (t => t.Name.Equals (textureName));
@@ -186,7 +194,7 @@ namespace Game_Engine{
 			soundContentNames.Clear ();
 
 			contentObserver.OnNext(GameContent);
-			playBackgroundSound (soundContent.Find(s => s.Name.Equals("Sound\\DaySound_02")), true);
+			playBackgroundSound (soundContent.Find(s => s.Name.Equals("Sound/DaySound_02")), true);
 			base.LoadContent();
 		}
 
