@@ -21,6 +21,8 @@ namespace Survival_Game{
 			List<string> gameContent = new List<string>();
 			gameContent.Add("tile_1");
 			gameContent.Add("tile_2");
+			gameContent.Add("bush_1");
+			gameContent.Add("bush_2");
 			gameContent.Add("player_s");
 			gameContent.Add("player_r");
 			gameContent.Add("player_l");

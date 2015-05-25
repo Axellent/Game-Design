@@ -194,7 +194,7 @@ namespace Game_Engine{
 		}
 
 		public void playBackgroundSound(SoundEffect soundEffect, bool isLooped){
-			soundManager.playBackgroundSound (soundEffect, isLooped);
+			//soundManager.playBackgroundSound (soundEffect, isLooped);
 		}
 
 		/* Handles updates to input and physics. Also defines the BoundingBox limits for active entities.
@@ -211,6 +211,15 @@ namespace Game_Engine{
 					new Vector3(curViewPos.X + GraphicsDevice.Viewport.Width + 100,
 						curViewPos.Y + GraphicsDevice.Viewport.Height + 100, 0));
 				entities = sceneManager.RemoveFarawayEntities(entities, limitBox);
+			}
+
+			foreach(Tuple<Vector3,Viewport, Entity> pair in viewPositions) {
+				GraphicsDevice.Viewport = pair.Item2;
+				curViewPos = pair.Item1;
+
+				BoundingBox limitBox = new BoundingBox(new Vector3(curViewPos.X, curViewPos.Y, 0),
+					new Vector3(curViewPos.X + GraphicsDevice.Viewport.Width + 100,
+						curViewPos.Y + GraphicsDevice.Viewport.Height + 100, 0));
 				entities = sceneManager.RestoreSavedEntities(entities, limitBox);
 			}
 

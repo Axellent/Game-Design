@@ -10,13 +10,17 @@ namespace Survival_Game{
 	public class Portion{
 		BoundingBox bounds;
 		List<Tile> tiles = new List<Tile>();
+		List<Entity> randomEntities = new List<Entity>();
 
 		static int tileNO = 1;
+		static int berryBushNO = 1;
 
 		public const int PORTION_WIDTH = 2000;
 		public const int PORTION_HEIGHT = 2000;
 		public const int TILE_WIDTH = 50;
 		public const int TILE_HEIGHT = 50;
+		public const int BUSH_WIDTH = 50;
+		public const int BUSH_HEIGHT = 40;
 
 		public BoundingBox Bounds{
 			get{
@@ -50,11 +54,12 @@ namespace Survival_Game{
 
 			while(curY <= bounds.Max.Y){
 				while(curX <= bounds.Max.X) {
-					curTileBox = new BoundingBox();
+					curTileBox = new BoundingBox(new Vector3(curX, curY, 0),
+						new Vector3(curX + TILE_WIDTH, curY + TILE_HEIGHT, 0));
 					curTile = new Tile("tile" + tileNO, curX, curY, TILE_WIDTH, TILE_HEIGHT,
 						0, curTileBox, 0, null, false);
-					entities.Add(curTile);
 					tiles.Add(curTile);
+					entities.Add(curTile);
 
 					tileNO++;
 					curX += TILE_WIDTH;
@@ -64,31 +69,52 @@ namespace Survival_Game{
 			}
 		}
 
+		public void GenerateBerryBushes(List<Entity> entities){
+			Random rand = new Random();
+			int nEntities = rand.Next(10, 50);
+			bool intersects = false;
+
+			for(int i = 0; i < nEntities; i++) {
+				float randX = rand.Next((int)bounds.Min.X, (int)bounds.Max.X);
+				float randY = rand.Next((int)bounds.Min.Y, (int)bounds.Max.Y);
+
+				BoundingBox bushBounds = new BoundingBox(new Vector3(randX, randY, 0),
+					new Vector3(randX + BUSH_WIDTH, randY + BUSH_HEIGHT, 0));
+
+				for(int j = 0; j < entities.Count; j++) {
+					intersects = false;
+					if(entities[i].HasCollision && bushBounds.Intersects(entities[i].HitBox)) {
+						intersects = true;
+						break;
+					}
+				}
+				if(!intersects) {
+					Bush berryBush = new Bush("bush" + berryBushNO, randX, randY, BUSH_WIDTH, BUSH_HEIGHT,
+						0, bushBounds, 1, null);
+
+					randomEntities.Add(berryBush);
+					entities.Add(berryBush);
+				}
+			}
+		}
+
 		/* Generates entities in the portion and adds the portion to the list of already generated portions. */
 		public void AddPortion(List<Portion> generatedPortions, List<Entity> entities){
-			//TODO: Generate all possible entities.
 			GenerateTiles(entities);
+			GenerateBerryBushes(entities);
 			generatedPortions.Add(this);
 		}
 
 		/* Removes all entities in the portion from the engine entities and deletes the portion from the
 		already generated list. */
 		public void RemPortion(List<Portion> generatedPortions, List<Entity> entities){
-			//TODO: Remove all entities from portion.
+			for(int i = 0; i < randomEntities.Count; i++){
+				entities.Remove(randomEntities[i]);
+			}
 			for(int i = 0; i < tiles.Count; i++){
 				entities.Remove(tiles[i]);
 			}
 			generatedPortions.Remove(this);
-		}
-
-		/* Evaluates to true if the BoundingBox intersects any of the generated portions. */
-		public static bool isGenerated(List<Portion> generatedPortions, BoundingBox bounds){
-			for(int i = 0; i < generatedPortions.Count; i++) {
-				if(generatedPortions[i].Bounds.Intersects(bounds)) {
-					return true;
-				}
-			}
-			return false;
 		}
 	}
 }

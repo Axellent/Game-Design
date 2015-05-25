@@ -28,8 +28,7 @@ namespace Survival_Game
 		*/
 		public void OnNext (List<Texture2D> value)
 		{
-			for(int i = 0; i < engine.Entities.Count; i++){				//move to a method
-				//Simple fix. -Axel
+			for(int i = 0; i < engine.Entities.Count; i++){
 				if(engine.Entities[i].GetType() == typeof(Player)) {
 					Player player = (Player)engine.Entities[i];
 
@@ -64,6 +63,15 @@ namespace Survival_Game
 						tile.Texture = value.Find(x => x.Name.Equals("tile_" + randInt));
 					}
 					engine.Entities[i] = tile;
+				}
+
+				if(engine.Entities[i].GetType() == typeof(Bush)) {
+					Bush bush = (Bush)engine.Entities[i];
+
+					if(bush.Texture == null) {
+						bush.Texture = value.Find(x => x.Name.Equals("bush_2"));
+					}
+					engine.Entities[i] = bush;
 				}
 			}
 		}

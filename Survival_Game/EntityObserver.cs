@@ -217,10 +217,20 @@ namespace Survival_Game
 
 		//Generates a new portion if none exists inte the given bounds.
 		public void CheckNewPortion(BoundingBox bounds){
-			if(!Portion.isGenerated(generatedPortions, bounds)) {
+			if(!IsGenerated(bounds)) {
 				Portion newPortion = new Portion(bounds);
 				newPortion.AddPortion(generatedPortions, engine.Entities);
 			}
+		}
+
+		/* Evaluates to true if the BoundingBox intersects any of the generated portions. */
+		public bool IsGenerated(BoundingBox bounds){
+			for(int i = 0; i < generatedPortions.Count; i++) {
+				if(generatedPortions[i].Bounds.Intersects(bounds)) {
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }
