@@ -49,11 +49,11 @@ namespace Survival_Game{
 
 			engine.KeyBind.AddRange (contentManager.MenuKeyBindSetup ());
 
-			PlayGameMenu gameMenu = new PlayGameMenu (engine);
-			StartMenu startMenu = new StartMenu (engine);
-			OptionMenu optionMenu = new OptionMenu (engine);
-			MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu, ref currentState, engine);
-			//LoadGame ();
+			//PlayGameMenu gameMenu = new PlayGameMenu (engine);
+			//StartMenu startMenu = new StartMenu (engine);
+			//OptionMenu optionMenu = new OptionMenu (engine);
+			//MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu, ref currentState, engine);
+			LoadGame ();
 		}
 
 		private void LoadGame(){

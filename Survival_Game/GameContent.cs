@@ -24,6 +24,8 @@ namespace Survival_Game{
 			gameContent.Add("player_s");
 			gameContent.Add("player_r");
 			gameContent.Add("player_l");
+			gameContent.Add ("bush_1");
+			gameContent.Add ("bush_2");
 			gameContent.Add ("Menu");
 			gameContent.Add ("OptionsButton");
 			gameContent.Add ("PlayButton");

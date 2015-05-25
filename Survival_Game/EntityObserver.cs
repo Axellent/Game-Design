@@ -15,14 +15,13 @@ namespace Survival_Game
 		private List<Player> oldPlayers;
 		List<Portion> generatedPortions;
 		private bool buttonSet;
-		TimeSpan? oldtimespan;
+		TimeSpan oldtimespan;
 
 		public EntityObserver (GameEngine engine, List<Portion> generatedPortions)
 		{
 			oldPlayers = new List<Player> ();
 			this.engine = engine;
 			this.generatedPortions = generatedPortions;
-			this.oldtimespan = null;
 		}
 
 		public void AddDisposableObserver(IDisposable disposableObserver){
@@ -50,10 +49,7 @@ namespace Survival_Game
 			}
 			if (engine.Entities.Exists(b => b.GetType() == typeof(Button))){
 				TimeSpan time = gameTime.TotalGameTime;
-				if (oldtimespan != null) {
-					TimeSpan oldtimespanTemp = (TimeSpan)oldtimespan;
-				}
-				if (oldtimespan == null || time.Milliseconds - oldtimespanTemp.Milliseconds > 200) { 
+				if (oldtimespan.Ticks == 0 || time.Milliseconds - oldtimespan.Milliseconds > 200) { 
 					HandleButton ();
 					oldtimespan = time;
 				}
