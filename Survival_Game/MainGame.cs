@@ -47,11 +47,12 @@ namespace Survival_Game{
 			dis = engine.Subscribe (contentObserver);
 			contentObserver.AddDisposableObserver (dis);
 
+			engine.KeyBind.AddRange (contentManager.MenuKeyBindSetup ());
+
 			PlayGameMenu gameMenu = new PlayGameMenu (engine);
-			gameMenu.createMenu ();
-			//StartMenu startMenu = new StartMenu ("blabla");
-			//OptionMenu optionMenu = new OptionMenu ();
-			//MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu);
+			StartMenu startMenu = new StartMenu (engine);
+			OptionMenu optionMenu = new OptionMenu (engine);
+			MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu, ref currentState, engine);
 			//LoadGame ();
 		}
 

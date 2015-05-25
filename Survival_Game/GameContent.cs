@@ -29,6 +29,10 @@ namespace Survival_Game{
 			gameContent.Add ("PlayButton");
 			gameContent.Add ("ExitButton");
 			gameContent.Add ("BackButton");
+			gameContent.Add ("OptionsButtonP");
+			gameContent.Add ("PlayButtonP");
+			gameContent.Add ("ExitButtonP");
+			gameContent.Add ("BackButtonP");
 			return gameContent;
 		}
 
@@ -48,6 +52,29 @@ namespace Survival_Game{
 				}
 			}
 			return soundContent;
+		}
+
+		public List<KeyBind> MenuKeyBindSetup(){
+			List<KeyBind> keybinds = new List<KeyBind> ();
+
+			KeyBind keybind1 = new KeyBind ();
+			keybind1.EntityID = "none";
+			keybind1.Keys.Add ("Up");
+			keybind1.Action = "up";
+			KeyBind keybind2 = new KeyBind ();
+			keybind2.EntityID = "none";
+			keybind2.Keys.Add ("Down");
+			keybind2.Action = "down";
+			KeyBind keybind3 = new KeyBind ();
+			keybind3.EntityID = "none";
+			keybind3.Keys.Add ("Enter");
+			keybind3.Action = "enter";
+
+			keybinds.Add (keybind1);
+			keybinds.Add (keybind2);
+			keybinds.Add (keybind3);
+
+			return keybinds;
 		}
 
 		//Keyboard Setup 1 

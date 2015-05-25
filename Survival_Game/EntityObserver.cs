@@ -7,19 +7,22 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Survival_Game
 {
 	//author: Rasmus Bäckerhall
-	public class EntityObserver : IObserver<List<Entity>>
+	public class EntityObserver : IObserver<GameTime>
 	{
 		GameEngine engine;
 		private float playerSpeed;
 		private IDisposable removeableObserver;
 		private List<Player> oldPlayers;
 		List<Portion> generatedPortions;
+		private bool buttonSet;
+		TimeSpan? oldtimespan;
 
 		public EntityObserver (GameEngine engine, List<Portion> generatedPortions)
 		{
 			oldPlayers = new List<Player> ();
 			this.engine = engine;
 			this.generatedPortions = generatedPortions;
+			this.oldtimespan = null;
 		}
 
 		public void AddDisposableObserver(IDisposable disposableObserver){
@@ -38,16 +41,86 @@ namespace Survival_Game
 		 */
 		//Called by engine. In this method all the changes to the player is made
 		//Hint: Not fully working yet, needs to be more dynamic. The collision management only works at certain key input
-		public void OnNext (List<Entity> value)
+		public void OnNext (GameTime gameTime)
 		{
-			for (int i = 0; i < value.Count; i++) {
-				if (value[i].GetType () == typeof(Player)) {
-					handlePlayer (value[i]);
+			for (int i = 0; i < engine.Entities.Count; i++) {
+				if (engine.Entities[i].GetType () == typeof(Player)) {
+					HandlePlayer (engine.Entities[i]);
+				}
+			}
+			if (engine.Entities.Exists(b => b.GetType() == typeof(Button))){
+				TimeSpan time = gameTime.TotalGameTime;
+				if (oldtimespan != null) {
+					TimeSpan oldtimespanTemp = (TimeSpan)oldtimespan;
+				}
+				if (oldtimespan == null || time.Milliseconds - oldtimespanTemp.Milliseconds > 200) { 
+					HandleButton ();
+					oldtimespan = time;
+				}
+			}
+			buttonSet = false;
+		}
+			
+		private void HandleButton (){
+			if (!buttonSet) {
+				KeyBind keybind = engine.Actions.Find (k => k.EntityID.Equals ("none"));
+				if (keybind != null) {
+					switch (keybind.Action) {
+					case "up":
+						setButtonHighlight (false);
+						buttonSet = true;
+						break;
+					case "down":
+						setButtonHighlight (true);
+						buttonSet = true;
+						break;
+					case "enter":
+						setButtonHighlight (null);
+						break;
+					}
 				}
 			}
 		}
 
-		private void handlePlayer(Entity entity){
+		private void setButtonHighlight(bool? nextEntity){
+			List<Entity> entities = engine.Entities.FindAll (e => e.GetType () == typeof(Button));
+			for (int i = 0; i<entities.Count; i++){
+				Button button = (Button) entities[i];
+				Button nextButton;
+				if (button.ButtonHighlighted) {
+					if (nextEntity == null) {
+						button.OnButtonPressed ();
+					}
+					if ((bool)nextEntity) {
+						if (i < entities.Count - 1) {
+							button.ButtonHighlighted = false;
+							nextButton = (Button)entities [i + 1];
+							nextButton.ButtonHighlighted = true;
+							break;
+						} else {
+							button.ButtonHighlighted = false;
+							nextButton = (Button)entities [0];
+							nextButton.ButtonHighlighted = true;
+							break;
+						}
+					} else {
+						if (i > 0) {
+							button.ButtonHighlighted = false;
+							nextButton = (Button)entities [i - 1];
+							nextButton.ButtonHighlighted = true;
+							break;
+						} else {
+							button.ButtonHighlighted = false;
+							nextButton = (Button)entities [entities.Count - 1];
+							nextButton.ButtonHighlighted = true;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		private void HandlePlayer(Entity entity){
 			Player player = (Player) entity;				//From here, move to a method.
 			if (!IsCollision (player)) {
 				AddPlayerToList (player);
