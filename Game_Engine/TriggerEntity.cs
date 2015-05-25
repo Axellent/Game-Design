@@ -11,8 +11,14 @@ namespace Game_Engine{
 
 		public delegate void click(); 
 
-		public TriggerEntity(string id, float x, float y, float width, float height, float rotation, BoundingBox hitbox, int layer, Texture2D texture)
+		public TriggerEntity(string id, float x, float y, float width, float height, float rotation, 
+			BoundingBox hitbox, int layer, Texture2D texture)
 			: base(id, x, y, width, height, rotation, hitbox, layer, texture){
+		}
+
+		public TriggerEntity(string id, float x, float y, float width, float height, float rotation,
+			BoundingBox hitbox, int layer, Texture2D texture, bool hasCollision)
+			: base(id, x, y, width, height, rotation, hitbox, layer, texture, hasCollision){
 		}
 	}
 }

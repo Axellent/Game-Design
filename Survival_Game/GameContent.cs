@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 
@@ -160,4 +160,3 @@ namespace Survival_Game{
 		}
 	}
 }
-

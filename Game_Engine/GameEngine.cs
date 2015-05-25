@@ -133,6 +133,14 @@ namespace Game_Engine{
 			entities = new List<Entity>();
 		}
 
+		public void clearEntities(){
+			entities.Clear ();
+		}
+
+		public void setMouseVisibility(bool visible){
+			IsMouseVisible = visible;
+		}
+
 		public void addTextureOnEntity(string textureName, string entityID){
 			RenderedEntity rendered = (RenderedEntity)entities.Find (e => e.ID.Equals (entityID));
 			rendered.Texture = gameContent.Find (t => t.Name.Equals (textureName));
@@ -152,6 +160,10 @@ namespace Game_Engine{
 
 		public void addEntity(Entity entity){
 			entities.Add (entity);
+		}
+
+		public void removeAllEntities(){
+			entities.Clear();
 		}
 
 		public IDisposable Subscribe (IObserver<List<Entity>> observer){

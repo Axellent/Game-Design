@@ -13,19 +13,27 @@ namespace Survival_Game
 	//TODO: 3 buttons for optionmenu, playmenu and exit. 
 	public class StartMenu
 	{
-		private Texture2D menuTexture;
+		/*private Texture2D menuTexture;
 		private Rectangle menuRect;
-		private String assetName;
+		private String assetName;*/
+		GameEngine engine;
+		private Button play, options, exit;
 		//List<GUIElement> main = new List<GUIElement>;
 
-		public StartMenu (String assetName){
-			this.assetName = assetName;
+		public StartMenu (GameEngine engine){
+
+			this.engine = engine;
+			//play = new Button("Play Game", engine.getScreenSize().X/2 - 100, engine.getScreenSize().Y/2 - 100, );
 			//Content.RootDirectory = "Content";
 		}
 
-		public void LoadContent(ContentManager content){
-			menuTexture = content.Load<Texture2D> (assetName);
-			menuRect = new Rectangle(0, 0, menuTexture.Width, menuTexture.Height);
+		public void LoadMenu(List<Entity> entities){
+		}
+
+		public void LoadContent(){
+			
+			/*menuTexture = content.Load<Texture2D> (assetName);
+			menuRect = new Rectangle(0, 0, menuTexture.Width, menuTexture.Height);*/
 		}
 
 		public void Update(){
@@ -33,18 +41,11 @@ namespace Survival_Game
 		}
 
 		public void Draw(SpriteBatch spritebatch){
+			/*spritebatch.Begin();
 			spritebatch.Draw(menuTexture, menuRect, Color.Black);
+			spritebatch.End();*/
 		}
 		//TODO: add functionality for button click... might be moved to MenuController
-		public MenuController.Menu OnClick(string element){
-
-			if (element.Equals ("Omenu"))
-				return MenuController.Menu.OptionMenu;
-			else if (element.Equals ("PMenu"))
-				return MenuController.Menu.PlayGameMenu;
-
-			return MenuController.Menu.None;
-		}
 	}
 }
 

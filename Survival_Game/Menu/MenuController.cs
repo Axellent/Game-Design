@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Game_Engine;
 
 namespace Survival_Game
 {
@@ -8,30 +9,30 @@ namespace Survival_Game
 	//TODO: in iteration 3
 	public class MenuController
 	{
-		public enum Menu {StartMenu, OptionMenu, PlayGameMenu, None};
-
-		private Menu menu;
-
+		private GameState currentState;
+		private GameEngine engine;
 		private StartMenu SMenu;
 		private OptionMenu OMenu;
 		private PlayGameMenu PGMenu;
 
-		public MenuController (StartMenu startMenu, OptionMenu optionMenu, PlayGameMenu PlayGameMenu )
+		public MenuController (StartMenu startMenu, OptionMenu optionMenu, PlayGameMenu PlayGameMenu, ref GameState state, GameEngine engine)
 		{
-			//Content.RootDirectory = "Content";
+			this.engine = engine;
+			this.currentState = state;
+			currentState = GameState.StartMenu;
 			SMenu = startMenu;
 			OMenu = optionMenu;
 			PGMenu = PlayGameMenu;
-			//SMenu.LoadContent(content);
+			PGMenu.AddBackBtnListener (goBackButton);
+			PGMenu.AddPlayBtnListener (playButton);
 		}
 
-		private void goBackButton()
-		{
-			
+		private void goBackButton(){
+			engine.clearEntities ();
 		}
 
 		private void playButton(){
-
+			
 		}
 	}
 }
