@@ -76,7 +76,6 @@ namespace Survival_Game{
 			Portion portion = new Portion(portionBounds);
 			portion.AddPortion(generatedPortions, engine.Entities);
 
-
 			Player player1 = new Player ("player1", false, engine.GraphicsDevice.Viewport.Width / 2,
 				engine.GraphicsDevice.Viewport.Height / 2, 72, 62, 0,
 				new BoundingBox (new Vector3 (engine.GraphicsDevice.Viewport.Width / 2 - (72 / 4),
