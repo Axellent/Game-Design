@@ -206,7 +206,7 @@ namespace Game_Engine{
 		}
 
 		public void playBackgroundSound(SoundEffect soundEffect, bool isLooped){
-			//soundManager.playBackgroundSound (soundEffect, isLooped);
+			soundManager.playBackgroundSound (soundEffect, isLooped);
 		}
 
 		/* Handles updates to input and physics. Also defines the BoundingBox limits for active entities.

@@ -16,7 +16,7 @@ namespace Survival_Game{
 		private GameState currentState;
 		List<Portion> generatedPortions = new List<Portion>();
 
-		int numberOfPlayers = 1;
+		int numberOfPlayers = 2;
 		Viewport defaultview;
 		Viewport rightview;
 		Viewport leftview;
