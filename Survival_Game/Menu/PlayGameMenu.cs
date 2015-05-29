@@ -25,9 +25,7 @@ namespace Survival_Game
 			playBtn = new Button("playBtn", btnXPos, btnYPos, 150, 50, 0, 
 				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, true);
 
-			btnXPos = engine.GetScreenSize ().Width / 2;
-			btnYPos = engine.GetScreenSize ().Height / 2 + 100;
-			backBtn = new Button ("backBtn", btnXPos, btnYPos, 150, 50, 0, 
+			backBtn = new Button ("backBtn", btnXPos, btnYPos + 100, 150, 50, 0, 
 				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false);
 		
 			menu = new RenderedEntity ("menu", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 600, 480, 0, 

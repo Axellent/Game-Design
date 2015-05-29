@@ -10,20 +10,21 @@ namespace Survival_Game
 	public class OptionMenu
 	{
 		private GameEngine engine;
+		private Button backBtn;
 
 		public OptionMenu(GameEngine engine){
 			this.engine = engine;
+			float btnXPos = engine.GetScreenSize ().Width / 2;
+			float btnYPos = engine.GetScreenSize ().Height / 2;
+			backBtn = new Button ("backBtn", btnXPos, btnYPos + 200, 150, 50, 0, 
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false);
 		}
 
-		public void LoadContent(){
+		public void CreateMenu(){
 			
 		}
 
-		public void Update(){
-
-		}
-
-		public void Draw(){
+		public void AddOptionButtonListener(){
 
 		}
 	}

@@ -117,7 +117,7 @@ namespace Survival_Game
 			} else {
 				player.Texture = texture.Find(x => x.Name.Equals("player_s"));
 			}
-			//engine.Entities[index] = player;
+			engine.Entities[index] = player;
 		}
 
 		public void OnError (Exception error)

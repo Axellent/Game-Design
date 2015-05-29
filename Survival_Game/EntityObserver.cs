@@ -153,7 +153,7 @@ namespace Survival_Game
 					break;
 				case "right":
 					if (actionMade > 1)
-						engine.configureEntity (new Vector3 (playerSpeed, player.Velocity.Y, 0), (float)Math.PI / 4 - player.Rotation / 2, player.ID);
+						engine.configureEntity (new Vector3 (playerSpeed, player.Velocity.Y, 0), - player.Rotation / 2 - (float)Math.PI / 4, player.ID);
 					else
 						engine.configureEntity (new Vector3 (playerSpeed, 0, 0), -(float)Math.PI / 2, player.ID);
 					CheckPortions (player);

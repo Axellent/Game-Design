@@ -53,8 +53,8 @@ namespace Survival_Game{
 			PlayGameMenu gameMenu = new PlayGameMenu (engine);
 			StartMenu startMenu = new StartMenu (engine);
 			OptionMenu optionMenu = new OptionMenu (engine);
-			MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu, ref currentState, engine);
-			//LoadGame ();
+			//MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu, ref currentState, engine);
+			LoadGame ();
 		}
 
 		private void LoadGame(){

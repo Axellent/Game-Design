@@ -77,45 +77,60 @@ namespace Game_Engine{
 				float entity1_X_rest = (float)entity1.Velocity.X % 1;
 				int entity1_Y = (int)entity1.Velocity.Y;
 				float entity1_Y_rest = (float)entity1.Velocity.Y % 1;
-				int entity2_X = (int)entity1.Velocity.X;
-				float entity2_X_rest = (float)entity1.Velocity.X % 1;
-				int entity2_Y = (int)entity1.Velocity.Y;
-				float entity2_Y_rest = (float)entity1.Velocity.Y % 1;
+				int entity2_X = (int)entity2.Velocity.X;
+				float entity2_X_rest = (float)entity2.Velocity.X % 1;
+				int entity2_Y = (int)entity2.Velocity.Y;
+				float entity2_Y_rest = (float)entity2.Velocity.Y % 1;
 
 				int i = 0;
 				while (entity1.HitBox.Intersects (entity2.HitBox)) {
 					if (i % 2 == 0) {
-						if (entity1_X == 0) {
+						if (entity1_X != 0) {
+							if (entity1_X > 0) {
+								entity1.X -= 1;
+								entity1_X--;
+							} else {
+								entity1.X += 1;
+								entity1_X++;
+							}
+						} else if (entity1_X == 0) {
 							entity1.X -= entity1_X_rest;
-						} else if (entity1_X > 0)
-							entity1.X -= 1;
-						else
-							entity1.X += 1;
-						entity1_X--;
-						if (entity1_Y == 0) {
+						}
+						if (entity1_Y != 0) {
+							if (entity1_Y > 0) {
+								entity1.Y -= 1;
+								entity1_Y--;
+							} else {
+								entity1.Y += 1;
+								entity1_Y++;
+							} 
+						} else if (entity1_Y == 0) {
 							entity1.Y -= entity1_Y_rest;
-						} else if (entity1_X > 0)
-							entity1.Y -= 1;
-						else
-							entity1.Y += 1;
-						entity1_Y--;
+						}
 						UpdateEntityHitbox (entity1);
-					} else { 
-						if (entity2_X == 0) {
+					} else {
+						if (entity2_X != 0) {
+							if (entity2_X > 0) {
+								entity2.X -= 1;
+								entity2_X--;
+							} else {
+								entity2.X += 1;
+								entity2_X++;
+							}
+						} else if (entity2_X == 0) {
 							entity2.X -= entity2_X_rest;
-						} else if (entity1_X > 0)
-							entity2.X -= 1;
-						else
-							entity2.X += 1;
-						entity2_X--;
-
-						if (entity2_Y == 0) {
+						} 
+						if (entity2_Y != 0) {
+							if (entity2_Y > 0) {
+								entity2.Y -= 1;
+								entity2_Y--;
+							} else {
+								entity2.Y += 1;
+								entity2_Y++;
+							}
+						} else if (entity2_Y == 0) {
 							entity2.Y -= entity2_Y_rest;
-						} else if (entity1_X > 0)
-							entity2.Y -= 1;
-						else
-							entity2.Y += 1;
-						entity2_Y--;
+						}
 						UpdateEntityHitbox (entity2);
 					}
 					i++;
