@@ -48,11 +48,11 @@ namespace Survival_Game{
 			contentObserver.AddDisposableObserver (dis);
 
 			PlayGameMenu gameMenu = new PlayGameMenu (engine);
-			gameMenu.createMenu ();
+			//gameMenu.createMenu ();
 			//StartMenu startMenu = new StartMenu ("blabla");
 			//OptionMenu optionMenu = new OptionMenu ();
 			//MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu);
-			//LoadGame ();
+			LoadGame ();
 		}
 
 		private void LoadGame(){
