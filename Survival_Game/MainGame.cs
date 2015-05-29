@@ -54,8 +54,7 @@ namespace Survival_Game{
 			playGameMenu.AddPlayBtnListener (LoadGame);
 			StartMenu startMenu = new StartMenu (engine);
 			OptionMenu optionMenu = new OptionMenu (engine);
-			MenuController menuController = new MenuController (startMenu, optionMenu, playGameMenu, ref currentState, engine);
-		}
+			MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu, ref currentState, engine);			//LoadGame ();		}
 
 		private void LoadGame(){
 			engine.ClearEntities ();
