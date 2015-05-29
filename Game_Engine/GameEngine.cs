@@ -139,6 +139,10 @@ namespace Game_Engine{
 			return GraphicsDevice.PresentationParameters.Bounds;
 		}
 
+		public void ClearViewPositions(){
+			viewPositions.Clear ();
+		}
+
 		public void configureEntity(Vector3 velocity, float rotation, string entityID){
 			moveEntity (velocity, entityID);
 			SetEntityRotation (rotation, entityID);

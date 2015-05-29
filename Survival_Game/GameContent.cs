@@ -19,31 +19,30 @@ namespace Survival_Game{
 		//defines the content that should be loaded by the engine
 		public List<string> LoadGameContent(){
 			List<string> gameContent = new List<string>();
-			DateTime timer = DateTime.Now;
-			gameContent.Add("Vol_Br_Bar");
-			gameContent.Add("tile_1");
-			gameContent.Add("tile_2");
-			gameContent.Add("player_s");
-			gameContent.Add("player_r");
-			gameContent.Add("player_l");
-			gameContent.Add("Menu");
-			gameContent.Add("PlayButton_Y");
-			gameContent.Add("PlayButton");
-			gameContent.Add("OptionsButton_Y");
-			gameContent.Add("OptionsButton");
-			gameContent.Add("ExitButton_Y");
-			gameContent.Add("ExitButton");
-			gameContent.Add("bush_1");
-			gameContent.Add("bush_2");
-			gameContent.Add("BackButton_Y");
-			gameContent.Add("BackButton");
-			gameContent.Add("10p");
-			gameContent.Add("10p_Y");
-			gameContent.Add("Save");
-			gameContent.Add("Save_Y");
-			gameContent.Add("Resume");
-			gameContent.Add("Resume_Y");
-			Console.WriteLine(DateTime.Now.Millisecond - timer.Millisecond);
+			gameContent.Add ("Vol_Br_Bar_Y");
+			gameContent.Add ("Vol_Br_Bar");
+			gameContent.Add ("tile_1");
+			gameContent.Add ("tile_2");
+			gameContent.Add ("player_s");
+			gameContent.Add ("player_r");
+			gameContent.Add ("player_l");
+			gameContent.Add ("Menu");
+			gameContent.Add ("PlayButton_Y");
+			gameContent.Add ("PlayButton");
+			gameContent.Add ("OptionsButton_Y");
+			gameContent.Add ("OptionsButton");
+			gameContent.Add ("ExitButton_Y");
+			gameContent.Add ("ExitButton");
+			gameContent.Add ("bush_1");
+			gameContent.Add ("bush_2");
+			gameContent.Add ("BackButton_Y");
+			gameContent.Add ("BackButton");
+			gameContent.Add ("10p");
+			gameContent.Add ("10p_Y");
+			gameContent.Add ("Save");
+			gameContent.Add ("Save_Y");
+			gameContent.Add ("Resume");
+			gameContent.Add ("Resume_Y");
 			return gameContent;
 		}
 

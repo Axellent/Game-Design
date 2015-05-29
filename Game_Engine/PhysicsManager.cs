@@ -64,6 +64,8 @@ namespace Game_Engine{
 			}
 		}
 
+
+
 		private void HandleCollision(Entity entity1, Entity entity2){
 			if (entity1.Velocity.X == 0 && entity1.Velocity.Y == 0) {
 				entity2.X -= entity2.Velocity.X;

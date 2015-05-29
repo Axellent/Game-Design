@@ -50,14 +50,16 @@ namespace Survival_Game{
 
 			engine.KeyBind.AddRange (contentManager.MenuKeyBindSetup ());
 
-			PlayGameMenu gameMenu = new PlayGameMenu (engine);
+			PlayGameMenu playGameMenu = new PlayGameMenu (engine);
+			playGameMenu.AddPlayBtnListener (LoadGame);
 			StartMenu startMenu = new StartMenu (engine);
 			OptionMenu optionMenu = new OptionMenu (engine);
-			//MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu, ref currentState, engine);			
-			LoadGame ();
-		}
+			MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu, ref currentState, engine);			//LoadGame ();		}
 
 		private void LoadGame(){
+			engine.ClearEntities ();
+			engine.ClearViewPositions ();
+			currentState = GameState.Game;
 			backgroundSound = new SoundEntity (2.0F, 10.0F);
 			//TODO: Add Menus
 			//MenuController menuController = new MenuController (new StartMenu(), new OptionMenu(), new PlayGameMenu());
@@ -89,11 +91,6 @@ namespace Survival_Game{
 			Player player3 = new Player ("player3", false, 500, 400, 72, 62, 0,
 				new BoundingBox (new Vector3 (500 - (72 / 4), 400 - (62 / 4), 0),
 					new Vector3 (500 + (72 / 4), 400 + (62 / 4), 0)), 1, null, true);
-
-			//Adds the players to engine
-			//engine.Entities.Add (player1);
-			//engine.Entities.Add (player2);
-			//engine.Entities.Add (player3);
 
 			defaultview = engine.GraphicsDevice.Viewport;
 			leftview = defaultview;
