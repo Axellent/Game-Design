@@ -29,7 +29,6 @@ namespace Survival_Game
 			OMenu = optionMenu;
 			PGMenu = PlayGameMenu;
 			PGMenu.AddBackBtnListener (goBackButton);
-			PGMenu.AddPlayBtnListener (playButton);
 
 			engine.SetMouseVisibility (true);
 			SMenu.createStartMenu ();
@@ -46,8 +45,6 @@ namespace Survival_Game
 			if (currentState.Equals (GameState.StartMenu)) {
 				currentState = GameState.PlayGameMenu;	
 				PGMenu.createMenu ();
-			} else if (currentState.Equals(GameState.PlayGameMenu)){
-				currentState = GameState.Game;
 			}
 		}
 

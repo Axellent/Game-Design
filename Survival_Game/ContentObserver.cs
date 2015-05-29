@@ -61,29 +61,43 @@ namespace Survival_Game
 						if (button.Texture == null || !button.ButtonHighlighted) {
 							engine.AddTextureOnEntity ("PlayButton", button.ID);
 						} else if (button.ButtonHighlighted) {
-							engine.AddTextureOnEntity ("PlayButtonP", button.ID);
+							engine.AddTextureOnEntity ("PlayButton_Y", button.ID);
 						}
 						break;
 					case "backBtn":
 						if (button.Texture == null || !button.ButtonHighlighted) {
 							engine.AddTextureOnEntity ("BackButton", button.ID);
 						} else if (button.ButtonHighlighted) {
-							engine.AddTextureOnEntity ("BackButtonP", button.ID);
+							engine.AddTextureOnEntity ("BackButton_Y", button.ID);
 						}
 							break;
 					case "optionsBtn":
 						if (button.Texture == null || !button.ButtonHighlighted) {
-						engine.AddTextureOnEntity ("OptionsButton", button.ID);
-					} else if (button.ButtonHighlighted) {
-						engine.AddTextureOnEntity ("OptionsButtonP", button.ID);
-					}
+							engine.AddTextureOnEntity ("OptionsButton", button.ID);
+						} else if (button.ButtonHighlighted) {
+							engine.AddTextureOnEntity ("OptionsButton_Y", button.ID);
+						}
 						break;
 					case "exitBtn":
 						if (button.Texture == null || !button.ButtonHighlighted) {
-						engine.AddTextureOnEntity ("ExitButton", button.ID);
-					} else if (button.ButtonHighlighted) {
-						engine.AddTextureOnEntity ("ExitButtonP", button.ID);
-					}
+							engine.AddTextureOnEntity ("ExitButton", button.ID);
+						} else if (button.ButtonHighlighted) {
+							engine.AddTextureOnEntity ("ExitButton_Y", button.ID);
+						}
+						break;
+					case "resumeBtn":
+						if (button.Texture == null || !button.ButtonHighlighted) {
+							engine.AddTextureOnEntity ("Resume", button.ID);
+						} else if (button.ButtonHighlighted) {
+							engine.AddTextureOnEntity ("Resume_Y", button.ID);
+						}
+						break;
+					case "saveBtn":
+						if (button.Texture == null || !button.ButtonHighlighted) {
+							engine.AddTextureOnEntity ("Save", button.ID);
+						} else if (button.ButtonHighlighted) {
+							engine.AddTextureOnEntity ("Save_Y", button.ID);
+						}
 						break;
 					}
 				}

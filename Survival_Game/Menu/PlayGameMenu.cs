@@ -30,15 +30,9 @@ namespace Survival_Game
 
 			menu = new RenderedEntity ("menu", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 600, 480, 0, 
 				new BoundingBox(), 0, null, false);
-			//backBtn = new Button("playBtn", engine.GetScreenSize().Width/2 - 100, engine.GetScreenSize().Height/2 - 100)
-		}
-				
-		public void Update(){
-			
 		}
 
 		public void createMenu(){
-			engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (0, 0, 0), engine.GraphicsDevice.Viewport, null));
 			engine.AddEntity (backBtn);
 			engine.AddEntity (playBtn);
 			engine.AddEntity (menu);

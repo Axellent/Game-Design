@@ -2,7 +2,7 @@
 using Game_Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using System.Windows;
 namespace Survival_Game
 {
 	//author: Rasmus Bäckerhall
@@ -12,6 +12,7 @@ namespace Survival_Game
 		private GameEngine engine;
 		private Button backBtn;
 		private RenderedEntity menu;
+
 		public OptionMenu(GameEngine engine){
 			this.engine = engine;
 			float btnXPos = engine.GetScreenSize ().Width / 2;
@@ -21,7 +22,8 @@ namespace Survival_Game
 				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false);
 
 			menu = new RenderedEntity ("menu", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 600, 480, 0, 
-				new BoundingBox(), 0, null, false);		}
+				new BoundingBox(), 0, null, false);		
+		}
 
 		public void CreateMenu(){
 			
@@ -32,3 +34,6 @@ namespace Survival_Game
 		}
 	}
 }
+
+
+
