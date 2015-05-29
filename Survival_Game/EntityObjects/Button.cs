@@ -6,22 +6,31 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Survival_Game
 {
-	public class Button : TriggerEntity
-	{
-		private BoundingBox hitbox;
-		public event click clicked;
+	public class Button : TriggerEntity{
 
-		public void textureClicked(){
-			MouseState mousestate = new MouseState ();
-			BoundingBox box = new BoundingBox(new Vector3(mousestate.Position.X, mousestate.Position.Y,0), new Vector3(mousestate.Position.X, mousestate.Position.Y, 0)); 
-			if (hitbox.Intersects(box)){
-				clicked();
+		private bool buttonHighlighted;
+
+		public bool ButtonHighlighted {
+			get {
+				return buttonHighlighted;
+			}
+			set {
+				buttonHighlighted = value;
 			}
 		}
 
-		public Button (string id, float x, float y, float width, float height, float rotation, BoundingBox hitbox, int layer, Texture2D texture, bool hasCollision)
+		public delegate void buttonPressed();
+
+		public event buttonPressed pressed;
+
+		public void OnButtonPressed (){
+			if (pressed != null)
+				pressed ();
+		}
+
+		public Button (string id, float x, float y, float width, float height, float rotation, BoundingBox hitbox, int layer, Texture2D texture, bool hasCollision, bool buttonHighlighted)
 			: base(id, x, y, width, height, rotation, hitbox, layer, texture, hasCollision){
-			this.hitbox = hitbox;
+			this.buttonHighlighted = buttonHighlighted;
 		}
 	}
 }
