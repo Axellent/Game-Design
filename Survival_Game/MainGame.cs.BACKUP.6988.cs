@@ -53,7 +53,12 @@ namespace Survival_Game{
 			PlayGameMenu gameMenu = new PlayGameMenu (engine);
 			StartMenu startMenu = new StartMenu (engine);
 			OptionMenu optionMenu = new OptionMenu (engine);
-			MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu, ref currentState, engine);			//LoadGame ();
+<<<<<<< HEAD
+			//MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu, ref currentState, engine);
+=======
+			MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu, ref currentState, engine);
+>>>>>>> 7cdc68f9070197bc9a47465707bd751ff8517b44
+			LoadGame ();
 		}
 
 		private void LoadGame(){
@@ -107,7 +112,7 @@ namespace Survival_Game{
 					(new Vector3 (player1.X - defaultview.Width / 2,
 						player1.Y - defaultview.Height / 2, 0), defaultview, player1));
 				
-				engine.AddEntity (player1);
+				engine.addEntity (player1);
 			}
 
 			if (numberOfPlayers == 2) {
@@ -119,8 +124,8 @@ namespace Survival_Game{
 				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player2.X - leftview.Width / 2, player2.Y - leftview.Height / 2, 0), leftview, player2));
 				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player1.X - rightview.Width / 2, player1.Y - rightview.Height / 2, 0), rightview, player1));
 
-				engine.AddEntity (player1);
-				engine.AddEntity (player2);
+				engine.addEntity (player1);
+				engine.addEntity (player2);
 			}
 
 			if(numberOfPlayers == 3) {
@@ -138,9 +143,9 @@ namespace Survival_Game{
 				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player3.X - rightview.Width / 2, player3.Y - rightview.Height / 2, 0), rightview, player3));
 				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player1.X - topView.Width / 2, player1.Y - topView.Height / 2, 0), topView, player1));
 
-				engine.AddEntity (player1);
-				engine.AddEntity (player2);
-				engine.AddEntity (player3);
+				engine.addEntity (player1);
+				engine.addEntity (player2);
+				engine.addEntity (player3);
 			}
 				
 			if(numberOfPlayers == 4) {
@@ -163,9 +168,9 @@ namespace Survival_Game{
 				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player1.X - topLeftView.Width / 2, player1.Y - topLeftView.Height / 2, 0), topLeftView, player1));
 				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (player3.X - topRightView.Width / 2, player3.Y - topRightView.Height / 2, 0), topRightView, player3));
 			
-				engine.AddEntity (player1);
-				engine.AddEntity (player2);
-				engine.AddEntity (player3);
+				engine.addEntity (player1);
+				engine.addEntity (player2);
+				engine.addEntity (player3);
 			}
 		}
 
