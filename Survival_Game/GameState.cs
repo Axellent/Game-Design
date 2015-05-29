@@ -6,7 +6,8 @@ namespace Survival_Game
 	{
 		StartMenu,
 		OptionMenu,
-		GameMenu,
+		PlayGameMenu,
+		InGameMenu,
 		Game
 	}
 }

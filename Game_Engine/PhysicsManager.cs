@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-
+using Microsoft.Xna.Framework.Input;
 namespace Game_Engine{
 
 	/* Author: Andreas Lönnermark */
@@ -22,38 +22,105 @@ namespace Game_Engine{
 			}
 		}
 
-		public List<Entity> UpdateHitboxes(List<Entity> entities){
+		public void UpdateEntities(List<Entity> entities){
+			List<Entity> temp = entities.FindAll(e => e.GetType() == typeof(ActorEntity) || e.GetType().IsSubclassOf(typeof(ActorEntity)));
+			for (int i = 0; i < temp.Count; i++) {
+				temp [i].X += temp [i].Velocity.X;
+				temp [i].Y += temp [i].Velocity.Y;
+			}
+		}
+
+		public void UpdateHitboxes(List<Entity> entities){
 
 			foreach(Entity entity in entities){
-				entity.HitBox = new BoundingBox(new Vector3(entity.X - (entity.Width / 3),
-					entity.Y -(entity.Height / 3), 0), 
-					new Vector3(entity.X + (entity.Width / 2),
-						entity.Y + (entity.Height / 2), 0));			
+				UpdateEntityHitbox (entity);
 			}
-			return entities;
 		}
-				
-		public List<KeyValuePair<Entity, Entity>> UpdatePhysics(List<Entity> entities){
-			List<KeyValuePair<Entity, Entity>> collisionPairs;
 
-			collisionPairs = CollisionDetection(entities);
-			return collisionPairs;
+		private void UpdateEntityHitbox(Entity entity){
+			entity.HitBox = new BoundingBox(new Vector3(entity.X - (entity.Width / 3),
+				entity.Y -(entity.Height / 3), 0), 
+				new Vector3(entity.X + (entity.Width / 2),
+					entity.Y + (entity.Height / 2), 0));
+		}
+
+		public void UpdatePhysics(List<Entity> entities){
+			UpdateEntities (entities);
+			UpdateHitboxes (entities);
+			CollisionDetection(entities);
 		}
 			
-		public List<KeyValuePair<Entity, Entity>> CollisionDetection(List<Entity> entities){
-			List<KeyValuePair<Entity, Entity>> collisionPairs = new List<KeyValuePair<Entity, Entity>>();
+		public void CollisionDetection(List<Entity> entities){
 			int i, j;
 
 			for (i = 0; i < entities.Count - 1; i++) {
 				if(entities[i].HasCollision) {
 					for (j = i + 1; j < entities.Count; j++) {
 						if (entities[j].HasCollision && entities[i].HitBox.Intersects (entities[j].HitBox)){
-							collisionPairs.Add (new KeyValuePair<Entity, Entity> (entities[i], entities[j]));
+							HandleCollision (entities[i], entities[j]);
 						}
 					}
 				}
 			}
-			return collisionPairs;
+		}
+
+		private void HandleCollision(Entity entity1, Entity entity2){
+			if (entity1.Velocity.X == 0 && entity1.Velocity.Y == 0) {
+				entity2.X -= entity2.Velocity.X;
+				entity2.Y -= entity2.Velocity.Y;
+			} else if (entity2.Velocity.X == 0 && entity2.Velocity.Y == 0) {
+				entity1.X -= entity1.Velocity.X;
+				entity1.Y -= entity1.Velocity.Y;
+			} else {
+				
+				int entity1_X = (int)entity1.Velocity.X;
+				float entity1_X_rest = (float)entity1.Velocity.X % 1;
+				int entity1_Y = (int)entity1.Velocity.Y;
+				float entity1_Y_rest = (float)entity1.Velocity.Y % 1;
+				int entity2_X = (int)entity1.Velocity.X;
+				float entity2_X_rest = (float)entity1.Velocity.X % 1;
+				int entity2_Y = (int)entity1.Velocity.Y;
+				float entity2_Y_rest = (float)entity1.Velocity.Y % 1;
+
+				int i = 0;
+				while (entity1.HitBox.Intersects (entity2.HitBox)) {
+					if (i % 2 == 0) {
+						if (entity1_X == 0) {
+							entity1.X -= entity1_X_rest;
+						} else if (entity1_X > 0)
+							entity1.X -= 1;
+						else
+							entity1.X += 1;
+						entity1_X--;
+						if (entity1_Y == 0) {
+							entity1.Y -= entity1_Y_rest;
+						} else if (entity1_X > 0)
+							entity1.Y -= 1;
+						else
+							entity1.Y += 1;
+						entity1_Y--;
+						UpdateEntityHitbox (entity1);
+					} else { 
+						if (entity2_X == 0) {
+							entity2.X -= entity2_X_rest;
+						} else if (entity1_X > 0)
+							entity2.X -= 1;
+						else
+							entity2.X += 1;
+						entity2_X--;
+
+						if (entity2_Y == 0) {
+							entity2.Y -= entity2_Y_rest;
+						} else if (entity1_X > 0)
+							entity2.Y -= 1;
+						else
+							entity2.Y += 1;
+						entity2_Y--;
+						UpdateEntityHitbox (entity2);
+					}
+					i++;
+				}
+			}
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace Game_Engine{
 	/* Author: Axel Sigl */
 	public class TriggerEntity : RenderedEntity{
 
-		public delegate void click(); 
+
 
 		public TriggerEntity(string id, float x, float y, float width, float height, float rotation, 
 			BoundingBox hitbox, int layer, Texture2D texture)

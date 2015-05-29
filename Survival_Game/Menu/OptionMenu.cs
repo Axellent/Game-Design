@@ -16,13 +16,13 @@ namespace Survival_Game
 		public OptionMenu(GameEngine engine){
 			this.engine = engine;
 
-			float btnXPos = engine.getScreenSize ().Width / 2;
-			float btnYPos = engine.getScreenSize ().Height / 2;
+			float btnXPos = engine.GetScreenSize ().Width / 2;
+			float btnYPos = engine.GetScreenSize ().Height / 2;
 			
 			backBtn = new Button ("backBtn", btnXPos, btnYPos, 150, 50, 0, 
-				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false);
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false);
 
-			menu = new RenderedEntity ("menu", engine.getScreenSize().Width / 2, engine.getScreenSize().Height / 2, 600, 480, 0, 
+			menu = new RenderedEntity ("menu", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 600, 480, 0, 
 				new BoundingBox(), 0, null, false);
 		}
 

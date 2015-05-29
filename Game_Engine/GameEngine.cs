@@ -8,7 +8,7 @@ namespace Game_Engine{
 
 	/* Author: Axel Sigl
 	* Mediator for the game engine. */
-	public class GameEngine : Game, IObservable<List<Texture2D>>, IObservable<List<Entity>>{
+	public class GameEngine : Game, IObservable<List<Texture2D>>, IObservable<GameTime>{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		RenderManager renderManager;
@@ -18,7 +18,7 @@ namespace Game_Engine{
 		SoundManager soundManager;
 		List<Entity> entities;
 		List<Texture2D> gameContent;
-		IObserver<List<Entity>> entityObserver;
+		IObserver<GameTime> entityObserver;
 		IObserver<List<Texture2D>> contentObserver;
 		List<string> contentNames;
 		List<KeyBind> keyBinds = new List<KeyBind>();
@@ -33,12 +33,6 @@ namespace Game_Engine{
 		public List<KeyBind> Actions{
 			get {
 				return actions;
-			}
-		}
-
-		public List<KeyValuePair<Entity, Entity>> CollisionPairs{
-			get{ 
-				return collisionPairs;
 			}
 		}
 
@@ -120,12 +114,12 @@ namespace Game_Engine{
 		}
 
 		/* Initialises graphics, content, managers, and entities.*/
-		public GameEngine(){
+		public GameEngine(int controllers){
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
 			renderManager = new RenderManager(graphics);
-			inputManager = new InputManager();
+			inputManager = new InputManager(controllers);
 			sceneManager = new SceneManger();
 			physicsManager = new PhysicsManager();
 			soundManager = new SoundManager();
@@ -133,42 +127,43 @@ namespace Game_Engine{
 			entities = new List<Entity>();
 		}
 
-		public void clearEntities(){
+		public void ClearEntities(){
 			entities.Clear ();
 		}
 
-		public void setMouseVisibility(bool visible){
+		public void SetMouseVisibility(bool visible){
 			IsMouseVisible = visible;
 		}
 
-		public void addTextureOnEntity(string textureName, string entityID){
-			RenderedEntity rendered = (RenderedEntity)entities.Find (e => e.ID.Equals (entityID));
-			rendered.Texture = gameContent.Find (t => t.Name.Equals (textureName));
+		public Rectangle GetScreenSize(){
+			return GraphicsDevice.PresentationParameters.Bounds;
 		}
 
-		public Rectangle getScreenSize(){
-			return GraphicsDevice.PresentationParameters.Bounds;
+		public void configureEntity(Vector3 velocity, float rotation, string entityID){
+			moveEntity (velocity, entityID);
+			SetEntityRotation (rotation, entityID);
 		}
 
 		public void moveEntity(Vector3 velocity, string entityID){
 			entities.Find (e => e.ID.Equals (entityID)).Velocity = velocity;
 		}
-
-		public void setEntityRotation(float rotation, string entityID){
+			
+		public void SetEntityRotation(float rotation, string entityID){
 			entities.Find (e => e.ID.Equals (entityID)).Rotation = rotation;
 		}
 
-		public void addEntity(Entity entity){
+		public void AddTextureOnEntity(string textureName, string entityID){
+			RenderedEntity rendered = (RenderedEntity)entities.Find (e => e.ID.Equals (entityID));
+			rendered.Texture = gameContent.Find (t => t.Name.Equals (textureName));
+		}
+
+		public void AddEntity(Entity entity){
 			entities.Add (entity);
 		}
 
-		public void removeAllEntities(){
-			entities.Clear();
-		}
-
-		public IDisposable Subscribe (IObserver<List<Entity>> observer){
+		public IDisposable Subscribe (IObserver<GameTime> observer){
 			this.entityObserver = observer;
-			return new Unsubscriber<IObserver<List<Entity>>>(observer);
+			return new Unsubscriber<IObserver<GameTime>>(observer);
 		}
 
 		public IDisposable Subscribe (IObserver<List<Texture2D>> observer){
@@ -206,15 +201,14 @@ namespace Game_Engine{
 		}
 
 		public void playBackgroundSound(SoundEffect soundEffect, bool isLooped){
-			//soundManager.playBackgroundSound (soundEffect, isLooped);
+			soundManager.playBackgroundSound (soundEffect, isLooped);
 		}
 
 		/* Handles updates to input and physics. Also defines the BoundingBox limits for active entities.
 		 * Overrides the default MonoGame Update method. */
 		protected override void Update(GameTime gameTime){
 			actions = inputManager.HandleInput(keyBinds);
-			entityObserver.OnNext(entities);
-
+			entityObserver.OnNext(gameTime);
 			foreach(Tuple<Vector3,Viewport, Entity> pair in viewPositions) {
 				GraphicsDevice.Viewport = pair.Item2;
 				curViewPos = pair.Item1;
@@ -234,10 +228,7 @@ namespace Game_Engine{
 						curViewPos.Y + GraphicsDevice.Viewport.Height + 100, 0));
 				entities = sceneManager.RestoreSavedEntities(entities, limitBox);
 			}
-
-			entities = physicsManager.UpdateHitboxes(entities);
-			collisionPairs = physicsManager.UpdatePhysics(entities);
-
+			physicsManager.UpdatePhysics (entities);
 			contentObserver.OnNext(GameContent);
 			entityObserver.OnCompleted();
 			base.Update(gameTime);
@@ -249,7 +240,6 @@ namespace Game_Engine{
 			List<RenderedEntity> rendered = sceneManager.SortRenderedEntities(entities);
 			renderManager.Draw (spriteBatch, GraphicsDevice, curViewPos, rendered, viewPositions);
 			base.Draw (gameTime);
-
 		}
 	}
 }

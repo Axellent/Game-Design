@@ -30,7 +30,7 @@ namespace Survival_Game
 		{
 			for(int i = 0; i < engine.Entities.Count; i++){
 				if(engine.Entities[i].GetType() == typeof(Player)) {
-					handlePlayerContent (value, i);
+					HandlePlayerContent (value, i);
 				}
 
 				else if(engine.Entities[i].GetType() == typeof(Tile)) {
@@ -55,27 +55,48 @@ namespace Survival_Game
 				}
 				else if (engine.Entities [i].GetType () == typeof(Button)) {
 					Button button = (Button)engine.Entities [i];
-					if (button.Texture == null) {
-						switch (button.ID) {
-						case "playBtn":
-							engine.addTextureOnEntity ("PlayButton", button.ID);
-							break;
-						case "backBtn":
-							engine.addTextureOnEntity ("BackButton", button.ID);
-							break;
+
+					switch (button.ID) {
+					case "playBtn":
+						if (button.Texture == null || !button.ButtonHighlighted) {
+							engine.AddTextureOnEntity ("PlayButton", button.ID);
+						} else if (button.ButtonHighlighted) {
+							engine.AddTextureOnEntity ("PlayButtonP", button.ID);
 						}
+						break;
+					case "backBtn":
+						if (button.Texture == null || !button.ButtonHighlighted) {
+							engine.AddTextureOnEntity ("BackButton", button.ID);
+						} else if (button.ButtonHighlighted) {
+							engine.AddTextureOnEntity ("BackButtonP", button.ID);
+						}
+							break;
+					case "optionsBtn":
+						if (button.Texture == null || !button.ButtonHighlighted) {
+						engine.AddTextureOnEntity ("OptionsButton", button.ID);
+					} else if (button.ButtonHighlighted) {
+						engine.AddTextureOnEntity ("OptionsButtonP", button.ID);
+					}
+						break;
+					case "exitBtn":
+						if (button.Texture == null || !button.ButtonHighlighted) {
+						engine.AddTextureOnEntity ("ExitButton", button.ID);
+					} else if (button.ButtonHighlighted) {
+						engine.AddTextureOnEntity ("ExitButtonP", button.ID);
+					}
+						break;
 					}
 				}
 				else if (engine.Entities [i].GetType () == typeof(RenderedEntity)) {
 					RenderedEntity rendEnt = (RenderedEntity)engine.Entities [i];
 					if (rendEnt.Texture == null) {
-						engine.addTextureOnEntity ("Menu", rendEnt.ID);
+						engine.AddTextureOnEntity ("Menu", rendEnt.ID);
 					}
 				}
 			}
 		}
 
-		public void handlePlayerContent(List<Texture2D> texture, int index){
+		public void HandlePlayerContent(List<Texture2D> texture, int index){
 			Player player = (Player)engine.Entities[index];
 
 			if(player.Texture != null) {
@@ -96,7 +117,7 @@ namespace Survival_Game
 			} else {
 				player.Texture = texture.Find(x => x.Name.Equals("player_s"));
 			}
-			engine.Entities[index] = player;
+			//engine.Entities[index] = player;
 		}
 
 		public void OnError (Exception error)

@@ -13,39 +13,40 @@ namespace Survival_Game
 	//TODO: 3 buttons for optionmenu, playmenu and exit. 
 	public class StartMenu
 	{
-		/*private Texture2D menuTexture;
-		private Rectangle menuRect;
-		private String assetName;*/
 		GameEngine engine;
-		private Button play, options, exit;
-		//List<GUIElement> main = new List<GUIElement>;
+		private Button playBtn, optionsBtn, exitBtn;
+		private RenderedEntity menu;
 
 		public StartMenu (GameEngine engine){
-
 			this.engine = engine;
-			//play = new Button("Play Game", engine.getScreenSize().X/2 - 100, engine.getScreenSize().Y/2 - 100, );
-			//Content.RootDirectory = "Content";
+			playBtn = new Button ("playBtn", engine.GetScreenSize ().Width / 2, engine.GetScreenSize ().Height / 2, 
+				150, 50, 0, new BoundingBox (), 1, null, false, true);
+			optionsBtn = new Button ("optionsBtn", engine.GetScreenSize ().Width / 2, engine.GetScreenSize ().Height / 2 + 100,
+				150, 50, 0, new BoundingBox (), 1, null, false, false);
+			exitBtn = new Button ("exitBtn", engine.GetScreenSize ().Width / 2, engine.GetScreenSize ().Height / 2 + 200, 
+				150, 50, 0, new BoundingBox (), 1, null, false, false);
+			menu = new RenderedEntity ("menu", engine.GetScreenSize ().Width / 2, engine.GetScreenSize ().Height / 2,
+				600, 480, 0, new BoundingBox (), 0, null, false);
 		}
 
-		public void LoadMenu(List<Entity> entities){
+		public void createStartMenu(){
+			engine.AddEntity (playBtn);
+			engine.AddEntity (optionsBtn);
+			engine.AddEntity (exitBtn);
+			engine.AddEntity (menu);
 		}
 
-		public void LoadContent(){
+		public void AddPlayButtonListener(Button.buttonPressed buttonListener){
+			playBtn.pressed += buttonListener;
+		}
 			
-			/*menuTexture = content.Load<Texture2D> (assetName);
-			menuRect = new Rectangle(0, 0, menuTexture.Width, menuTexture.Height);*/
+		public void AddOptionsButtonListener(Button.buttonPressed buttonListener){
+			optionsBtn.pressed += buttonListener;
 		}
 
-		public void Update(){
-
+		public void AddExitButtonListener(Button.buttonPressed buttonListener){
+			exitBtn.pressed += buttonListener;
 		}
-
-		public void Draw(SpriteBatch spritebatch){
-			/*spritebatch.Begin();
-			spritebatch.Draw(menuTexture, menuRect, Color.Black);
-			spritebatch.End();*/
-		}
-		//TODO: add functionality for button click... might be moved to MenuController
 	}
 }
 

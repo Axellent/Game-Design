@@ -10,23 +10,23 @@ namespace Game_Engine{
 
 	/* Author: Andreas Lönnermark */
 	public class InputManager{
-		//private int player = (int)PlayerIndex.One;
+		private int numControllers = 0;
 
-		public InputManager(){
+		public InputManager(int numControllers){
+			this.numControllers = numControllers;
 		}
 
 
 		public List<KeyBind> HandleInput(List<KeyBind> keyBinds){
 			List<KeyBind> actions = new List<KeyBind>();
 			KeyboardState keyboardState = Keyboard.GetState();
-			GamePadState gamepadState = GamePad.GetState (PlayerIndex.One);
+			List<GamePadState> gamepadStates = GetGamePadStates();
 			Keys[] pressedKeys = keyboardState.GetPressedKeys();
 			//Buttons[] pressedButtons = gamepadState.GetVirtualButtons();
 
 			if (pressedKeys.Length > 0) {
 				foreach (Keys k in pressedKeys){
 					string keyValue = k.ToString();
-
 					foreach (KeyBind kb in keyBinds) {
 						foreach (String key in kb.Keys) {
 							if (key.Equals(keyValue)) {
@@ -40,6 +40,14 @@ namespace Game_Engine{
 
 
 			return actions;
+		}
+
+		private List<GamePadState> GetGamePadStates (){
+			List<GamePadState> gamePadStates = new List<GamePadState> ();
+			for (int i = 1; i < numControllers + 1; i++) {
+				gamePadStates.Add(GamePad.GetState ((PlayerIndex)i));
+			}
+			return gamePadStates;
 		}
 
 		/*public string HandleInput(){
