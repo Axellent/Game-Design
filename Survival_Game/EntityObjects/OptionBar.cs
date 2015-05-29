@@ -7,22 +7,22 @@ namespace Survival_Game
 {
 	public class OptionBar : TriggerEntity
 	{
-		private int percentage;
+		private int tenPercentage;
 
-		public int Percentage {
+		public int TenPercentage {
 			get {
-				return percentage;
+				return tenPercentage;
 			}
 			set {
-				percentage = value;
+				tenPercentage = value;
 			}
 		}
 
 		public OptionBar (string id, float x, float y, float width, float height, float rotation, 
-			BoundingBox hitbox, int layer, Texture2D texture, int percentage)
+			BoundingBox hitbox, int layer, Texture2D texture, int tenPercentage)
 			: base(id, x, y, width, height, rotation, hitbox, layer, texture)
 		{
-			this.percentage = percentage;
+			this.tenPercentage = tenPercentage;
 		}
 	}
 }

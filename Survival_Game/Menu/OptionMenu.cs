@@ -27,17 +27,19 @@ namespace Survival_Game
 			menu = new RenderedEntity ("menu", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 600, 480, 0, 
 				new BoundingBox(), 0, null, false);
 
-			volume = new OptionBar("Master Volume", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 600, 480, 0, 
+			volume = new OptionBar("masterVolume", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 165, 24, 0, 
 				new BoundingBox(), 1, null, 10);
 
-			fullscreen = new CheckBox();
-			fullscreen.Appearance = Appearance.Button;
+			fullscreen = new CheckBox("fullscreen", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 20, 20, 0, 
+				new BoundingBox(), 1, null);
 		}
 
 		public void CreateMenu(){
-			engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (0, 0, 0), engine.GraphicsDevice.Viewport, null));
+			//engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (0, 0, 0), engine.GraphicsDevice.Viewport, null));
 			engine.AddEntity(backBtn);
-			//engine.Add(fullscreen);
+			engine.AddEntity(volume);
+			engine.AddEntity(menu);
+			engine.AddEntity(fullscreen);
 		}
 
 		public void AddOptionButtonListener(){
