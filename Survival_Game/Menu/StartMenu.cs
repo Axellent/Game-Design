@@ -36,21 +36,17 @@ namespace Survival_Game
 			engine.AddEntity (menu);
 		}
 
-		public void AddPlayButtonListener(Button.press buttonListener){
-			playBtn.Pressed += buttonListener;
+		public void AddPlayButtonListener(Button.buttonPressed buttonListener){
+			playBtn.pressed += buttonListener;
+		}
+			
+		public void AddOptionsButtonListener(Button.buttonPressed buttonListener){
+			optionsBtn.pressed += buttonListener;
 		}
 
-		public void AddExitButtonListener(Button.press buttonListener){
-			exitBtn.Pressed += buttonListener;
+		public void AddExitButtonListener(Button.buttonPressed buttonListener){
+			exitBtn.pressed += buttonListener;
 		}
-
-		public void Update(){
-
-		}
-
-		public void Draw(){
-		}
-		//TODO: add functionality for button click... might be moved to MenuController
 	}
 }
 

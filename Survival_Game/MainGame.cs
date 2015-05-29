@@ -25,8 +25,8 @@ namespace Survival_Game{
 		Viewport topRightView;
 
 		public MainGame(){
-			engine = new GameEngine();
-			//menu = new PlayGameMenu(engine);
+			currentState = GameState.StartMenu;
+			engine = new GameEngine(0);
 			LoadContent();
 			engine.Run();
 		}
@@ -34,8 +34,9 @@ namespace Survival_Game{
 		//Loads the content to game engine. Most instances will be moved to the menu classes in iteration 3
 		private void LoadContent()
 		{
+			//engine.ContentNames = contentManager.LoadContent ("Content/");
 			engine.ContentNames = contentManager.LoadGameContent ();
-			engine.SoundContentNames = contentManager.LoadSoundContent ();
+			engine.SoundContentNames = contentManager.LoadContent ("Content/Sound/");
 
 			//Creates observers
 			entityObserver = new EntityObserver (engine, generatedPortions);
@@ -49,11 +50,11 @@ namespace Survival_Game{
 
 			engine.KeyBind.AddRange (contentManager.MenuKeyBindSetup ());
 
-			//PlayGameMenu gameMenu = new PlayGameMenu (engine);
-			//StartMenu startMenu = new StartMenu (engine);
-			//OptionMenu optionMenu = new OptionMenu (engine);
-			//MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu, ref currentState, engine);
-			LoadGame ();
+			PlayGameMenu gameMenu = new PlayGameMenu (engine);
+			StartMenu startMenu = new StartMenu (engine);
+			OptionMenu optionMenu = new OptionMenu (engine);
+			MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu, ref currentState, engine);
+			//LoadGame ();
 		}
 
 		private void LoadGame(){

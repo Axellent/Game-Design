@@ -58,28 +58,28 @@ namespace Survival_Game
 
 					switch (button.ID) {
 					case "playBtn":
-						if (button.Texture == null) {
+						if (button.Texture == null || !button.ButtonHighlighted) {
 							engine.AddTextureOnEntity ("PlayButton", button.ID);
 						} else if (button.ButtonHighlighted) {
 							engine.AddTextureOnEntity ("PlayButtonP", button.ID);
 						}
 						break;
 					case "backBtn":
-						if (button.Texture == null) {
+						if (button.Texture == null || !button.ButtonHighlighted) {
 							engine.AddTextureOnEntity ("BackButton", button.ID);
 						} else if (button.ButtonHighlighted) {
 							engine.AddTextureOnEntity ("BackButtonP", button.ID);
 						}
 							break;
 					case "optionsBtn":
-						if (button.Texture == null) {
+						if (button.Texture == null || !button.ButtonHighlighted) {
 						engine.AddTextureOnEntity ("OptionsButton", button.ID);
 					} else if (button.ButtonHighlighted) {
 						engine.AddTextureOnEntity ("OptionsButtonP", button.ID);
 					}
 						break;
 					case "exitBtn":
-						if (button.Texture == null) {
+						if (button.Texture == null || !button.ButtonHighlighted) {
 						engine.AddTextureOnEntity ("ExitButton", button.ID);
 					} else if (button.ButtonHighlighted) {
 						engine.AddTextureOnEntity ("ExitButtonP", button.ID);
@@ -117,7 +117,7 @@ namespace Survival_Game
 			} else {
 				player.Texture = texture.Find(x => x.Name.Equals("player_s"));
 			}
-			engine.Entities[index] = player;
+			//engine.Entities[index] = player;
 		}
 
 		public void OnError (Exception error)

@@ -40,12 +40,12 @@ namespace Survival_Game
 			engine.AddEntity (menu);
 		}
 			
-		public void AddBackBtnListener(Button.press buttonclick){
-			backBtn.Pressed += buttonclick;
+		public void AddBackBtnListener(Button.buttonPressed buttonclick){
+			backBtn.pressed += buttonclick;
 		}
 
-		public void AddPlayBtnListener(Button.press buttonclick){
-			playBtn.Pressed += buttonclick;
+		public void AddPlayBtnListener(Button.buttonPressed buttonclick){
+			playBtn.pressed += buttonclick;
 		}
 	}
 }

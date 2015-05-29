@@ -19,41 +19,42 @@ namespace Survival_Game{
 		//defines the content that should be loaded by the engine
 		public List<string> LoadGameContent(){
 			List<string> gameContent = new List<string>();
+			DateTime timer = DateTime.Now;
+			gameContent.Add("Vol_Br_Bar");
 			gameContent.Add("tile_1");
 			gameContent.Add("tile_2");
 			gameContent.Add("player_s");
 			gameContent.Add("player_r");
 			gameContent.Add("player_l");
+			gameContent.Add ("Menu");
+			gameContent.Add ("PlayButtonP");
+			gameContent.Add ("PlayButton");
+			gameContent.Add ("OptionsButtonP");
+			gameContent.Add ("OptionsButton");
+			gameContent.Add ("ExitButtonP");
+			gameContent.Add ("ExitButton");
 			gameContent.Add ("bush_1");
 			gameContent.Add ("bush_2");
-			gameContent.Add ("Menu");
-			gameContent.Add ("OptionsButton");
-			gameContent.Add ("PlayButton");
-			gameContent.Add ("ExitButton");
-			gameContent.Add ("BackButton");
-			gameContent.Add ("OptionsButtonP");
-			gameContent.Add ("PlayButtonP");
-			gameContent.Add ("ExitButtonP");
 			gameContent.Add ("BackButtonP");
+			gameContent.Add ("BackButton");
+			gameContent.Add ("10p");
+			Console.WriteLine(DateTime.Now.Millisecond - timer.Millisecond);
 			return gameContent;
 		}
 
-		public List<string> LoadSoundContent(){
-			List<string> soundContent = new List<string> ();
-			string[] str = Directory.GetFiles (Directory.GetCurrentDirectory () + "\\Content\\Sound");
-			string[] dir = new string[56];
+		public List<string> LoadContent(string contentPath){
+			List<string> content = new List<string> ();
+			string[] str = Directory.GetFiles (Directory.GetCurrentDirectory () + "/" + contentPath, "*.xnb", SearchOption.TopDirectoryOnly);
+			string[] dir = new string[str.Length];
 			string[] temp = new string[1];
-			temp [0] = "Content\\";
+			temp [0] = "Content/";
 			int i = 0;
 			foreach (string s in str) {
-				if (s.Split('.')[1].Equals("xnb")){
-					dir[i] = s.Split (temp, StringSplitOptions.RemoveEmptyEntries)[1].Split('.')[0];
-					dir[i] = dir[i].Replace('\\', '/');
-					soundContent.Add (dir [i]);
-					i++;
-				}
+				dir[i] = s.Split (temp, StringSplitOptions.RemoveEmptyEntries)[1].Split('.')[0];
+				content.Add (dir [i]);
+				i++;
 			}
-			return soundContent;
+			return content;
 		}
 
 		public List<KeyBind> MenuKeyBindSetup(){
@@ -71,6 +72,14 @@ namespace Survival_Game{
 			keybind3.EntityID = "none";
 			keybind3.Keys.Add ("Enter");
 			keybind3.Action = "enter";
+			KeyBind keybind4 = new KeyBind ();
+			keybind4.EntityID = "none";
+			keybind4.Keys.Add ("Left");
+			keybind4.Action = "left";
+			KeyBind keybind5 = new KeyBind ();
+			keybind5.EntityID = "none";
+			keybind5.Keys.Add ("Right");
+			keybind5.Action = "right";
 
 			keybinds.Add (keybind1);
 			keybinds.Add (keybind2);
@@ -104,7 +113,7 @@ namespace Survival_Game{
 			keybind4.Action = "right";
 			KeyBind keybind5 = new KeyBind ();
 			keybind5.Keys.Add ("f");
-			keybind5.Keys.Add("F");
+			keybind5.Keys.Add ("F");
 			keybind5.EntityID = playerID;
 			keybind5.Action = "action";
 

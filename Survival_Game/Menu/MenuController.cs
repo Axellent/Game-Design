@@ -23,6 +23,7 @@ namespace Survival_Game
 			currentState = GameState.StartMenu;
 			SMenu = startMenu;
 			SMenu.AddExitButtonListener (exitButton);
+			SMenu.AddOptionsButtonListener (optionsButton);
 			SMenu.AddPlayButtonListener (playButton);
 
 			OMenu = optionMenu;
@@ -36,22 +37,27 @@ namespace Survival_Game
 
 		private void goBackButton(){
 			engine.ClearEntities ();
+			currentState = GameState.StartMenu;
 			SMenu.createStartMenu ();
 		}
 
 		private void playButton(){
 			engine.ClearEntities ();
-			if (currentState.Equals (GameState.StartMenu)) {	
+			if (currentState.Equals (GameState.StartMenu)) {
+				currentState = GameState.PlayGameMenu;	
 				PGMenu.createMenu ();
+			} else if (currentState.Equals(GameState.PlayGameMenu)){
+				currentState = GameState.Game;
 			}
 		}
 
 		private void exitButton(){
-
+			engine.Exit ();
 		}
 
 		private void optionsButton(){
-
+			engine.ClearEntities ();
+			currentState = GameState.OptionMenu;
 		}
 	}
 }

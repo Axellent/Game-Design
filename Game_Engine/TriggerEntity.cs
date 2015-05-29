@@ -9,14 +9,7 @@ namespace Game_Engine{
 	/* Author: Axel Sigl */
 	public class TriggerEntity : RenderedEntity{
 
-		public delegate void press(); 
 
-		public event press Pressed;
-
-		public void OnButtonPressed(){
-			if (Pressed != null)
-				Pressed ();
-		}
 
 		public TriggerEntity(string id, float x, float y, float width, float height, float rotation, 
 			BoundingBox hitbox, int layer, Texture2D texture)
