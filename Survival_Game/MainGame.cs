@@ -39,8 +39,8 @@ namespace Survival_Game{
 			engine.SoundContentNames = contentManager.LoadContent ("Content/Sound/");
 
 			//Creates observers
-			entityObserver = new EntityObserver (engine, generatedPortions);
-			contentObserver = new ContentObserver (engine, entityObserver);
+			entityObserver = new EntityObserver (engine, generatedPortions, ref currentState);
+			contentObserver = new ContentObserver (engine, ref currentState);
 
 			//Subscribes the observers to the engine and sends a disposable to the observers.
 			IDisposable dis = engine.Subscribe (entityObserver);
@@ -54,9 +54,10 @@ namespace Survival_Game{
 			playGameMenu.AddPlayBtnListener (LoadGame);
 			StartMenu startMenu = new StartMenu (engine);
 			OptionMenu optionMenu = new OptionMenu (engine);
-			MenuController menuController = new MenuController (startMenu, optionMenu, gameMenu, ref currentState, engine);			//LoadGame ();		}
+			MenuController menuController = new MenuController (startMenu, optionMenu, playGameMenu, ref currentState, engine);
+		}
 
-		private void LoadGame(){
+			private void LoadGame(){
 			engine.ClearEntities ();
 			engine.ClearViewPositions ();
 			currentState = GameState.Game;

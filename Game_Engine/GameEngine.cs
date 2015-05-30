@@ -23,7 +23,6 @@ namespace Game_Engine{
 		List<string> contentNames;
 		List<KeyBind> keyBinds = new List<KeyBind>();
 		List<KeyBind> actions = new List<KeyBind>();
-		List<KeyValuePair<Entity, Entity>> collisionPairs;
 		List<SoundEffect> soundContent;
 		List<string> soundContentNames;
 
@@ -117,7 +116,6 @@ namespace Game_Engine{
 		public GameEngine(int controllers){
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
-
 			renderManager = new RenderManager(graphics);
 			inputManager = new InputManager(controllers);
 			sceneManager = new SceneManger();
@@ -160,9 +158,25 @@ namespace Game_Engine{
 			RenderedEntity rendered = (RenderedEntity)entities.Find (e => e.ID.Equals (entityID));
 			rendered.Texture = gameContent.Find (t => t.Name.Equals (textureName));
 		}
+			
+		public void RemoveEntity(Entity entity){
+			entities.Remove (entity);
+		}
 
 		public void AddEntity(Entity entity){
 			entities.Add (entity);
+		}
+
+		public void HandleSpriteSheet(string entityID, Rectangle rect){
+			RenderedEntity rendered = (RenderedEntity)entities.Find (e => e.ID.Equals (entityID));
+			rendered.Rect = rect;
+		}
+
+		public int GetTextureWidth(string textureName){
+			return gameContent.Find (t => t.Name.Equals(textureName)).Width;
+		}
+		public int GetTextureHeight(string textureName){
+			return gameContent.Find (t => t.Name.Equals (textureName)).Height;
 		}
 
 		public IDisposable Subscribe (IObserver<GameTime> observer){
@@ -190,7 +204,6 @@ namespace Game_Engine{
 		/* Loads all content in contentNames */
 		protected override void LoadContent(){
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-			collisionPairs = new List<KeyValuePair<Entity, Entity>>();
 
 			gameContent = renderManager.LoadContent(Content, contentNames);
 			contentNames.Clear ();
@@ -199,13 +212,12 @@ namespace Game_Engine{
 			soundContentNames.Clear ();
 
 			contentObserver.OnNext(GameContent);
-			playBackgroundSound (soundContent.Find(s => s.Name.Equals("Sound/DaySound_02")), true);
 
 			base.LoadContent();
 		}
 
-		public void playBackgroundSound(SoundEffect soundEffect, bool isLooped){
-			soundManager.playBackgroundSound (soundEffect, isLooped);
+		public void playBackgroundSound(string soundName, bool isLooped){
+			soundManager.playBackgroundSound (soundContent.Find(s => s.Name.Equals(soundName)), isLooped);
 		}
 
 		/* Handles updates to input and physics. Also defines the BoundingBox limits for active entities.
@@ -244,6 +256,12 @@ namespace Game_Engine{
 			List<RenderedEntity> rendered = sceneManager.SortRenderedEntities(entities);
 			renderManager.Draw (spriteBatch, GraphicsDevice, curViewPos, rendered, viewPositions);
 			base.Draw (gameTime);
+		}
+
+		protected override void OnExiting (object sender, EventArgs args)
+		{
+			Dispose ();
+			base.OnExiting (sender, args);
 		}
 	}
 }

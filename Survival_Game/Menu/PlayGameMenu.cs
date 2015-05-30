@@ -23,27 +23,29 @@ namespace Survival_Game
 			float btnXPos = engine.GetScreenSize ().Width / 2;
 			float btnYPos = engine.GetScreenSize ().Height / 2;
 			playBtn = new Button("playBtn", btnXPos, btnYPos, 150, 50, 0, 
-				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, true);
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, true, 0);
 
 			backBtn = new Button ("backBtn", btnXPos, btnYPos + 100, 150, 50, 0, 
-				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false);
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false, 1);
 
 			menu = new RenderedEntity ("menu", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 600, 480, 0, 
 				new BoundingBox(), 0, null, false);
 		}
 
-		public void createMenu(){
+		public void CreateMenu(){
 			engine.AddEntity (backBtn);
 			engine.AddEntity (playBtn);
 			engine.AddEntity (menu);
 		}
-			
-		public void AddBackBtnListener(Button.buttonPressed buttonclick){
-			backBtn.pressed += buttonclick;
+
+
+
+		public void AddBackBtnListener(Button.entitySelected buttonclick){
+			backBtn.selected += buttonclick;
 		}
 
-		public void AddPlayBtnListener(Button.buttonPressed buttonclick){
-			playBtn.pressed += buttonclick;
+		public void AddPlayBtnListener(Button.entitySelected buttonclick){
+			playBtn.selected += buttonclick;
 		}
 	}
 }

@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Windows.Forms;
+using System.Collections;
+using System.Collections.Generic;
 using Game_Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Windows;
 
 namespace Survival_Game
 {
@@ -15,22 +15,25 @@ namespace Survival_Game
 		private Button backBtn;
 		private RenderedEntity menu;
 		private OptionBar volume;
-		private CheckBox fullscreen;		public OptionMenu(GameEngine engine){
+		private CheckBox fullscreen;
+		private List<TriggerEntity> volumeFlows; 
+
+		public OptionMenu(GameEngine engine){
 			this.engine = engine;
 			float btnXPos = engine.GetScreenSize ().Width / 2;
 			float btnYPos = engine.GetScreenSize ().Height / 2;
 			
-			backBtn = new Button ("backBtn", btnXPos, btnYPos, 150, 50, 0, 
-				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false);
+			backBtn = new Button ("backBtn", btnXPos - 200, btnYPos + 200, 150, 50, 0, 
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, true, 2);
 
 			menu = new RenderedEntity ("menu", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 600, 480, 0, 
-				new BoundingBox(), 0, null, false);		
-}
-			volume = new OptionBar("masterVolume", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 165, 24, 0, 
-				new BoundingBox(), 1, null, 10);
+				new BoundingBox(), 0, null, false);
 
-			fullscreen = new CheckBox("fullscreen", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 20, 20, 0, 
-				new BoundingBox(), 1, null);
+			volume = new OptionBar("masterVolume", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2 - 100, 165, 24, 0, 
+				new BoundingBox(), 1, null, false, false, 10, 0, new Rectangle(0,0,0,0));
+
+			fullscreen = new CheckBox("fullscreen", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2 + 0, 20, 20, 0, 
+				new BoundingBox(), 1, null, false, false, 1);
 		}
 
 		public void CreateMenu(){
@@ -41,14 +44,15 @@ namespace Survival_Game
 			engine.AddEntity(fullscreen);
 		}
 
-		public void AddOptionButtonListener(){
-
+		public void AddBackBtnListener(Button.entitySelected buttonListener){
+			backBtn.selected += buttonListener;
 		}
-
-		public void AddBackButtonListener(Button.buttonPressed buttonListener){
-			backBtn.pressed += buttonListener;
+			
+		public void AddBarListener(Button.entitySelected buttonListener){
+			backBtn.selected += buttonListener;
 		}
-	}}
+	}
+}
 
 
 
