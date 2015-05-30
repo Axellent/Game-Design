@@ -15,7 +15,9 @@ namespace Survival_Game
 		private Button backBtn;
 		private RenderedEntity menu;
 		private OptionBar volume;
-		private CheckBox fullscreen;		public OptionMenu(GameEngine engine){
+		private CheckBox fullscreen;
+
+		public OptionMenu(GameEngine engine){
 			this.engine = engine;
 			float btnXPos = engine.GetScreenSize ().Width / 2;
 			float btnYPos = engine.GetScreenSize ().Height / 2;
@@ -25,7 +27,7 @@ namespace Survival_Game
 
 			menu = new RenderedEntity ("menu", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 600, 480, 0, 
 				new BoundingBox(), 0, null, false);		
-}
+			
 			volume = new OptionBar("masterVolume", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 165, 24, 0, 
 				new BoundingBox(), 1, null, 10);
 
