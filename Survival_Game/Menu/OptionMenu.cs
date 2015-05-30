@@ -5,6 +5,7 @@ using Game_Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+
 namespace Survival_Game
 {
 	//author: Rasmus Bäckerhall
@@ -16,10 +17,8 @@ namespace Survival_Game
 		private RenderedEntity menu;
 		private OptionBar volume;
 		private CheckBox fullscreen;
-		private List<TriggerEntity> volumeFlows; 
 
-		public OptionMenu(GameEngine engine){
-			this.engine = engine;
+		public OptionMenu(GameEngine engine){			this.engine = engine;
 			float btnXPos = engine.GetScreenSize ().Width / 2;
 			float btnYPos = engine.GetScreenSize ().Height / 2;
 			
@@ -27,8 +26,6 @@ namespace Survival_Game
 				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, true, 2);
 
 			menu = new RenderedEntity ("menu", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 600, 480, 0, 
-				new BoundingBox(), 0, null, false);
-
 			volume = new OptionBar("masterVolume", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2 - 100, 165, 24, 0, 
 				new BoundingBox(), 1, null, false, false, 10, 0, new Rectangle(0,0,0,0));
 
@@ -47,6 +44,7 @@ namespace Survival_Game
 		public void AddBackBtnListener(Button.entitySelected buttonListener){
 			backBtn.selected += buttonListener;
 		}
+
 			
 		public void AddBarListener(Button.entitySelected buttonListener){
 			backBtn.selected += buttonListener;
