@@ -108,16 +108,24 @@ namespace Game_Engine{
 		}
 
 		/* Initialises graphics, content, managers, and entities.*/
-		public GameEngine(int controllers){
+		public GameEngine(){
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 			renderManager = new RenderManager(graphics);
-			inputManager = new InputManager(controllers);
+			inputManager = new InputManager();
 			sceneManager = new SceneManger();
 			physicsManager = new PhysicsManager();
 			soundManager = new SoundManager();
 
 			entities = new List<Entity>();
+		}
+
+		public void setVolume(){
+
+		}
+
+		public void SetNumberOfControllers(int numControllers){
+			inputManager.SetNumberOfController (numControllers);
 		}
 
 		public void ClearEntities(){
@@ -133,19 +141,17 @@ namespace Game_Engine{
 		}
 
 		public void ClearViewPositions(){
-			viewPositions.Clear();
+			viewPositions.Clear ();
 		}
 
 		/* Changes the entitys velocity and rotation as desired. */
 		public void ConfigureEntity(Vector3 velocity, float rotation, string entityID){
 			MoveEntity(velocity, entityID);
-			SetEntityRotation(rotation, entityID);
-		}
+			SetEntityRotation(rotation, entityID);		}
 
 		/* Updates the entitys velocity. */
 		public void MoveEntity(Vector3 velocity, string entityID){
-			entities.Find (e => e.ID.Equals(entityID)).Velocity = velocity;
-		}
+			entities.Find (e => e.ID.Equals(entityID)).Velocity = velocity;		}
 
 		/* Updates the entitys rotation. */
 		public void SetEntityRotation(float rotation, string entityID){

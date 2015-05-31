@@ -3,7 +3,6 @@ using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Survival_Game
 {
@@ -17,14 +16,12 @@ namespace Survival_Game
 		List<Portion> generatedPortions;
 		private bool compSet;
 		TimeSpan oldtimespan;
-		private GameState currentGameState;
 
-		public EntityObserver (GameEngine engine, List<Portion> generatedPortions, ref GameState currentGameState)
+		public EntityObserver (GameEngine engine, List<Portion> generatedPortions)
 		{
 			oldPlayers = new List<Player> ();
 			this.engine = engine;
 			this.generatedPortions = generatedPortions;
-			this.currentGameState = currentGameState;
 		}
 
 		public void AddDisposableObserver(IDisposable disposableObserver){
@@ -45,28 +42,34 @@ namespace Survival_Game
 		//Hint: Not fully working yet, needs to be more dynamic. The collision management only works at certain key input
 		public void OnNext (GameTime gameTime)
 		{
-			//if (currentGameState == GameState.Game) {
+			if (MainGame.currentState == GameState.Game) {
 				for (int i = 0; i < engine.Entities.Count; i++) {
 					if (engine.Entities [i].GetType () == typeof(Player)) {
 						HandlePlayer (engine.Entities [i]);
+
+					} 
+					else if(engine.Entities[i].GetType() == typeof(Wolf)){
+						Wolf wolf = (Wolf)engine.Entities[i];
+						wolf.UpdateWolf(engine.Entities);
 					}
-				}
-			//} 
-			//else if (currentGameState == GameState.InGameMenu || currentGameState == GameState.OptionMenu 
-			//	|| currentGameState == GameState.PlayGameMenu || currentGameState == GameState.StartMenu) {
-				if (engine.Entities.Exists(e=> e.GetType ().IsSubclassOf (typeof(MenuComponent)))) {
+
+				} 
+			}
+			else if (MainGame.currentState == GameState.InGameMenu || MainGame.currentState == GameState.OptionMenu 
+				|| MainGame.currentState == GameState.PlayGameMenu || MainGame.currentState == GameState.StartMenu) {				
+					if (engine.Entities.Exists(e=> e.GetType ().IsSubclassOf (typeof(MenuComponent)))) {
 					TimeSpan time = gameTime.TotalGameTime;
 					if (oldtimespan.Ticks == 0 || time.TotalMilliseconds - oldtimespan.TotalMilliseconds > 200) { 
 						HandleMenuComponent (time);
 					}
-				//}
+				}
 				compSet = false;
 			}
 		}
 
 		private void HandleMenuComponent (TimeSpan time){
 			List<Entity> menuComps = engine.Entities.FindAll (e => e.GetType ().IsSubclassOf (typeof(MenuComponent)));
-			KeyBind<Keys> keybind = engine.Actions.Find (k => k.EntityID.Equals ("none"));
+			KeyBind keybind = engine.Actions.Find (k => k.EntityID.Equals ("global"));
 			MenuComponent menuComp = (MenuComponent)menuComps.Find (m => ((MenuComponent)m).IsHighlighted);
 			if (keybind != null) {
 				switch (keybind.Action) {
@@ -107,12 +110,47 @@ namespace Survival_Game
 						} else {
 							((CheckBox)menuComp).IsChecked = true;
 						}
-					} 
-					else 
-						menuComp.OnSelect ();
+					} else if (menuComp.GetType () == typeof(Button)) {
+						HandlePlayerButtons ((Button)menuComp);
+					}
 					oldtimespan = time;
 					break;
+				case "menu":
+					
+					break;
 				}
+			}
+		}
+
+		public void HandlePlayerButtons(Button button){
+			switch(button.ID){
+			case "player1Btn":
+				if (!button.PlayerSelectedCalled)
+					button.OnPlayerSelect ("player1", false);
+				else
+					button.PlayerSelectedCalled = false;
+				break;
+			case "player2Btn":
+				if (!button.PlayerSelectedCalled)
+					button.OnPlayerSelect ("player2", false);
+				else
+					button.PlayerSelectedCalled = false;
+				break;
+			case "player3Btn":
+				if (!button.PlayerSelectedCalled)
+					button.OnPlayerSelect ("player3", true);
+				else
+					button.PlayerSelectedCalled = false;
+				break;
+			case "player4Btn":
+				if (!button.PlayerSelectedCalled)
+					button.OnPlayerSelect ("player4", true);
+				else
+					button.PlayerSelectedCalled = false;
+				break;
+			default:
+				button.OnSelect ();
+				break;
 			}
 		}
 
@@ -128,14 +166,14 @@ namespace Survival_Game
 
 		private void HandlePlayer(Entity entity){
 			Player player = (Player) entity;				//From here, move to a method.
-			List<KeyBind<Keys>> playerKeyBinds = engine.Actions.FindAll (x => x.EntityID.Equals (player.ID));
+			List<KeyBind> playerKeyBinds = engine.Actions.FindAll (x => x.EntityID.Equals (player.ID));
 			if (playerKeyBinds.Count > 1) {
 				playerSpeed = (float)Math.Sqrt (Math.Pow (player.MovementSpeed, 2) / 2);
 			} else
 				playerSpeed = player.MovementSpeed;
 			int actionMade = 1;
 
-			foreach (KeyBind<Keys> keybind in playerKeyBinds) {
+			foreach (KeyBind keybind in playerKeyBinds) {
 				player.IsMoving = true;
 
 				switch (keybind.Action) {
