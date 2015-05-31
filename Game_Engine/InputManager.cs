@@ -16,7 +16,6 @@ namespace Game_Engine{
 			this.numControllers = numControllers;
 		}
 
-
 		public List<KeyBind> HandleInput(List<KeyBind> keyBinds){
 			List<KeyBind> actions = new List<KeyBind>();
 			KeyboardState keyboardState = Keyboard.GetState();
@@ -37,8 +36,7 @@ namespace Game_Engine{
 					}
 				}
 			}
-
-
+				
 			return actions;
 		}
 

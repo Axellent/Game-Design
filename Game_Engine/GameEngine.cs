@@ -25,16 +25,16 @@ namespace Game_Engine{
 		List<KeyBind> actions = new List<KeyBind>();
 		List<SoundEffect> soundContent;
 		List<string> soundContentNames;
-
 		List<Tuple<Vector3,Viewport,Entity>> viewPositions = new List<Tuple<Vector3, Viewport, Entity>>();
-		Vector3 curViewPos = new Vector3(0, 0, 0);
 
+		/* Input actions waiting to be resolved. */
 		public List<KeyBind> Actions{
 			get {
 				return actions;
 			}
 		}
 
+		/* Filenames of the sound content. */
 		public List<string> SoundContentNames {
 			get {
 				return soundContentNames;
@@ -43,7 +43,8 @@ namespace Game_Engine{
 				soundContentNames = value;
 			}
 		}
-
+			
+		/* All loaded sound effects. */
 		public List<SoundEffect> SoundContent {
 			get{
 				return soundContent;
@@ -66,6 +67,8 @@ namespace Game_Engine{
 			get{
 				return entities;
 			}
+			/* [Obsolete("This accessor is obsolete, use the new methods for changing entities.")]
+			 * Warning! This accessor is obsolete. I wanted to signify this with the above line, but well... silly compiler won't let me. -Axel */
 			set{
 				entities = value;
 			}
@@ -92,6 +95,7 @@ namespace Game_Engine{
 		}
 
 
+		/* The camera view positions in the game. */
 		public List<Tuple<Vector3,Viewport, Entity>> ViewPositions{
 			get
 			{
@@ -99,16 +103,6 @@ namespace Game_Engine{
 			}
 			set{
 				viewPositions = value;
-			}
-		}
-
-		/* The current view position. */
-		public Vector3 ViewPos{
-			get{
-				return curViewPos;
-			}
-			set{
-				curViewPos = value;
 			}
 		}
 
@@ -138,33 +132,38 @@ namespace Game_Engine{
 		}
 
 		public void ClearViewPositions(){
-			viewPositions.Clear ();
+			viewPositions.Clear();
 		}
 
-		public void configureEntity(Vector3 velocity, float rotation, string entityID){
-			moveEntity (velocity, entityID);
-			SetEntityRotation (rotation, entityID);
+		/* Changes the entitys velocity and rotation as desired. */
+		public void ConfigureEntity(Vector3 velocity, float rotation, string entityID){
+			MoveEntity(velocity, entityID);
+			SetEntityRotation(rotation, entityID);
 		}
 
-		public void moveEntity(Vector3 velocity, string entityID){
-			entities.Find (e => e.ID.Equals (entityID)).Velocity = velocity;
+		/* Updates the entitys velocity. */
+		public void MoveEntity(Vector3 velocity, string entityID){
+			entities.Find (e => e.ID.Equals(entityID)).Velocity = velocity;
 		}
-			
+
+		/* Updates the entitys rotation. */
 		public void SetEntityRotation(float rotation, string entityID){
-			entities.Find (e => e.ID.Equals (entityID)).Rotation = rotation;
+			entities.Find (e => e.ID.Equals(entityID)).Rotation = rotation;
 		}
 
+		/* Casts to RenderedEntity and applies the new texture. */
 		public void AddTextureOnEntity(string textureName, string entityID){
-			RenderedEntity rendered = (RenderedEntity)entities.Find (e => e.ID.Equals (entityID));
-			rendered.Texture = gameContent.Find (t => t.Name.Equals (textureName));
+			RenderedEntity rendered = (RenderedEntity)entities.Find(e => e.ID.Equals(entityID));
+			rendered.Texture = gameContent.Find(t => t.Name.Equals(textureName));
 		}
 			
 		public void RemoveEntity(Entity entity){
 			entities.Remove (entity);
 		}
 
+		/* New method for adding entities, use this instead of the obsolete accessor. */
 		public void AddEntity(Entity entity){
-			entities.Add (entity);
+			entities.Add(entity);
 		}
 
 		public void HandleSpriteSheet(string entityID, Rectangle rect){
@@ -189,7 +188,7 @@ namespace Game_Engine{
 			return new Unsubscriber<IObserver<List<Texture2D>>>(observer);
 		}
 
-		private class Unsubscriber <T> : IDisposable{
+		private class Unsubscriber<T> : IDisposable{
 			private T observer;
 
 			public Unsubscriber(T observer){
@@ -201,15 +200,15 @@ namespace Game_Engine{
 			}
 		}
 
-		/* Loads all content in contentNames */
+		/* Loads all content in contentNames and soundContentNames. */
 		protected override void LoadContent(){
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			gameContent = renderManager.LoadContent(Content, contentNames);
-			contentNames.Clear ();
+			contentNames.Clear();
 
-			soundContent = soundManager.LoadContent (Content, soundContentNames);
-			soundContentNames.Clear ();
+			soundContent = soundManager.LoadContent(Content, soundContentNames);
+			soundContentNames.Clear();
 
 			contentObserver.OnNext(GameContent);
 
@@ -223,8 +222,11 @@ namespace Game_Engine{
 		/* Handles updates to input and physics. Also defines the BoundingBox limits for active entities.
 		 * Overrides the default MonoGame Update method. */
 		protected override void Update(GameTime gameTime){
+			Vector3 curViewPos = new Vector3(0, 0, 0);
+
 			actions = inputManager.HandleInput(keyBinds);
 			entityObserver.OnNext(gameTime);
+
 			foreach(Tuple<Vector3,Viewport, Entity> pair in viewPositions) {
 				GraphicsDevice.Viewport = pair.Item2;
 				curViewPos = pair.Item1;
@@ -244,17 +246,17 @@ namespace Game_Engine{
 						curViewPos.Y + GraphicsDevice.Viewport.Height + 100, 0));
 				entities = sceneManager.RestoreSavedEntities(entities, limitBox);
 			}
-			physicsManager.UpdatePhysics (entities);
+			physicsManager.UpdatePhysics(entities);
 			contentObserver.OnNext(GameContent);
 			entityObserver.OnCompleted();
 			base.Update(gameTime);
 		}
 
 		/* Loads all content in contentNames. 
-		 * Overrides the default MonoGame LoadContent method.*/
+		 * Overrides the default MonoGame LoadContent method. */
 		protected override void Draw(GameTime gameTime){
 			List<RenderedEntity> rendered = sceneManager.SortRenderedEntities(entities);
-			renderManager.Draw (spriteBatch, GraphicsDevice, curViewPos, rendered, viewPositions);
+			renderManager.Draw(spriteBatch, GraphicsDevice, viewPositions, rendered);
 			base.Draw (gameTime);
 		}
 

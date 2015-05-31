@@ -140,30 +140,30 @@ namespace Survival_Game
 				switch (keybind.Action) {
 				case "up":
 					if (actionMade > 1)
-						engine.configureEntity (new Vector3 (player.Velocity.X, -playerSpeed, 0), (float)Math.PI - player.Rotation / 2, player.ID);
+						engine.ConfigureEntity (new Vector3 (player.Velocity.X, -playerSpeed, 0), (float)Math.PI - player.Rotation / 2, player.ID);
 					else
-						engine.configureEntity (new Vector3 (0, -playerSpeed, 0), (float)Math.PI, player.ID);
+						engine.ConfigureEntity (new Vector3 (0, -playerSpeed, 0), (float)Math.PI, player.ID);
 					CheckPortions (player);
 					break;
 				case "down":
 					if (actionMade > 1)
-						engine.configureEntity (new Vector3 (player.Velocity.X, playerSpeed, 0), player.Rotation / 2, player.ID);
+						engine.ConfigureEntity (new Vector3 (player.Velocity.X, playerSpeed, 0), player.Rotation / 2, player.ID);
 					else
-						engine.configureEntity (new Vector3 (0, playerSpeed, 0), 0, player.ID);
+						engine.ConfigureEntity (new Vector3 (0, playerSpeed, 0), 0, player.ID);
 					CheckPortions (player);
 					break;
 				case "left":
 					if (actionMade > 1)
-						engine.configureEntity (new Vector3 (-playerSpeed, player.Velocity.Y, 0), player.Rotation / 2 + (float)Math.PI / 4, player.ID);
+						engine.ConfigureEntity (new Vector3 (-playerSpeed, player.Velocity.Y, 0), player.Rotation / 2 + (float)Math.PI / 4, player.ID);
 					else
-						engine.configureEntity (new Vector3 (-playerSpeed, 0, 0), (float)Math.PI / 2, player.ID);
+						engine.ConfigureEntity (new Vector3 (-playerSpeed, 0, 0), (float)Math.PI / 2, player.ID);
 					CheckPortions (player);
 					break;
 				case "right":
 					if (actionMade > 1)
-						engine.configureEntity (new Vector3 (playerSpeed, player.Velocity.Y, 0), - player.Rotation / 2 - (float)Math.PI / 4, player.ID);
+						engine.ConfigureEntity (new Vector3 (playerSpeed, player.Velocity.Y, 0), - player.Rotation / 2 - (float)Math.PI / 4, player.ID);
 					else
-						engine.configureEntity (new Vector3 (playerSpeed, 0, 0), -(float)Math.PI / 2, player.ID);
+						engine.ConfigureEntity (new Vector3 (playerSpeed, 0, 0), -(float)Math.PI / 2, player.ID);
 					CheckPortions (player);
 					break;
 				case "action":
@@ -193,7 +193,7 @@ namespace Survival_Game
 				if(engine.Entities[i].GetType() == typeof(Player)) {
 					Player player = (Player)engine.Entities[i];
 					player.IsMoving = false;
-					engine.moveEntity (new Vector3(0,0,0), player.ID);
+					engine.MoveEntity (new Vector3(0,0,0), player.ID);
 				}
 			}
 		}
@@ -270,6 +270,7 @@ namespace Survival_Game
 				newPortion.AddPortion(generatedPortions, engine.Entities);
 			}
 		}
+
 		/* Evaluates to true if the BoundingBox intersects any of the generated portions. */
 		public bool IsGenerated(BoundingBox bounds){
 			for(int i = 0; i < generatedPortions.Count; i++) {
