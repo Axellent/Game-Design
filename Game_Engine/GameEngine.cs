@@ -25,16 +25,16 @@ namespace Game_Engine{
 		List<KeyBind> actions = new List<KeyBind>();
 		List<SoundEffect> soundContent;
 		List<string> soundContentNames;
-
 		List<Tuple<Vector3,Viewport,Entity>> viewPositions = new List<Tuple<Vector3, Viewport, Entity>>();
-		Vector3 curViewPos = new Vector3(0, 0, 0);
 
+		/* Input actions waiting to be resolved. */
 		public List<KeyBind> Actions{
 			get {
 				return actions;
 			}
 		}
 
+		/* Filenames of the sound content. */
 		public List<string> SoundContentNames {
 			get {
 				return soundContentNames;
@@ -43,7 +43,8 @@ namespace Game_Engine{
 				soundContentNames = value;
 			}
 		}
-
+			
+		/* All loaded sound effects. */
 		public List<SoundEffect> SoundContent {
 			get{
 				return soundContent;
@@ -66,6 +67,8 @@ namespace Game_Engine{
 			get{
 				return entities;
 			}
+			/* [Obsolete("This accessor is obsolete, use the new methods for changing entities.")]
+			 * Warning! This accessor is obsolete. I wanted to signify this with the above line, but well... silly compiler won't let me. -Axel */
 			set{
 				entities = value;
 			}
@@ -92,6 +95,7 @@ namespace Game_Engine{
 		}
 
 
+		/* The camera view positions in the game. */
 		public List<Tuple<Vector3,Viewport, Entity>> ViewPositions{
 			get
 			{
@@ -99,16 +103,6 @@ namespace Game_Engine{
 			}
 			set{
 				viewPositions = value;
-			}
-		}
-
-		/* The current view position. */
-		public Vector3 ViewPos{
-			get{
-				return curViewPos;
-			}
-			set{
-				curViewPos = value;
 			}
 		}
 
@@ -142,26 +136,31 @@ namespace Game_Engine{
 			viewPositions.Clear();
 		}
 
-		public void configureEntity(Vector3 velocity, float rotation, string entityID){
-			moveEntity(velocity, entityID);
+		/* Changes the entitys velocity and rotation as desired. */
+		public void ConfigureEntity(Vector3 velocity, float rotation, string entityID){
+			MoveEntity(velocity, entityID);
 			SetEntityRotation(rotation, entityID);
 		}
 
-		public void moveEntity(Vector3 velocity, string entityID){
+		/* Updates the entitys velocity. */
+		public void MoveEntity(Vector3 velocity, string entityID){
 			entities.Find (e => e.ID.Equals(entityID)).Velocity = velocity;
 		}
-			
+
+		/* Updates the entitys rotation. */
 		public void SetEntityRotation(float rotation, string entityID){
 			entities.Find (e => e.ID.Equals(entityID)).Rotation = rotation;
 		}
 
+		/* Casts to RenderedEntity and applies the new texture. */
 		public void AddTextureOnEntity(string textureName, string entityID){
 			RenderedEntity rendered = (RenderedEntity)entities.Find(e => e.ID.Equals(entityID));
 			rendered.Texture = gameContent.Find(t => t.Name.Equals(textureName));
 		}
 
+		/* New method for adding entities, use this instead of the obsolete accessor. */
 		public void AddEntity(Entity entity){
-			entities.Add (entity);
+			entities.Add(entity);
 		}
 
 		public IDisposable Subscribe (IObserver<GameTime> observer){
@@ -186,7 +185,7 @@ namespace Game_Engine{
 			}
 		}
 
-		/* Loads all content in contentNames */
+		/* Loads all content in contentNames and soundContentNames. */
 		protected override void LoadContent(){
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -197,7 +196,6 @@ namespace Game_Engine{
 			soundContentNames.Clear();
 
 			contentObserver.OnNext(GameContent);
-			playBackgroundSound(soundContent.Find(s => s.Name.Equals("Sound/DaySound_02")), true);
 
 			base.LoadContent();
 		}
@@ -209,6 +207,8 @@ namespace Game_Engine{
 		/* Handles updates to input and physics. Also defines the BoundingBox limits for active entities.
 		 * Overrides the default MonoGame Update method. */
 		protected override void Update(GameTime gameTime){
+			Vector3 curViewPos = new Vector3(0, 0, 0);
+
 			actions = inputManager.HandleInput(keyBinds);
 			entityObserver.OnNext(gameTime);
 
