@@ -3,6 +3,7 @@ using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Survival_Game{
 
@@ -16,7 +17,7 @@ namespace Survival_Game{
 		private GameState currentState;
 		List<Portion> generatedPortions = new List<Portion>();
 
-		int numberOfPlayers = 2;
+		int numberOfPlayers = 3;
 		Viewport defaultview;
 		Viewport rightview;
 		Viewport leftview;
@@ -66,14 +67,20 @@ namespace Survival_Game{
 			//MenuController menuController = new MenuController (new StartMenu(), new OptionMenu(), new PlayGameMenu());
 
 			//Defines all keybindings
-			List<KeyBind> keybinds = new List<KeyBind> ();
+			List<KeyBind<Keys>> keybinds = new List<KeyBind<Keys>> ();
+			List<KeyBind<Buttons>> buttons = new List<KeyBind<Buttons>> ();
 			keybinds = contentManager.DefineKeybindingsSetup1 ("player1");
 			keybinds.AddRange (contentManager.DefineKeybindingsSetup2 ("player2"));
-			keybinds.AddRange (contentManager.DefineKeybindingsForGamePad ("player3"));
+			buttons.AddRange (contentManager.DefineKeybindingsForGamePad ("player3"));
 			//Sends the keybindings to the engine
-			foreach (KeyBind keybind in keybinds) {
+			foreach (KeyBind<Keys> keybind in keybinds) {
 				engine.KeyBind.Add (keybind);
 			}
+
+			BoundingBox portionBounds = new BoundingBox(new Vector3(0, 0, 0),
+				new Vector3(Portion.PORTION_WIDTH, Portion.PORTION_HEIGHT, 0));
+			Portion portion = new Portion(portionBounds);
+			portion.AddPortion(generatedPortions, engine.Entities);
 
 			Player player1 = new Player ("player1", false, engine.GraphicsDevice.Viewport.Width / 2,
 				engine.GraphicsDevice.Viewport.Height / 2, 72, 62, 0,
@@ -87,6 +94,8 @@ namespace Survival_Game{
 			Player player3 = new Player ("player3", false, 500, 400, 72, 62, 0,
 				new BoundingBox (new Vector3 (500 - (72 / 4), 400 - (62 / 4), 0),
 					new Vector3 (500 + (72 / 4), 400 + (62 / 4), 0)), 1, null, true);
+
+			entityObserver.CheckPortions(player1);
 
 			defaultview = engine.GraphicsDevice.Viewport;
 			leftview = defaultview;
@@ -161,16 +170,6 @@ namespace Survival_Game{
 				engine.AddEntity (player2);
 				engine.AddEntity (player3);
 			}
-			initPortions(player1);
-		}
-
-		/* Generates initial portions around the player. */
-		public void initPortions(Player player){
-			BoundingBox portionBounds = new BoundingBox(new Vector3(0, 0, 0),
-				new Vector3(Portion.PORTION_WIDTH, Portion.PORTION_HEIGHT, 0));
-			Portion portion = new Portion(portionBounds);
-			portion.AddPortion(generatedPortions, engine.Entities);
-			entityObserver.CheckPortions(player);
 		}
 
 		public static void Main(){

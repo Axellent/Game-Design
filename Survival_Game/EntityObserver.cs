@@ -3,6 +3,7 @@ using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Survival_Game
 {
@@ -45,16 +46,10 @@ namespace Survival_Game
 		public void OnNext (GameTime gameTime)
 		{
 			//if (currentGameState == GameState.Game) {
-			for (int i = 0; i < engine.Entities.Count; i++) {
-				if (engine.Entities [i].GetType () == typeof(Player)) {
-					HandlePlayer (engine.Entities [i]);
-
-				} 
-				else if(engine.Entities[i].GetType() == typeof(Wolf)){
-					Wolf wolf = (Wolf)engine.Entities[i];
-					wolf.UpdateWolf();
-				}
-					
+				for (int i = 0; i < engine.Entities.Count; i++) {
+					if (engine.Entities [i].GetType () == typeof(Player)) {
+						HandlePlayer (engine.Entities [i]);
+					}
 				}
 			//} 
 			//else if (currentGameState == GameState.InGameMenu || currentGameState == GameState.OptionMenu 
@@ -71,7 +66,7 @@ namespace Survival_Game
 
 		private void HandleMenuComponent (TimeSpan time){
 			List<Entity> menuComps = engine.Entities.FindAll (e => e.GetType ().IsSubclassOf (typeof(MenuComponent)));
-			KeyBind keybind = engine.Actions.Find (k => k.EntityID.Equals ("none"));
+			KeyBind<Keys> keybind = engine.Actions.Find (k => k.EntityID.Equals ("none"));
 			MenuComponent menuComp = (MenuComponent)menuComps.Find (m => ((MenuComponent)m).IsHighlighted);
 			if (keybind != null) {
 				switch (keybind.Action) {
@@ -133,14 +128,14 @@ namespace Survival_Game
 
 		private void HandlePlayer(Entity entity){
 			Player player = (Player) entity;				//From here, move to a method.
-			List<KeyBind> playerKeyBinds = engine.Actions.FindAll (x => x.EntityID.Equals (player.ID));
+			List<KeyBind<Keys>> playerKeyBinds = engine.Actions.FindAll (x => x.EntityID.Equals (player.ID));
 			if (playerKeyBinds.Count > 1) {
 				playerSpeed = (float)Math.Sqrt (Math.Pow (player.MovementSpeed, 2) / 2);
 			} else
 				playerSpeed = player.MovementSpeed;
 			int actionMade = 1;
 
-			foreach (KeyBind keybind in playerKeyBinds) {
+			foreach (KeyBind<Keys> keybind in playerKeyBinds) {
 				player.IsMoving = true;
 
 				switch (keybind.Action) {

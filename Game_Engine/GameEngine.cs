@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Input;
 
 namespace Game_Engine{
 
@@ -21,14 +22,14 @@ namespace Game_Engine{
 		IObserver<GameTime> entityObserver;
 		IObserver<List<Texture2D>> contentObserver;
 		List<string> contentNames;
-		List<KeyBind> keyBinds = new List<KeyBind>();
-		List<KeyBind> actions = new List<KeyBind>();
+		List<KeyBind<Keys>> keyBinds = new List<KeyBind<Keys>>();
+		List<KeyBind<Keys>> actions = new List<KeyBind<Keys>>();
 		List<SoundEffect> soundContent;
 		List<string> soundContentNames;
 		List<Tuple<Vector3,Viewport,Entity>> viewPositions = new List<Tuple<Vector3, Viewport, Entity>>();
 
 		/* Input actions waiting to be resolved. */
-		public List<KeyBind> Actions{
+		public List<KeyBind<Keys>> Actions{
 			get {
 				return actions;
 			}
@@ -85,7 +86,7 @@ namespace Game_Engine{
 		}
 
 		/* Holds all keybinds the game uses. */
-		public List<KeyBind> KeyBind{
+		public List<KeyBind<Keys>> KeyBind{
 			get{ 
 				return keyBinds;
 			}
@@ -156,8 +157,7 @@ namespace Game_Engine{
 			RenderedEntity rendered = (RenderedEntity)entities.Find(e => e.ID.Equals(entityID));
 			rendered.Texture = gameContent.Find(t => t.Name.Equals(textureName));
 		}
-
-		/* New method for removing entities, use this instead of the obsolete accessor. */
+			
 		public void RemoveEntity(Entity entity){
 			entities.Remove (entity);
 		}
@@ -175,7 +175,6 @@ namespace Game_Engine{
 		public int GetTextureWidth(string textureName){
 			return gameContent.Find (t => t.Name.Equals(textureName)).Width;
 		}
-
 		public int GetTextureHeight(string textureName){
 			return gameContent.Find (t => t.Name.Equals (textureName)).Height;
 		}

@@ -6,11 +6,11 @@ using Microsoft.Xna.Framework.Input;
 namespace Game_Engine
 {
 	//author: Andreas Lönnermark
-	public class KeyBind
+	public class KeyBind <T>
 	{
 
 		private bool isController=false;
-		private List<string> keys;
+		private List<T> keys;
 		private string action;
 		private string entityID;
 
@@ -23,7 +23,7 @@ namespace Game_Engine
 			}
 		}
 
-		public List<string> Keys{
+		public List<T> Keys{
 			get{ 
 				return keys;
 			}
@@ -52,7 +52,7 @@ namespace Game_Engine
 
 		public KeyBind ()
 		{
-			keys = new List<string> ();
+			keys = new List<T> ();
 		}
 	}
 }

@@ -16,18 +16,21 @@ namespace Game_Engine{
 			this.numControllers = numControllers;
 		}
 
-		public List<KeyBind> HandleInput(List<KeyBind> keyBinds){
-			List<KeyBind> actions = new List<KeyBind>();
+		public List<KeyBind<Keys>> HandleInput(List<KeyBind<Keys>> keyBinds){
+			List<KeyBind<Keys>> actions = new List<KeyBind<Keys>>();
 			KeyboardState keyboardState = Keyboard.GetState();
+			//GamePadState gamepadState = GamePad.GetState ();
 			List<GamePadState> gamepadStates = GetGamePadStates();
 			Keys[] pressedKeys = keyboardState.GetPressedKeys();
-			//Buttons[] pressedButtons = gamepadState.GetVirtualButtons();
+			//Buttons[] pressedButtons = gamepadState.Get;
+
 
 			if (pressedKeys.Length > 0) {
+				
 				foreach (Keys k in pressedKeys){
 					string keyValue = k.ToString();
-					foreach (KeyBind kb in keyBinds) {
-						foreach (String key in kb.Keys) {
+					foreach (KeyBind<Keys> kb in keyBinds) {
+						foreach (Keys key in kb.Keys) {
 							if (key.Equals(keyValue)) {
 								actions.Add(kb);
 								break;
@@ -38,6 +41,41 @@ namespace Game_Engine{
 			}
 				
 			return actions;
+		}
+
+		private void checkGamePadStates(List<GamePadState> gamepadStates, string key){
+			switch(key){
+				case "DPadDown":
+					break;
+				case "DPadUp":
+					break;
+				case "DPadLeft":
+					break;	
+				case "DPadRight":
+					break;
+				case "A":
+					break;
+				case "B":
+					break;
+				case "X":
+					break;
+				case "Y":
+					break;
+				case "Start":
+					break;
+				case "Back":
+					break;
+				case "LeftTrigger":
+					break;
+				case "RightTrigger":
+					break;
+				case "LeftShoulder":
+					break;
+				case "RightShoulder":
+					break;
+				default:
+					break;
+			}
 		}
 
 		private List<GamePadState> GetGamePadStates (){
