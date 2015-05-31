@@ -74,7 +74,7 @@ namespace Survival_Game{
 
 		public void GenerateBerryBushes(List<Entity> entities){
 			Random rand = new Random();
-			int nEntities = rand.Next(0, 30);
+			int nEntities = rand.Next(0, 20);
 			bool intersects = false;
 
 			for(int i = 0; i < nEntities; i++) {
@@ -84,19 +84,12 @@ namespace Survival_Game{
 				BoundingBox bushBounds = new BoundingBox(new Vector3(randX, randY, 0),
 					new Vector3(randX + BUSH_WIDTH, randY + BUSH_HEIGHT, 0));
 
-				for(int j = 0; j < entities.Count; j++) {
-					intersects = false;
-					if(entities[j].HasCollision && bushBounds.Intersects(entities[j].HitBox)) {
-						intersects = true;
-						break;
-					}
-				}
-				if(!intersects) {
-					Bush berryBush = new Bush("bush" + berryBushNO, randX, randY, BUSH_WIDTH, BUSH_HEIGHT,
-						0, bushBounds, 1, null);
+				Bush berryBush = new Bush("bush" + berryBushNO, randX, randY, BUSH_WIDTH, BUSH_HEIGHT, 0, bushBounds, 1, null);
 
+				if(!PhysicsManager.CheckEntityCollision(berryBush, entities)){
 					randomEntities.Add(berryBush);
 					entities.Add(berryBush);
+					berryBushNO++;
 				}
 			}
 		}
@@ -104,8 +97,7 @@ namespace Survival_Game{
 		/* Generates new creatures into the game. */
 		public void GenerateBeasts(List<Entity> entities){
 			Random rand = new Random();
-			int nEntities = rand.Next(10, 50);
-			bool intersects = false;
+			int nEntities = rand.Next(10, 20);
 
 			for(int i = 0; i < nEntities; i++) {
 				float randX = rand.Next((int)bounds.Min.X, (int)bounds.Max.X);
@@ -114,19 +106,12 @@ namespace Survival_Game{
 				BoundingBox wolfBounds = new BoundingBox(new Vector3(randX, randY, 0),
 					new Vector3(randX + WOLF_WIDTH, randY + WOLF_HEIGHT, 0));
 
-				for(int j = 0; j < entities.Count; j++) {
-					intersects = false;
-					if(entities[j].HasCollision && wolfBounds.Intersects(entities[j].HitBox)) {
-						intersects = true;
-						break;
-					}
-				}
-				if(!intersects) {
-					Wolf wolf = new Wolf("wolf" + wolfNO, randX, randY, WOLF_WIDTH, WOLF_HEIGHT,
-						0, wolfBounds, 1, null);
+				Wolf wolf = new Wolf("wolf" + wolfNO, randX, randY, WOLF_WIDTH, WOLF_HEIGHT, 0, wolfBounds, 1, null, false);
 
+				if(!PhysicsManager.CheckEntityCollision(wolf, entities)) {
 					randomEntities.Add(wolf);
 					entities.Add(wolf);
+					wolfNO++;
 				}
 			}
 		}

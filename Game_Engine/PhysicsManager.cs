@@ -51,16 +51,33 @@ namespace Game_Engine{
 		}
 			
 		public void CollisionDetection(List<Entity> entities){
-			int i, j;
+			int i;
 
 			for(i = 0; i < entities.Count - 1; i++) {
 				if(entities[i].HasCollision) {
-					for(j = i + 1; j < entities.Count; j++) {
-						if(entities[j].HasCollision && entities[i].HitBox.Intersects(entities[j].HitBox)){
-							HandleCollision(entities[i], entities[j]);
-							entities [i].OnCollision (entities [j]);
-						}
-					}
+					HandleEntityCollision(i, entities);
+				}
+			}
+		}
+
+		public static bool CheckEntityCollision(Entity entity, List<Entity> entities){
+			int j;
+
+			for(j = 0; j < entities.Count; j++) {
+				if(entities[j].HasCollision && entity.HitBox.Intersects(entities[j].HitBox) && !entity.Equals(entities[j])){
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public void HandleEntityCollision(int i, List<Entity> entities){
+			int j;
+
+			for(j = i + 1; j < entities.Count; j++) {
+				if(entities[j].HasCollision && entities[i].HitBox.Intersects(entities[j].HitBox)){
+					HandleCollision(entities[i], entities[j]);
+					entities [i].OnCollision (entities[j]);
 				}
 			}
 		}

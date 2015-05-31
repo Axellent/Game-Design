@@ -52,7 +52,7 @@ namespace Survival_Game
 				} 
 				else if(engine.Entities[i].GetType() == typeof(Wolf)){
 					Wolf wolf = (Wolf)engine.Entities[i];
-					wolf.UpdateWolf();
+					wolf.UpdateWolf(engine.Entities);
 				}
 					
 				}
