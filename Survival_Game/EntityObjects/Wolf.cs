@@ -29,7 +29,7 @@ namespace Survival_Game{
 				}
 				else if(updateLimiter == 0 && !PhysicsManager.CheckEntityCollision(this, entities)) {
 					this.MoveTowards(players[0], 1);
-					RotateToVelocityVector();
+					RotateToVelocityVector(players[0]);
 					updateLimiter = 10;
 				}
 				else {
@@ -39,11 +39,31 @@ namespace Survival_Game{
 		}
 
 		/* Rotates the wolf so that it roughly faces the velocity vector. */
-		public void RotateToVelocityVector(){
+		public void RotateToVelocityVector(Player player){
 			float vx = this.Velocity.X;
 			float vy = this.Velocity.Y;
+			Vector3 playerCenter = new Vector3(player.HitBox.Max.X - player.Width / 2, player.HitBox.Max.Y - player.Height / 2, 0);
+			Vector3 wolfCenter = new Vector3(this.HitBox.Max.X - this.Width / 2, this.HitBox.Max.Y - this.Height / 2, 0);
+				
+			if(Math.Abs(wolfCenter.X - playerCenter.X) < Math.Abs(wolfCenter.Y - playerCenter.Y)) {
+				if(vy <= 0) {
+					this.Rotation = (float)Math.PI;
+				}
+				else {
+					this.Rotation = 0;
+				}
+			}
+			else {
+				if(vx <= 0) {
+					this.Rotation = (float)Math.PI / 2;
+				}
+				else{
+					this.Rotation = -(float)Math.PI / 2;
+				}
+			}
 
-			if(vx < 0 && vy < 0){
+
+			/*if(vx < 0 && vy < 0){
 				this.Rotation = (float)Math.PI - ((float)Math.PI / 2) / 2;
 			}
 			else if(vx == 0 && vy < 0){
@@ -66,7 +86,7 @@ namespace Survival_Game{
 			}
 			else if(vx < 0 && vy == 0){
 				this.Rotation = ((float)Math.PI / 2);
-			}
+			}*/
 		}
 	}
 }
