@@ -58,14 +58,13 @@ namespace Game_Engine{
 					for (j = i + 1; j < entities.Count; j++) {
 						if (entities[j].HasCollision && entities[i].HitBox.Intersects (entities[j].HitBox)){
 							HandleCollision (entities[i], entities[j]);
+							entities [i].OnCollision (entities [j]);
 						}
 					}
 				}
 			}
 		}
-
-
-
+			
 		private void HandleCollision(Entity entity1, Entity entity2){
 			if (entity1.Velocity.X == 0 && entity1.Velocity.Y == 0) {
 				entity2.X -= entity2.Velocity.X;

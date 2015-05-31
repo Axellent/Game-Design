@@ -9,7 +9,7 @@ namespace Survival_Game
 	public class GameMenu
 	{
 		private GameEngine engine;
-		private Button saveBtn, exitBtn, optionBtn, resumeBtn;
+		private Button saveBtn, exitBtn, optionBtn, resumeBtn, exitMenuBtn;
 		private RenderedEntity menu;
 
 		public GameMenu (GameEngine engine)
@@ -19,16 +19,19 @@ namespace Survival_Game
 			float btnYPos = engine.GetScreenSize ().Height / 2;
 
 			resumeBtn = new Button ("resumeBtn", btnXPos, btnYPos - 200, 150, 50, 0, 
-				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false);
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, true, 0);
 
 			saveBtn = new Button ("saveBtn", btnXPos, btnYPos - 100, 150, 50, 0, 
-				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false);
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false, 1);
 
 			optionBtn = new Button ("optionBtn", btnXPos, btnYPos, 150, 50, 0, 
-				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false);
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false, 2);
+
+			exitMenuBtn = new Button("exitMenuBtn", btnXPos, btnYPos + 100, 150, 50, 0, 
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false, 3);
 
 			exitBtn = new Button ("exitBtn", btnXPos, btnYPos + 100, 150, 50, 0, 
-				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false);
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false, 4);
 
 			menu = new RenderedEntity ("menu", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 600, 480, 0, 
 				new BoundingBox(), 0, null, false);		
@@ -42,8 +45,8 @@ namespace Survival_Game
 			engine.AddEntity (menu);
 		}
 
-		public void AddResumeBtnListener(Button.buttonPressed buttonListener){
-			resumeBtn.pressed += buttonListener;
+		public void AddResumeBtnListener(Button.entitySelected buttonListener){
+			resumeBtn.selected += buttonListener;
 		}
 	}
 }

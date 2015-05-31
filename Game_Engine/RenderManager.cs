@@ -36,7 +36,7 @@ namespace Game_Engine{
 			List<Texture2D> content = new List<Texture2D>();
 
 			foreach (string contentFile in contentFiles){
-				content.Add(Content.Load<Texture2D>(contentFile));
+				content.Add (Content.Load<Texture2D> (contentFile));
 			}
 			return content;
 		}
@@ -58,7 +58,11 @@ namespace Game_Engine{
 					Matrix.CreateTranslation (-viewPos));
 				
 				foreach (RenderedEntity entity in entities) {
-					rect = new Rectangle (0, 0, Convert.ToInt32 (entity.Width), Convert.ToInt32 (entity.Height));
+					if (entity.IsSpriteSheet) {
+						rect = entity.Rect;
+					} 
+					else 
+						rect = new Rectangle (0, 0, Convert.ToInt32 (entity.Width), Convert.ToInt32 (entity.Height));
 					origin = new Vector2 (entity.Width / 2, entity.Height / 2);
 					batch.Draw (entity.Texture, new Vector2 (entity.X, entity.Y), rect, tintColor, entity.Rotation,
 						origin, 1.0f, SpriteEffects.None, 1);

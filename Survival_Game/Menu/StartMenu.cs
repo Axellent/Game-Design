@@ -20,32 +20,32 @@ namespace Survival_Game
 		public StartMenu (GameEngine engine){
 			this.engine = engine;
 			playBtn = new Button ("playBtn", engine.GetScreenSize ().Width / 2, engine.GetScreenSize ().Height / 2, 
-				150, 50, 0, new BoundingBox (), 1, null, false, true);
+				150, 50, 0, new BoundingBox (), 1, null, false, true, 0);
 			optionsBtn = new Button ("optionsBtn", engine.GetScreenSize ().Width / 2, engine.GetScreenSize ().Height / 2 + 100,
-				150, 50, 0, new BoundingBox (), 1, null, false, false);
+				150, 50, 0, new BoundingBox (), 1, null, false, false, 1);
 			exitBtn = new Button ("exitBtn", engine.GetScreenSize ().Width / 2, engine.GetScreenSize ().Height / 2 + 200, 
-				150, 50, 0, new BoundingBox (), 1, null, false, false);
+				150, 50, 0, new BoundingBox (), 1, null, false, false, 2);
 			menu = new RenderedEntity ("menu", engine.GetScreenSize ().Width / 2, engine.GetScreenSize ().Height / 2,
 				600, 480, 0, new BoundingBox (), 0, null, false);
 		}
 
-		public void createStartMenu(){
+		public void CreateStartMenu(){
 			engine.AddEntity (playBtn);
 			engine.AddEntity (optionsBtn);
 			engine.AddEntity (exitBtn);
 			engine.AddEntity (menu);
 		}
 
-		public void AddPlayButtonListener(Button.buttonPressed buttonListener){
-			playBtn.pressed += buttonListener;
+		public void AddPlayButtonListener(Button.entitySelected buttonListener){
+			playBtn.selected += buttonListener;
 		}
 			
-		public void AddOptionsButtonListener(Button.buttonPressed buttonListener){
-			optionsBtn.pressed += buttonListener;
+		public void AddOptionsButtonListener(Button.entitySelected buttonListener){
+			optionsBtn.selected += buttonListener;
 		}
 
-		public void AddExitButtonListener(Button.buttonPressed buttonListener){
-			exitBtn.pressed += buttonListener;
+		public void AddExitButtonListener(Button.entitySelected buttonListener){
+			exitBtn.selected += buttonListener;
 		}
 	}
 }

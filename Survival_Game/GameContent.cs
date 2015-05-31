@@ -19,8 +19,34 @@ namespace Survival_Game{
 		//defines the content that should be loaded by the engine
 		public List<string> LoadGameContent(){
 			List<string> gameContent = new List<string>();
-			gameContent.Add ("Vol_Br_Bar_Y");
-			gameContent.Add ("Vol_Br_Bar");
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "tile_1"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "tile_2"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "player_s"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "player_r"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "player_l"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "Menu"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "PlayButton_Y"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "PlayButton"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "OptionsButton_Y"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "OptionsButton"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "ExitButton_Y"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "ExitButton"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "bush_1"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "bush_2"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "BackButton_Y"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "BackButton"));
+//			gameContent.Add (new KeyValuePair<bool, string> (true, "Bars"));
+//			gameContent.Add (new KeyValuePair<bool, string> (true, "Bars_Y"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "Save"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "Save_Y"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "Resume"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "Resume_Y"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "CheckBox"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "CheckBox_Y"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "CheckBox_C"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "CheckBox_C_Y"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "ExitMenuButton"));
+//			gameContent.Add (new KeyValuePair<bool, string> (false, "ExitMenuButton_Y"));
 			gameContent.Add ("tile_1");
 			gameContent.Add ("tile_2");
 			gameContent.Add ("player_s");
@@ -37,12 +63,18 @@ namespace Survival_Game{
 			gameContent.Add ("bush_2");
 			gameContent.Add ("BackButton_Y");
 			gameContent.Add ("BackButton");
-			gameContent.Add ("10p");
-			gameContent.Add ("10p_Y");
+			gameContent.Add ("Bars");
+			gameContent.Add ("Bars_Y");
 			gameContent.Add ("Save");
 			gameContent.Add ("Save_Y");
 			gameContent.Add ("Resume");
 			gameContent.Add ("Resume_Y");
+			gameContent.Add ("CheckBox");
+			gameContent.Add ("CheckBox_C");
+			gameContent.Add ("CheckBox_Y");
+			gameContent.Add ("CheckBox_C_Y");
+			gameContent.Add ("ExitMenuButton");
+			gameContent.Add ("ExitMenuButton_Y");
 			return gameContent;
 		}
 
@@ -88,6 +120,8 @@ namespace Survival_Game{
 			keybinds.Add (keybind1);
 			keybinds.Add (keybind2);
 			keybinds.Add (keybind3);
+			keybinds.Add (keybind4);
+			keybinds.Add (keybind5);
 
 			return keybinds;
 		}

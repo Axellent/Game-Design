@@ -5,8 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survival_Game
 {
-	public class CheckBox : TriggerEntity
+	public class CheckBox : MenuComponent
 	{
+
 		private bool isChecked = false;
 
 		public bool IsChecked {
@@ -19,10 +20,9 @@ namespace Survival_Game
 		}
 
 		public CheckBox (string id, float x, float y, float width, float height, float rotation, 
-			BoundingBox hitbox, int layer, Texture2D texture)
-			: base(id, x, y, width, height, rotation, hitbox, layer, texture)
+			BoundingBox hitbox, int layer, Texture2D texture, bool hasCollision, bool isHighlighted, int order)
+			: base(id, x, y, width, height, rotation, hitbox, layer, texture, hasCollision, isHighlighted, order)
 		{
-			
 		}
 	}
 }

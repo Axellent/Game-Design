@@ -27,24 +27,26 @@ namespace Survival_Game
 			SMenu.AddPlayButtonListener (playButton);
 
 			OMenu = optionMenu;
+			OMenu.AddBackBtnListener (goBackButton);
+
 			PGMenu = PlayGameMenu;
 			PGMenu.AddBackBtnListener (goBackButton);
 
 			engine.SetMouseVisibility (true);
-			SMenu.createStartMenu ();
+			SMenu.CreateStartMenu ();
 		}
 
 		private void goBackButton(){
 			engine.ClearEntities ();
 			currentState = GameState.StartMenu;
-			SMenu.createStartMenu ();
+			SMenu.CreateStartMenu ();
 		}
 
 		private void playButton(){
 			engine.ClearEntities ();
 			if (currentState.Equals (GameState.StartMenu)) {
 				currentState = GameState.PlayGameMenu;	
-				PGMenu.createMenu ();
+				PGMenu.CreateMenu ();
 			}
 		}
 
@@ -55,6 +57,7 @@ namespace Survival_Game
 		private void optionsButton(){
 			engine.ClearEntities ();
 			currentState = GameState.OptionMenu;
+			OMenu.CreateMenu ();
 		}
 	}
 }
