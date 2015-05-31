@@ -12,10 +12,12 @@ namespace Game_Engine{
 	public class InputManager{
 		private int numControllers = 0;
 
-		public InputManager(int numControllers){
-			this.numControllers = numControllers;
+		public InputManager(){
 		}
 
+		public void SetNumberOfController(int numControllers){
+			this.numControllers = numControllers;
+		}
 
 		public List<KeyBind> HandleInput(List<KeyBind> keyBinds){
 			List<KeyBind> actions = new List<KeyBind>();
@@ -37,8 +39,6 @@ namespace Game_Engine{
 					}
 				}
 			}
-
-
 			return actions;
 		}
 

@@ -11,14 +11,12 @@ namespace Survival_Game
 	{
 		private GameEngine engine;
 		private IDisposable removeableObserver;
-		private GameState currentGameState;
 
 		const int nTileTypes = 2;
 
-		public ContentObserver (GameEngine engine, ref GameState currentGameState)
+		public ContentObserver (GameEngine engine)
 		{
 			this.engine = engine;
-			this.currentGameState = currentGameState;
 		}
 
 		public void AddDisposableObserver(IDisposable disposableObserver){
@@ -55,58 +53,8 @@ namespace Survival_Game
 					engine.Entities [i] = bush;
 				} else if (engine.Entities [i].GetType () == typeof(Button)) {
 					Button button = (Button)engine.Entities [i];
+					HandleButtonTexture (button);
 
-					switch (button.ID) {
-					case "playBtn":
-						if (button.Texture == null || !button.IsHighlighted) {
-							engine.AddTextureOnEntity ("PlayButton", button.ID);
-						} else if (button.IsHighlighted) {
-							engine.AddTextureOnEntity ("PlayButton_Y", button.ID);
-						}
-						break;
-					case "backBtn":
-						if (button.Texture == null || !button.IsHighlighted) {
-							engine.AddTextureOnEntity ("BackButton", button.ID);
-						} else if (button.IsHighlighted) {
-							engine.AddTextureOnEntity ("BackButton_Y", button.ID);
-						}
-						break;
-					case "optionsBtn":
-						if (button.Texture == null || !button.IsHighlighted) {
-							engine.AddTextureOnEntity ("OptionsButton", button.ID);
-						} else if (button.IsHighlighted) {
-							engine.AddTextureOnEntity ("OptionsButton_Y", button.ID);
-						}
-						break;
-					case "exitBtn":
-						if (button.Texture == null || !button.IsHighlighted) {
-							engine.AddTextureOnEntity ("ExitButton", button.ID);
-						} else if (button.IsHighlighted) {
-							engine.AddTextureOnEntity ("ExitButton_Y", button.ID);
-						}
-						break;
-					case "resumeBtn":
-						if (button.Texture == null || !button.IsHighlighted) {
-							engine.AddTextureOnEntity ("Resume", button.ID);
-						} else if (button.IsHighlighted) {
-							engine.AddTextureOnEntity ("Resume_Y", button.ID);
-						}
-						break;
-					case "saveBtn":
-						if (button.Texture == null || !button.IsHighlighted) {
-							engine.AddTextureOnEntity ("Save", button.ID);
-						} else if (button.IsHighlighted) {
-							engine.AddTextureOnEntity ("Save_Y", button.ID);
-						}
-						break;
-					case "exitMenuBtn":
-						if (button.Texture == null || !button.IsHighlighted) {
-							engine.AddTextureOnEntity ("ExitMenuButton", button.ID);
-						} else if (button.IsHighlighted) {
-							engine.AddTextureOnEntity ("ExitMenuButton", button.ID);
-						}
-						break;
-					}
 				} else if (engine.Entities [i].GetType () == typeof(CheckBox)) {
 					CheckBox checkBox = (CheckBox)engine.Entities [i];
 					if (checkBox.Texture == null || !checkBox.IsHighlighted) {
@@ -129,6 +77,111 @@ namespace Survival_Game
 					OptionBar optionBar = (OptionBar)engine.Entities [i];
 					HandleOptionBar (optionBar);
 				}
+			}
+		}
+		public void HandleButtonTexture(Button button){
+			switch (button.ID) {
+			case "playBtn":
+				if (button.Texture == null || !button.IsHighlighted) {
+					engine.AddTextureOnEntity ("PlayButton", button.ID);
+				} else if (button.IsHighlighted) {
+					engine.AddTextureOnEntity ("PlayButton_Y", button.ID);
+				}
+				break;
+			case "backBtn":
+				if (!button.IsHighlighted) {
+					engine.AddTextureOnEntity ("BackButton", button.ID);
+				} else if (button.IsHighlighted) {
+					engine.AddTextureOnEntity ("BackButton_Y", button.ID);
+				}
+				break;
+			case "optionsBtn":
+				if (!button.IsHighlighted) {
+					engine.AddTextureOnEntity ("OptionsButton", button.ID);
+				} else if (button.IsHighlighted) {
+					engine.AddTextureOnEntity ("OptionsButton_Y", button.ID);
+				}
+				break;
+			case "exitBtn":
+				if (!button.IsHighlighted) {
+					engine.AddTextureOnEntity ("ExitButton", button.ID);
+				} else if (button.IsHighlighted) {
+					engine.AddTextureOnEntity ("ExitButton_Y", button.ID);
+				}
+				break;
+			case "resumeBtn":
+				if (!button.IsHighlighted) {
+					engine.AddTextureOnEntity ("Resume", button.ID);
+				} else if (button.IsHighlighted) {
+					engine.AddTextureOnEntity ("Resume_Y", button.ID);
+				}
+				break;
+			case "saveBtn":
+				if (!button.IsHighlighted) {
+					engine.AddTextureOnEntity ("Save", button.ID);
+				} else if (button.IsHighlighted) {
+					engine.AddTextureOnEntity ("Save_Y", button.ID);
+				}
+				break;
+			case "exitMenuBtn":
+				if (!button.IsHighlighted) {
+					engine.AddTextureOnEntity ("ExitMenuButton", button.ID);
+				} else if (button.IsHighlighted) {
+					engine.AddTextureOnEntity ("ExitMenuButton", button.ID);
+				}
+				break;
+			case "player1Btn":
+				if (!button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player1", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player1_S", button.ID);
+				} else if (button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player1_Y", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player1_S_Y", button.ID);
+				}
+				break;
+			case "player2Btn":
+				if (!button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player2", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player2_S", button.ID);
+				} else if (button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player2_Y", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player2_S_Y", button.ID);
+				}
+				break;
+			case "player3Btn":
+				if (!button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player3", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player3_S", button.ID);
+				} else if (button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player3_Y", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player3_S_Y", button.ID);
+				}
+				break;
+			case "player4Btn":
+				if (!button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player4", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player4_S", button.ID);
+				} else if (button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player4_Y", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player4_S_Y", button.ID);
+				}
+				break;
 			}
 		}
 

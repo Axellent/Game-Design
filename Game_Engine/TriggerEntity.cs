@@ -9,13 +9,13 @@ namespace Game_Engine{
 	/* Author: Axel Sigl */
 	public class TriggerEntity : RenderedEntity{
 
-		public delegate void entitySelected();
+		public delegate void entitySelected(EventArgs args);
 
 		public event entitySelected selected;
 
 		public void OnSelect (){
 			if (selected != null)
-				selected ();
+				selected (new EventArgs());
 		}
 
 		public TriggerEntity(string id, float x, float y, float width, float height, float rotation, 
