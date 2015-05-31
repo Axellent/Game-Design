@@ -156,7 +156,8 @@ namespace Game_Engine{
 			RenderedEntity rendered = (RenderedEntity)entities.Find(e => e.ID.Equals(entityID));
 			rendered.Texture = gameContent.Find(t => t.Name.Equals(textureName));
 		}
-			
+
+		/* New method for removing entities, use this instead of the obsolete accessor. */
 		public void RemoveEntity(Entity entity){
 			entities.Remove (entity);
 		}
@@ -174,6 +175,7 @@ namespace Game_Engine{
 		public int GetTextureWidth(string textureName){
 			return gameContent.Find (t => t.Name.Equals(textureName)).Width;
 		}
+
 		public int GetTextureHeight(string textureName){
 			return gameContent.Find (t => t.Name.Equals (textureName)).Height;
 		}
