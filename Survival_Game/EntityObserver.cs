@@ -3,6 +3,7 @@ using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Survival_Game
 {
@@ -69,7 +70,7 @@ namespace Survival_Game
 
 		private void HandleMenuComponent (TimeSpan time){
 			List<Entity> menuComps = engine.Entities.FindAll (e => e.GetType ().IsSubclassOf (typeof(MenuComponent)));
-			KeyBind keybind = engine.Actions.Find (k => k.EntityID.Equals ("global"));
+			KeyBind<Keys> keybind = engine.KeyActions.Find (k => k.EntityID.Equals ("global"));
 			MenuComponent menuComp = (MenuComponent)menuComps.Find (m => ((MenuComponent)m).IsHighlighted);
 			if (keybind != null) {
 				switch (keybind.Action) {
@@ -165,18 +166,31 @@ namespace Survival_Game
 		}
 
 		private void HandlePlayer(Entity entity){
-			Player player = (Player) entity;				//From here, move to a method.
-			List<KeyBind> playerKeyBinds = engine.Actions.FindAll (x => x.EntityID.Equals (player.ID));
-			if (playerKeyBinds.Count > 1) {
-				playerSpeed = (float)Math.Sqrt (Math.Pow (player.MovementSpeed, 2) / 2);
-			} else
-				playerSpeed = player.MovementSpeed;
+			Player player = (Player)entity;
+			List<string> actions = new List<string>();
+			int numberofBinds = 0;
+			if (player.IsController) {
+				engine.ButtonActions.FindAll (a => a.EntityID.Equals (player.ID)).ForEach (a => actions.Add (a.Action));
+				numberofBinds = actions.Count;
+				if (numberofBinds > 1) {
+					playerSpeed = (float)Math.Sqrt (Math.Pow (player.MovementSpeed, 2) / 2);
+				} else
+					playerSpeed = player.MovementSpeed;
+			} else {
+				engine.KeyActions.FindAll (a => a.EntityID.Equals (player.ID)).ForEach (a => actions.Add (a.Action));
+				numberofBinds = actions.Count;
+				if (numberofBinds > 1) {
+					playerSpeed = (float)Math.Sqrt (Math.Pow (player.MovementSpeed, 2) / 2);
+				} else
+					playerSpeed = player.MovementSpeed;
+			}
+
 			int actionMade = 1;
 
-			foreach (KeyBind keybind in playerKeyBinds) {
+			for (int i = 0; i < numberofBinds; i++) {
 				player.IsMoving = true;
-
-				switch (keybind.Action) {
+				string action = actions [i];
+				switch (action) {
 				case "up":
 					if (actionMade > 1)
 						engine.ConfigureEntity (new Vector3 (player.Velocity.X, -playerSpeed, 0), (float)Math.PI - player.Rotation / 2, player.ID);
