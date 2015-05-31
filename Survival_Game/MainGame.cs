@@ -3,6 +3,7 @@ using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Survival_Game{
 
@@ -85,25 +86,23 @@ namespace Survival_Game{
 		}
 
 		public void InitializeKeyBinds(){
-			List<KeyBind> keybinds = new List<KeyBind> ();
+			List<KeyBind<Keys>> keybinds = new List<KeyBind<Keys>> ();
+			List<KeyBind<Buttons>> buttonBinds = new List<KeyBind<Buttons>> ();
 			int numControllers = 0;
 			for (int i = 0; i < numPlayers.Count; i++) {
 				if (!numPlayers [i].Item2) {
 					if (numPlayers [i].Item1.Equals ("player1")) {
-						keybinds.AddRange (contentManager.DefineKeybindingsSetup ("w", "s", "a", "d", "f", numPlayers [i].Item1));
+						engine.KeyBind.AddRange (contentManager.DefineKeybindingsSetup1 (numPlayers [i].Item1));
 					} else if (numPlayers [i].Item1.Equals ("player2")) {
-						keybinds.AddRange (contentManager.DefineKeybindingsSetup ("i", "k", "j", "l", "p", numPlayers [i].Item1));
+						engine.KeyBind.AddRange (contentManager.DefineKeybindingsSetup2 (numPlayers [i].Item1));
 					}
 				} else {
 					numControllers++;
-					keybinds = contentManager.DefineKeybindingsForGamePad (numPlayers [i].Item1);
+					engine.ButtonBinds.AddRange (contentManager.DefineKeybindingsForGamePad (numPlayers [i].Item1, numControllers));
 				}
 			}
 			engine.SetNumberOfControllers (numControllers);
 			//Sends the keybindings to the engine
-			foreach (KeyBind keybind in keybinds) {
-				engine.KeyBind.Add (keybind);
-			}
 		}
 
 		public void InitializeViewports(){

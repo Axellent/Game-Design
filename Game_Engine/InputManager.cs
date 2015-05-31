@@ -19,30 +19,39 @@ namespace Game_Engine{
 			this.numControllers = numControllers;
 		}
 
-		public List<KeyBind<Keys>> HandleInput(List<KeyBind<Keys>> keyBinds){
-			List<KeyBind<Keys>> actions = new List<KeyBind<Keys>>();
+		public Tuple<List<KeyBind<Keys>>, List<KeyBind<Buttons>>> HandleInput(List<KeyBind<Keys>> keyBinds, List<KeyBind<Buttons>> buttonBinds){
+			List<KeyBind<Keys>> keyActions = new List<KeyBind<Keys>>();
+			List<KeyBind<Buttons>> buttonActions = new List<KeyBind<Buttons>> ();
 			KeyboardState keyboardState = Keyboard.GetState();
 			//GamePadState gamepadState = GamePad.GetState ();
 			List<GamePadState> gamepadStates = GetGamePadStates();
 			Keys[] pressedKeys = keyboardState.GetPressedKeys();
 			//Buttons[] pressedButtons = gamepadState.Get;
 
-
-			if (pressedKeys.Length > 0) {
-				
-				foreach (Keys k in pressedKeys){
-					string keyValue = k.ToString();
-					foreach (KeyBind<Keys> kb in keyBinds) {
-						foreach (Keys key in kb.Keys) {
-							if (key.Equals(keyValue)) {
-								actions.Add(kb);
-								break;
-							}
+			KeyBind<Keys> kb;
+			for (int l = 0; l < gamepadStates.Count; l++) {
+				if (gamepadStates[l].IsConnected){
+					for (int k = 0; k < buttonBinds.Count; k++) {
+						if (gamepadStates [l].IsButtonDown (buttonBinds [k].Key)) {
+							buttonActions.Add (buttonBinds [k]);
 						}
 					}
 				}
 			}
-			return actions;
+			if (pressedKeys.Length > 0) {
+				
+				for (int j = 0; j < keyBinds.Count; j++){
+					for (int i = 0; i < pressedKeys.Length; i++){
+						kb = keyBinds [j]; 
+						if (kb.Key.Equals(pressedKeys[i])) {
+							keyActions.Add (kb);
+							break;
+						}
+
+					}
+				}
+			}
+			return new Tuple<List<KeyBind<Keys>>, List<KeyBind<Buttons>>>(keyActions, buttonActions);
 		}
 
 		private void checkGamePadStates(List<GamePadState> gamepadStates, string key){
@@ -82,7 +91,7 @@ namespace Game_Engine{
 
 		private List<GamePadState> GetGamePadStates (){
 			List<GamePadState> gamePadStates = new List<GamePadState> ();
-			for (int i = 1; i < numControllers + 1; i++) {
+			for (int i = 0; i < numControllers; i++) {
 				gamePadStates.Add(GamePad.GetState ((PlayerIndex)i));
 			}
 			return gamePadStates;

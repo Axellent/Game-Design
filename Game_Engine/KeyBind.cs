@@ -9,26 +9,17 @@ namespace Game_Engine
 	public class KeyBind <T>
 	{
 
-		private bool isController=false;
-		private List<T> keys;
+		private T key;
 		private string action;
 		private string entityID;
+		private int controllerIndex;
 
-		public bool IsController {
-			get {
-				return isController;
-			}
-			set {
-				isController = value;
-			}
-		}
-
-		public List<T> Keys{
+		public T Key{
 			get{ 
-				return keys;
+				return key;
 			}
 			set{
-				keys = value;
+				key = value;
 			}
 		}
 
@@ -50,9 +41,18 @@ namespace Game_Engine
 			}
 		}
 
+		public int ControllerIndex {
+			get {
+				return controllerIndex;
+			}
+			set {
+				controllerIndex = value;
+			}
+		}
+
 		public KeyBind ()
 		{
-			keys = new List<T> ();
+			//keys = new T ();
 		}
 	}
 }

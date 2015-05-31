@@ -23,15 +23,23 @@ namespace Game_Engine{
 		IObserver<List<Texture2D>> contentObserver;
 		List<string> contentNames;
 		List<KeyBind<Keys>> keyBinds = new List<KeyBind<Keys>>();
-		List<KeyBind<Keys>> actions = new List<KeyBind<Keys>>();
+		List<KeyBind<Keys>> keyActions = new List<KeyBind<Keys>>();
+		List<KeyBind<Buttons>> buttonBinds = new List<KeyBind<Buttons>>();
+		List<KeyBind<Buttons>> buttonActions = new List<KeyBind<Buttons>>();
 		List<SoundEffect> soundContent;
 		List<string> soundContentNames;
 		List<Tuple<Vector3,Viewport,Entity>> viewPositions = new List<Tuple<Vector3, Viewport, Entity>>();
 
 		/* Input actions waiting to be resolved. */
-		public List<KeyBind<Keys>> Actions{
+		public List<KeyBind<Keys>> KeyActions{
 			get {
-				return actions;
+				return keyActions;
+			}
+		}
+
+		public List<KeyBind<Buttons>> ButtonActions {
+			get {
+				return buttonActions;
 			}
 		}
 
@@ -95,6 +103,14 @@ namespace Game_Engine{
 			}
 		}
 
+		public List<KeyBind<Buttons>> ButtonBinds {
+			get {
+				return buttonBinds;
+			}
+			set {
+				buttonBinds = value;
+			}
+		}
 
 		/* The camera view positions in the game. */
 		public List<Tuple<Vector3,Viewport, Entity>> ViewPositions{
@@ -230,8 +246,11 @@ namespace Game_Engine{
 		 * Overrides the default MonoGame Update method. */
 		protected override void Update(GameTime gameTime){
 			Vector3 curViewPos = new Vector3(0, 0, 0);
+			Tuple<List<KeyBind<Keys>>, List<KeyBind<Buttons>>> actionsTuple;
 
-			actions = inputManager.HandleInput(keyBinds);
+			actionsTuple = inputManager.HandleInput(keyBinds, buttonBinds);
+			keyActions = actionsTuple.Item1;
+			buttonActions = actionsTuple.Item2;
 			entityObserver.OnNext(gameTime);
 
 			foreach(Tuple<Vector3,Viewport, Entity> pair in viewPositions) {
