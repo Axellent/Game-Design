@@ -24,7 +24,7 @@ namespace Game_Engine{
 			this.playerControlled = playerControlled;
 		}
 
-		public void MoveTowards(Entity entity, float speed, List<Entity> entities){
+		public void MoveTowards(Entity entity, float speed){
 			Vector3 entityCenter;
 			Vector3 actorCenter;
 			float vx = 0, vy = 0;

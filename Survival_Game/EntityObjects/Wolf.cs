@@ -23,12 +23,12 @@ namespace Survival_Game{
 				}
 			}
 			if(players.Count > 0) {
-				if(PhysicsManager.CheckEntityCollision(players[0], entities)) {
-					this.MoveTowards(players[0], -3, entities);
+				if(PhysicsManager.CheckEntityCollision(this, entities)) {
+					this.MoveTowards(players[0], -3);
 
 				}
-				else if(updateLimiter == 0 && !PhysicsManager.CheckEntityCollision(players[0], entities)) {
-					this.MoveTowards(players[0], 1, entities);
+				else if(updateLimiter == 0 && !PhysicsManager.CheckEntityCollision(this, entities)) {
+					this.MoveTowards(players[0], 1);
 					RotateToVelocityVector();
 					updateLimiter = 10;
 				}
