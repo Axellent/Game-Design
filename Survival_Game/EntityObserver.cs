@@ -14,14 +14,16 @@ namespace Survival_Game
 		private IDisposable removeableObserver;
 		private List<Player> oldPlayers;
 		List<Portion> generatedPortions;
-		private bool buttonSet;
+		private bool compSet;
 		TimeSpan oldtimespan;
+		private GameState currentGameState;
 
-		public EntityObserver (GameEngine engine, List<Portion> generatedPortions)
+		public EntityObserver (GameEngine engine, List<Portion> generatedPortions, ref GameState currentGameState)
 		{
 			oldPlayers = new List<Player> ();
 			this.engine = engine;
 			this.generatedPortions = generatedPortions;
+			this.currentGameState = currentGameState;
 		}
 
 		public void AddDisposableObserver(IDisposable disposableObserver){
@@ -42,78 +44,84 @@ namespace Survival_Game
 		//Hint: Not fully working yet, needs to be more dynamic. The collision management only works at certain key input
 		public void OnNext (GameTime gameTime)
 		{
-			for (int i = 0; i < engine.Entities.Count; i++) {
-				if (engine.Entities[i].GetType () == typeof(Player)) {
-					HandlePlayer (engine.Entities[i]);
-				}
-			}
-			if (engine.Entities.Exists(b => b.GetType() == typeof(Button))){
-				TimeSpan time = gameTime.TotalGameTime;
-				if (oldtimespan.Ticks == 0 || time.TotalMilliseconds - oldtimespan.TotalMilliseconds > 200) { 
-					HandleButton (time);
-				}
-			}
-			buttonSet = false;
-		}
-			
-		private void HandleButton (TimeSpan time){
-			if (!buttonSet) {
-				KeyBind keybind = engine.Actions.Find (k => k.EntityID.Equals ("none"));
-				if (keybind != null) {
-					switch (keybind.Action) {
-					case "up":
-						setButtonHighlight (false);
-						buttonSet = true;
-						oldtimespan = time;
-						break;
-					case "down":
-						setButtonHighlight (true);
-						buttonSet = true;
-						oldtimespan = time;
-						break;
-					case "enter":
-						setButtonHighlight (null);
-						oldtimespan = time;
-						break;
+			//if (currentGameState == GameState.Game) {
+				for (int i = 0; i < engine.Entities.Count; i++) {
+					if (engine.Entities [i].GetType () == typeof(Player)) {
+						HandlePlayer (engine.Entities [i]);
 					}
+				}
+			//} 
+			//else if (currentGameState == GameState.InGameMenu || currentGameState == GameState.OptionMenu 
+			//	|| currentGameState == GameState.PlayGameMenu || currentGameState == GameState.StartMenu) {
+				if (engine.Entities.Exists(e=> e.GetType ().IsSubclassOf (typeof(MenuComponent)))) {
+					TimeSpan time = gameTime.TotalGameTime;
+					if (oldtimespan.Ticks == 0 || time.TotalMilliseconds - oldtimespan.TotalMilliseconds > 200) { 
+						HandleMenuComponent (time);
+					}
+				//}
+				compSet = false;
+			}
+		}
+
+		private void HandleMenuComponent (TimeSpan time){
+			List<Entity> menuComps = engine.Entities.FindAll (e => e.GetType ().IsSubclassOf (typeof(MenuComponent)));
+			KeyBind keybind = engine.Actions.Find (k => k.EntityID.Equals ("none"));
+			MenuComponent menuComp = (MenuComponent)menuComps.Find (m => ((MenuComponent)m).IsHighlighted);
+			if (keybind != null) {
+				switch (keybind.Action) {
+				case "up":
+					menuComp.IsHighlighted = false;
+					if (menuComps.Exists (e => ((MenuComponent)e).Order == menuComp.Order - 1)) {
+						((MenuComponent)menuComps.Find (e => ((MenuComponent)e).Order == menuComp.Order - 1)).IsHighlighted = true;
+					} 
+					else 
+						((MenuComponent)menuComps.Find (e => ((MenuComponent)e).Order == menuComps.Count - 1)).IsHighlighted = true;
+					oldtimespan = time;
+					break;
+				case "down":
+					menuComp.IsHighlighted = false;
+					if (menuComps.Exists (e => ((MenuComponent)e).Order == menuComp.Order + 1)) {
+						((MenuComponent)menuComps.Find (e => ((MenuComponent)e).Order == menuComp.Order + 1)).IsHighlighted = true;
+					} 
+					else 
+						((MenuComponent)menuComps.Find (e => ((MenuComponent)e).Order == 0)).IsHighlighted = true;
+					oldtimespan = time;
+					break;
+				case "left":
+					if (menuComp.GetType () == typeof(OptionBar)) {
+						HandleOptionBar ((OptionBar)menuComp, -1);
+					}
+					oldtimespan = time;
+					break;
+				case "right":
+					if (menuComp.GetType () ==  typeof(OptionBar)) {
+						HandleOptionBar ((OptionBar)menuComp, 1);
+					}
+					oldtimespan = time;
+					break;
+				case "enter":
+					if (menuComp.GetType () == typeof(CheckBox)) {
+						if (((CheckBox)menuComp).IsChecked) {
+							((CheckBox)menuComp).IsChecked = false;
+						} else {
+							((CheckBox)menuComp).IsChecked = true;
+						}
+					} 
+					else 
+						menuComp.OnSelect ();
+					oldtimespan = time;
+					break;
 				}
 			}
 		}
 
-		private void setButtonHighlight(bool? nextEntity){
-			List<Entity> entities = engine.Entities.FindAll (e => e.GetType () == typeof(Button));
-			for (int i = 0; i<entities.Count; i++){
-				Button button = (Button) entities[i];
-				Button nextButton;
-				if (button.ButtonHighlighted) {
-					if (nextEntity == null) {
-						button.OnButtonPressed ();
-					} else if ((bool)nextEntity) {
-						if (i < entities.Count - 1) {
-							button.ButtonHighlighted = false;
-							nextButton = (Button)entities [i + 1];
-							nextButton.ButtonHighlighted = true;
-							break;
-						} else {
-							button.ButtonHighlighted = false;
-							nextButton = (Button)entities [0];
-							nextButton.ButtonHighlighted = true;
-							break;
-						}
-					} else {
-						if (i > 0) {
-							button.ButtonHighlighted = false;
-							nextButton = (Button)entities [i - 1];
-							nextButton.ButtonHighlighted = true;
-							break;
-						} else {
-							button.ButtonHighlighted = false;
-							nextButton = (Button)entities [entities.Count - 1];
-							nextButton.ButtonHighlighted = true;
-							break;
-						}
-					}
-				}
+		private void HandleOptionBar(OptionBar optionBar, int addition){
+			if (addition > 0) {
+				if (optionBar.TenPercentage != 10)
+					optionBar.TenPercentage += addition;
+			} else if (addition < 0) {
+				if (optionBar.TenPercentage != 0)
+					optionBar.TenPercentage += addition;
 			}
 		}
 

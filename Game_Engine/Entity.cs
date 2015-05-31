@@ -96,34 +96,13 @@ namespace Game_Engine{
 			}
 		}
 
-		public delegate void damageInflicted(EventArgs args);
+		public delegate void Collision(EventArgs args);
 
-		public event damageInflicted inflicted;
+		public event  Collision Collisions;
 
-		public void damageInflict(Entity entity1, Entity entity2){
-			if (inflicted != null) {
-				inflicted (new EntityEventArgs (entity1, entity2));
-			}
-		}
-
-		private class EntityEventArgs : EventArgs{
-			private Entity entity1, entity2;
-
-			public Entity Entity1 {
-				get {
-					return entity1;
-				}
-			}
-
-			public Entity Entity2 {
-				get {
-					return entity2;
-				}
-			}
-
-			public EntityEventArgs(Entity entity1, Entity entity2){
-				this.entity1 = entity1;
-				this.entity2 = entity2;
+		public void OnCollision(Entity entity2){
+			if (Collisions != null) {
+				Collisions(new EntityEventArgs (this, entity2));
 			}
 		}
 

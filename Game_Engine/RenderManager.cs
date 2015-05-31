@@ -33,7 +33,7 @@ namespace Game_Engine{
 			List<Texture2D> content = new List<Texture2D>();
 
 			foreach (string contentFile in contentFiles){
-				content.Add(Content.Load<Texture2D>(contentFile));
+				content.Add (Content.Load<Texture2D> (contentFile));
 			}
 			return content;
 		}
@@ -55,10 +55,21 @@ namespace Game_Engine{
 				batch.Begin(SpriteSortMode.Texture, null, null, null, null, null,
 					Matrix.CreateTranslation(-viewPos));
 				
+<<<<<<< HEAD
 				foreach(RenderedEntity entity in entities) {
 					rect = new Rectangle(0, 0, Convert.ToInt32(entity.Width), Convert.ToInt32(entity.Height));
 					origin = new Vector2(entity.Width / 2, entity.Height / 2);
 					batch.Draw(entity.Texture, new Vector2(entity.X, entity.Y), rect, tintColor, entity.Rotation,
+=======
+				foreach (RenderedEntity entity in entities) {
+					if (entity.IsSpriteSheet) {
+						rect = entity.Rect;
+					} 
+					else 
+						rect = new Rectangle (0, 0, Convert.ToInt32 (entity.Width), Convert.ToInt32 (entity.Height));
+					origin = new Vector2 (entity.Width / 2, entity.Height / 2);
+					batch.Draw (entity.Texture, new Vector2 (entity.X, entity.Y), rect, tintColor, entity.Rotation,
+>>>>>>> bfeab926bc95a27698f38511a4c897f4d7fb837c
 						origin, 1.0f, SpriteEffects.None, 1);
 				}
 				batch.End();
