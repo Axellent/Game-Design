@@ -16,14 +16,12 @@ namespace Survival_Game
 		List<Portion> generatedPortions;
 		private bool compSet;
 		TimeSpan oldtimespan;
-		private GameState currentGameState;
 
-		public EntityObserver (GameEngine engine, List<Portion> generatedPortions, ref GameState currentGameState)
+		public EntityObserver (GameEngine engine, List<Portion> generatedPortions)
 		{
 			oldPlayers = new List<Player> ();
 			this.engine = engine;
 			this.generatedPortions = generatedPortions;
-			this.currentGameState = currentGameState;
 		}
 
 		public void AddDisposableObserver(IDisposable disposableObserver){
@@ -44,34 +42,34 @@ namespace Survival_Game
 		//Hint: Not fully working yet, needs to be more dynamic. The collision management only works at certain key input
 		public void OnNext (GameTime gameTime)
 		{
-			//if (currentGameState == GameState.Game) {
-			for (int i = 0; i < engine.Entities.Count; i++) {
-				if (engine.Entities [i].GetType () == typeof(Player)) {
-					HandlePlayer (engine.Entities [i]);
+			if (MainGame.currentState == GameState.Game) {
+				for (int i = 0; i < engine.Entities.Count; i++) {
+					if (engine.Entities [i].GetType () == typeof(Player)) {
+						HandlePlayer (engine.Entities [i]);
+
+					} 
+					else if(engine.Entities[i].GetType() == typeof(Wolf)){
+						Wolf wolf = (Wolf)engine.Entities[i];
+						wolf.UpdateWolf(engine.Entities);
+					}
 
 				} 
-				else if(engine.Entities[i].GetType() == typeof(Wolf)){
-					Wolf wolf = (Wolf)engine.Entities[i];
-					wolf.UpdateWolf(engine.Entities);
-				}
-					
-				}
-			//} 
-			//else if (currentGameState == GameState.InGameMenu || currentGameState == GameState.OptionMenu 
-			//	|| currentGameState == GameState.PlayGameMenu || currentGameState == GameState.StartMenu) {
-				if (engine.Entities.Exists(e=> e.GetType ().IsSubclassOf (typeof(MenuComponent)))) {
+			}
+			else if (MainGame.currentState == GameState.InGameMenu || MainGame.currentState == GameState.OptionMenu 
+				|| MainGame.currentState == GameState.PlayGameMenu || MainGame.currentState == GameState.StartMenu) {				
+					if (engine.Entities.Exists(e=> e.GetType ().IsSubclassOf (typeof(MenuComponent)))) {
 					TimeSpan time = gameTime.TotalGameTime;
 					if (oldtimespan.Ticks == 0 || time.TotalMilliseconds - oldtimespan.TotalMilliseconds > 200) { 
 						HandleMenuComponent (time);
 					}
-				//}
+				}
 				compSet = false;
 			}
 		}
 
 		private void HandleMenuComponent (TimeSpan time){
 			List<Entity> menuComps = engine.Entities.FindAll (e => e.GetType ().IsSubclassOf (typeof(MenuComponent)));
-			KeyBind keybind = engine.Actions.Find (k => k.EntityID.Equals ("none"));
+			KeyBind keybind = engine.Actions.Find (k => k.EntityID.Equals ("global"));
 			MenuComponent menuComp = (MenuComponent)menuComps.Find (m => ((MenuComponent)m).IsHighlighted);
 			if (keybind != null) {
 				switch (keybind.Action) {
@@ -112,12 +110,47 @@ namespace Survival_Game
 						} else {
 							((CheckBox)menuComp).IsChecked = true;
 						}
-					} 
-					else 
-						menuComp.OnSelect ();
+					} else if (menuComp.GetType () == typeof(Button)) {
+						HandlePlayerButtons ((Button)menuComp);
+					}
 					oldtimespan = time;
 					break;
+				case "menu":
+					
+					break;
 				}
+			}
+		}
+
+		public void HandlePlayerButtons(Button button){
+			switch(button.ID){
+			case "player1Btn":
+				if (!button.PlayerSelectedCalled)
+					button.OnPlayerSelect ("player1", false);
+				else
+					button.PlayerSelectedCalled = false;
+				break;
+			case "player2Btn":
+				if (!button.PlayerSelectedCalled)
+					button.OnPlayerSelect ("player2", false);
+				else
+					button.PlayerSelectedCalled = false;
+				break;
+			case "player3Btn":
+				if (!button.PlayerSelectedCalled)
+					button.OnPlayerSelect ("player3", true);
+				else
+					button.PlayerSelectedCalled = false;
+				break;
+			case "player4Btn":
+				if (!button.PlayerSelectedCalled)
+					button.OnPlayerSelect ("player4", true);
+				else
+					button.PlayerSelectedCalled = false;
+				break;
+			default:
+				button.OnSelect ();
+				break;
 			}
 		}
 

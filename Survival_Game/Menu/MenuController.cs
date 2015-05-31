@@ -36,13 +36,13 @@ namespace Survival_Game
 			SMenu.CreateStartMenu ();
 		}
 
-		private void goBackButton(){
+		private void goBackButton(EventArgs e){
 			engine.ClearEntities ();
 			currentState = GameState.StartMenu;
 			SMenu.CreateStartMenu ();
 		}
 
-		private void playButton(){
+		private void playButton(EventArgs e){
 			engine.ClearEntities ();
 			if (currentState.Equals (GameState.StartMenu)) {
 				currentState = GameState.PlayGameMenu;	
@@ -50,11 +50,11 @@ namespace Survival_Game
 			}
 		}
 
-		private void exitButton(){
+		private void exitButton(EventArgs e){
 			engine.Exit ();
 		}
 
-		private void optionsButton(){
+		private void optionsButton(EventArgs e){
 			engine.ClearEntities ();
 			currentState = GameState.OptionMenu;
 			OMenu.CreateMenu ();

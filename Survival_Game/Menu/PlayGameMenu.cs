@@ -14,7 +14,7 @@ namespace Survival_Game
 	public class PlayGameMenu
 	{
 		private GameEngine engine;
-		private Button backBtn, playBtn, player1, player2, player3, player4;
+		private Button backBtn, playBtn, player1Btn, player2Btn, player3Btn, player4Btn;
 		private RenderedEntity menu;
 
 		public PlayGameMenu(GameEngine engine){
@@ -23,40 +23,43 @@ namespace Survival_Game
 			float btnXPos = engine.GetScreenSize ().Width / 2;
 			float btnYPos = engine.GetScreenSize ().Height / 2;
 
-//			player1 = new Button ("player1Btn", btnXPos - 200, btnYPos - 100, 150, 50, 0, 
-//				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false, 0);
-//
-//			player2 = new Button ("player2Btn", btnXPos + 200, btnYPos - 100, 150, 50, 0, 
-//				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false, 1);
-//
-//			player3 = new Button ("player3Btn", btnXPos - 200, btnYPos - 100, 150, 50, 0, 
-//				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false, 2);
-//
-//			player4 = new Button ("player4Btn", btnXPos + 200, btnYPos - 100, 150, 50, 0, 
-//				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false, 3);
-
-			playBtn = new Button("playBtn", btnXPos + 200, btnYPos + 200, 150, 50, 0, 
+			player1Btn = new Button ("player1Btn", btnXPos - 100, btnYPos - 100, 100, 100, 0, 
 				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false, 0);
 
+			player2Btn = new Button ("player2Btn", btnXPos + 100, btnYPos - 100, 100, 100, 0, 
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false, 1);
+
+			player3Btn = new Button ("player3Btn", btnXPos - 100, btnYPos + 50, 100, 100, 0, 
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false, 2);
+
+			player4Btn = new Button ("player4Btn", btnXPos + 100, btnYPos + 50, 100, 100, 0, 
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false, 3);
+
+			playBtn = new Button("playBtn", btnXPos + 200, btnYPos + 200, 150, 50, 0, 
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, false, 4);
+
 			backBtn = new Button ("backBtn", btnXPos - 200, btnYPos + 200, 150, 50, 0, 
-				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, true, 1);
+				new BoundingBox (new Vector3 (0, 0, 0), new Vector3 (0, 0, 0)), 1, null, false, true, 5);
 
 			menu = new RenderedEntity ("menu", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2, 600, 480, 0, 
 				new BoundingBox(), 0, null, false);
 		}
 
 		public void CreateMenu(){
-//			engine.AddEntity (player1);
-//			engine.AddEntity (player2);
-//			engine.AddEntity (player3);
-//			engine.AddEntity (player4);
+			engine.AddEntity (player1Btn);
+			engine.AddEntity (player2Btn);
+			engine.AddEntity (player3Btn);
+			engine.AddEntity (player4Btn);
 			engine.AddEntity (backBtn);
 			engine.AddEntity (playBtn);
 			engine.AddEntity (menu);
 		}
 
-		public void AddPlayer1BtnListener(Button.entitySelected buttonclicked){
-
+		public void AddPlayerBtnsListeners(Button.entitySelected buttonclick){
+			player1Btn.playerSelected += buttonclick;
+			player2Btn.playerSelected += buttonclick;
+			player3Btn.playerSelected += buttonclick;
+			player4Btn.playerSelected += buttonclick;
 		}
 
 		public void AddBackBtnListener(Button.entitySelected buttonclick){

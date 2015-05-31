@@ -12,7 +12,10 @@ namespace Game_Engine{
 	public class InputManager{
 		private int numControllers = 0;
 
-		public InputManager(int numControllers){
+		public InputManager(){
+		}
+
+		public void SetNumberOfController(int numControllers){
 			this.numControllers = numControllers;
 		}
 
@@ -36,7 +39,6 @@ namespace Game_Engine{
 					}
 				}
 			}
-				
 			return actions;
 		}
 
