@@ -44,21 +44,21 @@ namespace Survival_Game
 		//Hint: Not fully working yet, needs to be more dynamic. The collision management only works at certain key input
 		public void OnNext (GameTime gameTime)
 		{
-			if (currentGameState == GameState.Game) {
+			//if (currentGameState == GameState.Game) {
 				for (int i = 0; i < engine.Entities.Count; i++) {
 					if (engine.Entities [i].GetType () == typeof(Player)) {
 						HandlePlayer (engine.Entities [i]);
 					}
 				}
-			} 
-			else if (currentGameState == GameState.InGameMenu || currentGameState == GameState.OptionMenu 
-				|| currentGameState == GameState.PlayGameMenu || currentGameState == GameState.StartMenu) {
+			//} 
+			//else if (currentGameState == GameState.InGameMenu || currentGameState == GameState.OptionMenu 
+			//	|| currentGameState == GameState.PlayGameMenu || currentGameState == GameState.StartMenu) {
 				if (engine.Entities.Exists(e=> e.GetType ().IsSubclassOf (typeof(MenuComponent)))) {
 					TimeSpan time = gameTime.TotalGameTime;
 					if (oldtimespan.Ticks == 0 || time.TotalMilliseconds - oldtimespan.TotalMilliseconds > 200) { 
 						HandleMenuComponent (time);
 					}
-				}
+				//}
 				compSet = false;
 			}
 		}

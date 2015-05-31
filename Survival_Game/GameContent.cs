@@ -75,6 +75,7 @@ namespace Survival_Game{
 			gameContent.Add ("CheckBox_C_Y");
 			gameContent.Add ("ExitMenuButton");
 			gameContent.Add ("ExitMenuButton_Y");
+			//gameContent.Add ();
 			return gameContent;
 		}
 
