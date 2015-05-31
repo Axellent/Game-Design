@@ -97,8 +97,7 @@ namespace Game_Engine{
 
 		/* The camera view positions in the game. */
 		public List<Tuple<Vector3,Viewport, Entity>> ViewPositions{
-			get
-			{
+			get{
 				return viewPositions;
 			}
 			set{

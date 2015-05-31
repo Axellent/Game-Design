@@ -27,12 +27,14 @@ namespace Survival_Game
 		/*TODO iteration3: First of all add more content to the game engine, but  it should also 
 		 * be able to  content not only for a player but also other kinds of objects
 		*/
-		public void OnNext (List<Texture2D> value)
-		{
+		public void OnNext (List<Texture2D> value){
+			
 			for (int i = 0; i < engine.Entities.Count; i++) {
 				if (engine.Entities [i].GetType () == typeof(Player)) {
 					HandlePlayerContent (value, i);
-				} else if (engine.Entities [i].GetType () == typeof(Tile)) {
+				}
+
+				else if (engine.Entities [i].GetType () == typeof(Tile)) {
 					Tile tile = (Tile)engine.Entities [i];
 
 					if (tile.Texture == null) {
@@ -54,12 +56,7 @@ namespace Survival_Game
 				}
 
 				if (engine.Entities[i].GetType() == typeof(Wolf)){ 
-					Wolf wolf = (Wolf)engine.Entities[i];
-
-					if (wolf.Texture == null) {
-						wolf.Texture = value.Find (x => x.Name.Equals("wolf_s"));
-					}
-					engine.Entities[i] = wolf;
+					HandleWolfContent(value, i);
 				}
 
 				else if (engine.Entities [i].GetType () == typeof(Button)) {
@@ -307,6 +304,35 @@ namespace Survival_Game
 				player.Texture = texture.Find(x => x.Name.Equals("player_s"));
 			}
 			engine.Entities[index] = player;
+		}
+
+		public void HandleWolfContent(List<Texture2D> textures, int i){
+			Wolf wolf = (Wolf)engine.Entities[i];
+
+			if(wolf.Texture == null) {
+				wolf.Texture = textures.Find(x => x.Name.Equals("wolf_s"));
+			}
+			else{
+				if(wolf.IsMoving) {
+					if(wolf.Texture.Name.Equals("wolf_r") && wolf.FootTicker >= 10) {
+						wolf.FootTicker = 0;
+						wolf.Texture = textures.Find(x => x.Name.Equals("wolf_l"));
+					}
+					else if(wolf.Texture.Name.Equals("wolf_l") && wolf.FootTicker >= 10) {
+						wolf.FootTicker = 0;
+						wolf.Texture = textures.Find(x => x.Name.Equals("wolf_r"));
+					}
+					else if(wolf.FootTicker == 0) {
+						wolf.Texture = textures.Find(x => x.Name.Equals("wolf_r"));
+					}
+					wolf.FootTicker += wolf.MovementSpeed / 2;
+				}
+				else if(!wolf.Texture.Name.Equals("wolf_s")) {
+					wolf.FootTicker = 0;
+					wolf.Texture = textures.Find(x => x.Name.Equals("wolf_s"));
+				}
+			}
+			engine.Entities[i] = wolf;
 		}
 
 		public void OnError (Exception error)

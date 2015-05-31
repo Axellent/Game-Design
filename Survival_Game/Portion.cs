@@ -75,7 +75,6 @@ namespace Survival_Game{
 		public void GenerateBerryBushes(List<Entity> entities){
 			Random rand = new Random();
 			int nEntities = rand.Next(0, 20);
-			bool intersects = false;
 
 			for(int i = 0; i < nEntities; i++) {
 				float randX = rand.Next((int)bounds.Min.X, (int)bounds.Max.X);

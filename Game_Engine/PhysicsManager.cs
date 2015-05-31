@@ -6,11 +6,9 @@ namespace Game_Engine{
 
 	/* Author: Andreas Lönnermark */
 	public class PhysicsManager{
-
 		private bool collision = false;
 
 		public PhysicsManager(){
-
 		}
 
 		public bool Collision {
@@ -71,13 +69,24 @@ namespace Game_Engine{
 			return false;
 		}
 
+		public static Entity GetEntityCollision(Entity entity, List<Entity> entities){
+			int j;
+
+			for(j = 0; j < entities.Count; j++) {
+				if(entities[j].HasCollision && entity.HitBox.Intersects(entities[j].HitBox) && !entity.Equals(entities[j])){
+					return entities[j];
+				}
+			}
+			return null;
+		}
+
 		public void HandleEntityCollision(int i, List<Entity> entities){
 			int j;
 
 			for(j = i + 1; j < entities.Count; j++) {
 				if(entities[j].HasCollision && entities[i].HitBox.Intersects(entities[j].HitBox)){
 					HandleCollision(entities[i], entities[j]);
-					entities [i].OnCollision (entities[j]);
+					entities[i].OnCollision (entities[j]);
 				}
 			}
 		}

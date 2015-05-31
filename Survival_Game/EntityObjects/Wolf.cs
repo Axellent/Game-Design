@@ -8,10 +8,46 @@ namespace Survival_Game{
 
 	/* Author: Axel Sigl */
 	public class Wolf : ActorEntity{
+		bool isMoving;
+		int health;
+		float footTicker;
+		float movementSpeed = 1;
 		int updateLimiter = 0;
+
+		public bool IsMoving {
+			get {
+				return isMoving;
+			}
+			set {
+				isMoving = value;
+			}
+		}
+
+		public float FootTicker {
+			get {
+				return footTicker;
+			}
+			set {
+				if (value > 10)
+					footTicker = 0;
+				else
+					footTicker = value;
+			}
+		}
+
+		public float MovementSpeed {
+			get {
+				return movementSpeed;
+			}
+			set {
+				movementSpeed = value;
+			}
+		}
 		
 		public Wolf(string id, float x, float y, float width, float height, float rotation, BoundingBox hitbox, 
 			int layer, Texture2D texture, bool playerControlled) : base(id, x, y, width, height, rotation, hitbox, layer, texture, playerControlled){
+			isMoving = false;
+			health = 100;
 		}
 
 		public void UpdateWolf(List<Entity> entities){
@@ -22,13 +58,21 @@ namespace Survival_Game{
 					players.Add((Player)entities[i]);
 				}
 			}
-			if(players.Count > 0) {
-				if(PhysicsManager.CheckEntityCollision(this, entities)) {
-					this.MoveTowards(players[0], -3);
 
+			if(players.Count > 0) {
+				Entity collidedEntity = PhysicsManager.GetEntityCollision(this, entities);
+
+				if(this.HitBox.Intersects(players[0].HitBox)) {
+					this.isMoving = true;
+					this.MoveTowards(players[0], -movementSpeed * 3);
 				}
-				else if(updateLimiter == 0 && !PhysicsManager.CheckEntityCollision(this, entities)) {
-					this.MoveTowards(players[0], 1);
+				else if(collidedEntity != null) {
+					//this.isMoving == true;
+					//this.MoveTowards(collidedEntity, -3);
+				}
+				else if(updateLimiter == 0) {
+					this.isMoving = true;
+					this.MoveTowards(players[0], movementSpeed);
 					RotateToVelocityVector(players[0]);
 					updateLimiter = 10;
 				}
@@ -61,32 +105,6 @@ namespace Survival_Game{
 					this.Rotation = -(float)Math.PI / 2;
 				}
 			}
-
-
-			/*if(vx < 0 && vy < 0){
-				this.Rotation = (float)Math.PI - ((float)Math.PI / 2) / 2;
-			}
-			else if(vx == 0 && vy < 0){
-				this.Rotation = (float)Math.PI;
-			}
-			else if(vx > 0 && vy < 0){
-				this.Rotation = (float)Math.PI + ((float)Math.PI / 2) / 2;
-			}
-			else if(vx > 0 && vy == 0){
-				this.Rotation = -(float)Math.PI / 2;
-			}
-			else if(vx > 0 && vy > 0){
-				this.Rotation = (-(float)Math.PI / 2) / 2;
-			}
-			else if(vx == 0 && vy > 0){
-				this.Rotation = 0;
-			}
-			else if(vx < 0 && vy > 0){
-				this.Rotation = ((float)Math.PI / 2) / 2;
-			}
-			else if(vx < 0 && vy == 0){
-				this.Rotation = ((float)Math.PI / 2);
-			}*/
 		}
 	}
 }
