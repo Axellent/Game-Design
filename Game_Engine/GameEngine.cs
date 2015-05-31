@@ -23,7 +23,6 @@ namespace Game_Engine{
 		List<string> contentNames;
 		List<KeyBind> keyBinds = new List<KeyBind>();
 		List<KeyBind> actions = new List<KeyBind>();
-		List<KeyValuePair<Entity, Entity>> collisionPairs;
 		List<SoundEffect> soundContent;
 		List<string> soundContentNames;
 
@@ -140,25 +139,25 @@ namespace Game_Engine{
 		}
 
 		public void ClearViewPositions(){
-			viewPositions.Clear ();
+			viewPositions.Clear();
 		}
 
 		public void configureEntity(Vector3 velocity, float rotation, string entityID){
-			moveEntity (velocity, entityID);
-			SetEntityRotation (rotation, entityID);
+			moveEntity(velocity, entityID);
+			SetEntityRotation(rotation, entityID);
 		}
 
 		public void moveEntity(Vector3 velocity, string entityID){
-			entities.Find (e => e.ID.Equals (entityID)).Velocity = velocity;
+			entities.Find (e => e.ID.Equals(entityID)).Velocity = velocity;
 		}
 			
 		public void SetEntityRotation(float rotation, string entityID){
-			entities.Find (e => e.ID.Equals (entityID)).Rotation = rotation;
+			entities.Find (e => e.ID.Equals(entityID)).Rotation = rotation;
 		}
 
 		public void AddTextureOnEntity(string textureName, string entityID){
-			RenderedEntity rendered = (RenderedEntity)entities.Find (e => e.ID.Equals (entityID));
-			rendered.Texture = gameContent.Find (t => t.Name.Equals (textureName));
+			RenderedEntity rendered = (RenderedEntity)entities.Find(e => e.ID.Equals(entityID));
+			rendered.Texture = gameContent.Find(t => t.Name.Equals(textureName));
 		}
 
 		public void AddEntity(Entity entity){
@@ -175,7 +174,7 @@ namespace Game_Engine{
 			return new Unsubscriber<IObserver<List<Texture2D>>>(observer);
 		}
 
-		private class Unsubscriber <T> : IDisposable{
+		private class Unsubscriber<T> : IDisposable{
 			private T observer;
 
 			public Unsubscriber(T observer){
@@ -190,16 +189,15 @@ namespace Game_Engine{
 		/* Loads all content in contentNames */
 		protected override void LoadContent(){
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-			collisionPairs = new List<KeyValuePair<Entity, Entity>>();
 
 			gameContent = renderManager.LoadContent(Content, contentNames);
-			contentNames.Clear ();
+			contentNames.Clear();
 
-			soundContent = soundManager.LoadContent (Content, soundContentNames);
-			soundContentNames.Clear ();
+			soundContent = soundManager.LoadContent(Content, soundContentNames);
+			soundContentNames.Clear();
 
 			contentObserver.OnNext(GameContent);
-			playBackgroundSound (soundContent.Find(s => s.Name.Equals("Sound/DaySound_02")), true);
+			playBackgroundSound(soundContent.Find(s => s.Name.Equals("Sound/DaySound_02")), true);
 
 			base.LoadContent();
 		}
@@ -213,6 +211,7 @@ namespace Game_Engine{
 		protected override void Update(GameTime gameTime){
 			actions = inputManager.HandleInput(keyBinds);
 			entityObserver.OnNext(gameTime);
+
 			foreach(Tuple<Vector3,Viewport, Entity> pair in viewPositions) {
 				GraphicsDevice.Viewport = pair.Item2;
 				curViewPos = pair.Item1;
@@ -232,17 +231,17 @@ namespace Game_Engine{
 						curViewPos.Y + GraphicsDevice.Viewport.Height + 100, 0));
 				entities = sceneManager.RestoreSavedEntities(entities, limitBox);
 			}
-			physicsManager.UpdatePhysics (entities);
+			physicsManager.UpdatePhysics(entities);
 			contentObserver.OnNext(GameContent);
 			entityObserver.OnCompleted();
 			base.Update(gameTime);
 		}
 
 		/* Loads all content in contentNames. 
-		 * Overrides the default MonoGame LoadContent method.*/
+		 * Overrides the default MonoGame LoadContent method. */
 		protected override void Draw(GameTime gameTime){
 			List<RenderedEntity> rendered = sceneManager.SortRenderedEntities(entities);
-			renderManager.Draw (spriteBatch, GraphicsDevice, curViewPos, rendered, viewPositions);
+			renderManager.Draw(spriteBatch, GraphicsDevice, viewPositions, rendered);
 			base.Draw (gameTime);
 		}
 	}

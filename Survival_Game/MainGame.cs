@@ -94,6 +94,8 @@ namespace Survival_Game{
 				new BoundingBox (new Vector3 (500 - (72 / 4), 400 - (62 / 4), 0),
 					new Vector3 (500 + (72 / 4), 400 + (62 / 4), 0)), 1, null, true);
 
+			entityObserver.CheckPortions(player1);
+
 			defaultview = engine.GraphicsDevice.Viewport;
 			leftview = defaultview;
 			rightview = defaultview;

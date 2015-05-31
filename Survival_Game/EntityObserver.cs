@@ -262,6 +262,7 @@ namespace Survival_Game
 				newPortion.AddPortion(generatedPortions, engine.Entities);
 			}
 		}
+
 		/* Evaluates to true if the BoundingBox intersects any of the generated portions. */
 		public bool IsGenerated(BoundingBox bounds){
 			for(int i = 0; i < generatedPortions.Count; i++) {

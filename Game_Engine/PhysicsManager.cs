@@ -25,15 +25,15 @@ namespace Game_Engine{
 		public void UpdateEntities(List<Entity> entities){
 			List<Entity> temp = entities.FindAll(e => e.GetType() == typeof(ActorEntity) || e.GetType().IsSubclassOf(typeof(ActorEntity)));
 			for (int i = 0; i < temp.Count; i++) {
-				temp [i].X += temp [i].Velocity.X;
-				temp [i].Y += temp [i].Velocity.Y;
+				temp[i].X += temp[i].Velocity.X;
+				temp[i].Y += temp[i].Velocity.Y;
 			}
 		}
 
 		public void UpdateHitboxes(List<Entity> entities){
 
 			foreach(Entity entity in entities){
-				UpdateEntityHitbox (entity);
+				UpdateEntityHitbox(entity);
 			}
 		}
 
@@ -45,26 +45,24 @@ namespace Game_Engine{
 		}
 
 		public void UpdatePhysics(List<Entity> entities){
-			UpdateEntities (entities);
-			UpdateHitboxes (entities);
+			UpdateEntities(entities);
+			UpdateHitboxes(entities);
 			CollisionDetection(entities);
 		}
 			
 		public void CollisionDetection(List<Entity> entities){
 			int i, j;
 
-			for (i = 0; i < entities.Count - 1; i++) {
+			for(i = 0; i < entities.Count - 1; i++) {
 				if(entities[i].HasCollision) {
-					for (j = i + 1; j < entities.Count; j++) {
-						if (entities[j].HasCollision && entities[i].HitBox.Intersects (entities[j].HitBox)){
-							HandleCollision (entities[i], entities[j]);
+					for(j = i + 1; j < entities.Count; j++) {
+						if(entities[j].HasCollision && entities[i].HitBox.Intersects(entities[j].HitBox)){
+							HandleCollision(entities[i], entities[j]);
 						}
 					}
 				}
 			}
 		}
-
-
 
 		private void HandleCollision(Entity entity1, Entity entity2){
 			if (entity1.Velocity.X == 0 && entity1.Velocity.Y == 0) {
