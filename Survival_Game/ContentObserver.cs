@@ -44,14 +44,25 @@ namespace Survival_Game
 					engine.Entities [i] = tile;
 				}
 
-				if (engine.Entities [i].GetType () == typeof(Bush)) {
+				if (engine.Entities[i].GetType () == typeof(Bush)) {
 					Bush bush = (Bush)engine.Entities [i];
 
 					if (bush.Texture == null) {
 						bush.Texture = value.Find (x => x.Name.Equals ("bush_2"));
 					}
-					engine.Entities [i] = bush;
-				} else if (engine.Entities [i].GetType () == typeof(Button)) {
+					engine.Entities[i] = bush;
+				}
+
+				if (engine.Entities[i].GetType() == typeof(Wolf)){ 
+					Wolf wolf = (Wolf)engine.Entities[i];
+
+					if (wolf.Texture == null) {
+						wolf.Texture = value.Find (x => x.Name.Equals("wolf_s"));
+					}
+					engine.Entities[i] = wolf;
+				}
+
+				else if (engine.Entities [i].GetType () == typeof(Button)) {
 					Button button = (Button)engine.Entities [i];
 					HandleButtonTexture (button);
 

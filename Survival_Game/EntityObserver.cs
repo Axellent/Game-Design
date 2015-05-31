@@ -46,12 +46,17 @@ namespace Survival_Game
 				for (int i = 0; i < engine.Entities.Count; i++) {
 					if (engine.Entities [i].GetType () == typeof(Player)) {
 						HandlePlayer (engine.Entities [i]);
+
+					} 
+					else if(engine.Entities[i].GetType() == typeof(Wolf)){
+						Wolf wolf = (Wolf)engine.Entities[i];
+						wolf.UpdateWolf();
 					}
 				}
-			} 
+			}
 			else if (MainGame.currentState == GameState.InGameMenu || MainGame.currentState == GameState.OptionMenu 
-				|| MainGame.currentState == GameState.PlayGameMenu || MainGame.currentState == GameState.StartMenu) {
-				if (engine.Entities.Exists(e=> e.GetType ().IsSubclassOf (typeof(MenuComponent)))) {
+				|| MainGame.currentState == GameState.PlayGameMenu || MainGame.currentState == GameState.StartMenu) {				
+					if (engine.Entities.Exists(e=> e.GetType ().IsSubclassOf (typeof(MenuComponent)))) {
 					TimeSpan time = gameTime.TotalGameTime;
 					if (oldtimespan.Ticks == 0 || time.TotalMilliseconds - oldtimespan.TotalMilliseconds > 200) { 
 						HandleMenuComponent (time);
@@ -303,6 +308,7 @@ namespace Survival_Game
 				newPortion.AddPortion(generatedPortions, engine.Entities);
 			}
 		}
+
 		/* Evaluates to true if the BoundingBox intersects any of the generated portions. */
 		public bool IsGenerated(BoundingBox bounds){
 			for(int i = 0; i < generatedPortions.Count; i++) {

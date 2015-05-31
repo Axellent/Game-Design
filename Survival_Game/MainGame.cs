@@ -99,7 +99,7 @@ namespace Survival_Game{
 					keybinds = contentManager.DefineKeybindingsForGamePad (numPlayers [i].Item1);
 				}
 			}
-			engine.setNumberOfControllers (numControllers);
+			engine.SetNumberOfControllers (numControllers);
 			//Sends the keybindings to the engine
 			foreach (KeyBind keybind in keybinds) {
 				engine.KeyBind.Add (keybind);
@@ -107,7 +107,6 @@ namespace Survival_Game{
 		}
 
 		public void InitializeViewports(){
-
 			defaultview = engine.GraphicsDevice.Viewport;
 			leftview = defaultview;
 			rightview = defaultview;
@@ -120,6 +119,8 @@ namespace Survival_Game{
 					(new Vector3 (players[0].X - defaultview.Width / 2,
 						players[0].Y - defaultview.Height / 2, 0), defaultview, players[0]));
 
+				initPortions(players[0]);
+
 				engine.AddEntity (players[0]);
 			}
 
@@ -131,6 +132,9 @@ namespace Survival_Game{
 
 				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (players[0].X - leftview.Width / 2, players[0].Y - leftview.Height / 2, 0), leftview, players[0]));
 				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (players[1].X - rightview.Width / 2, players[1].Y - rightview.Height / 2, 0), rightview, players[1]));
+
+				initPortions(players[0]);
+				initPortions(players[1]);
 
 				engine.AddEntity (players[0]);
 				engine.AddEntity (players[1]);
@@ -150,6 +154,10 @@ namespace Survival_Game{
 				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (players[1].X - leftview.Width / 2, players[1].Y - leftview.Height / 2, 0), leftview, players[1]));
 				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (players[2].X - rightview.Width / 2, players[2].Y - rightview.Height / 2, 0), rightview, players[2]));
 				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (players[0].X - topView.Width / 2, players[0].Y - topView.Height / 2, 0), topView, players[0]));
+
+				initPortions(players[0]);
+				initPortions(players[1]);
+				initPortions(players[2]);
 
 				engine.AddEntity (players[0]);
 				engine.AddEntity (players[1]);
@@ -176,13 +184,27 @@ namespace Survival_Game{
 				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (players[0].X - topLeftView.Width / 2, players[0].Y - topLeftView.Height / 2, 0), topLeftView, players[0]));
 				engine.ViewPositions.Add (new Tuple<Vector3, Viewport, Entity> (new Vector3 (players[1].X - topRightView.Width / 2, players[1].Y - topRightView.Height / 2, 0), topRightView, players[1]));
 
+				initPortions(players[0]);
+				initPortions(players[1]);
+				initPortions(players[2]);
+				initPortions(players[3]);
+
 				engine.AddEntity (players[0]);
 				engine.AddEntity (players[1]);
 				engine.AddEntity (players[2]);
 				engine.AddEntity (players[3]);
 			}
+			//initPortions(player1);
 		}
 
+		/* Generates initial portions around the player. */
+		public void initPortions(Player player){
+			BoundingBox portionBounds = new BoundingBox(new Vector3(0, 0, 0),
+				new Vector3(Portion.PORTION_WIDTH, Portion.PORTION_HEIGHT, 0));
+			Portion portion = new Portion(portionBounds);
+			portion.AddPortion(generatedPortions, engine.Entities);
+			entityObserver.CheckPortions(player);
+		}
 		public void InitializePlayers(){
 			for (int i = 0; i < numPlayers.Count; i++) {
 				Player player = new Player (numPlayers[i].Item1, numPlayers[i].Item2, engine.GraphicsDevice.Viewport.Width / 2 + (80 * (i + 1)),
@@ -194,7 +216,6 @@ namespace Survival_Game{
 				players.Add (player);
 			}
 		}
-
 		public static void Main(){
 			MainGame game = new MainGame();
 		}
