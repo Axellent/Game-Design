@@ -28,6 +28,7 @@ namespace Survival_Game
 
 			menu = new RenderedEntity ("menu", engine.GetScreenSize ().Width / 2, engine.GetScreenSize ().Height / 2, 600, 480, 0, 
 				new BoundingBox (), 0, null);
+			
 			volume = new OptionBar("masterVolume", engine.GetScreenSize().Width / 2, engine.GetScreenSize().Height / 2 - 100, 165, 24, 0, 
 					new BoundingBox(), 1, null, false, false, 10, 0, new Rectangle(0,0,0,0));
 

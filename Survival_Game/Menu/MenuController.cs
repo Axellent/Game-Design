@@ -27,6 +27,8 @@ namespace Survival_Game
 			SMenu.AddPlayButtonListener (playButton);
 
 			OMenu = optionMenu;
+			OMenu.AddBackBtnListener (goBackButton);
+
 			PGMenu = PlayGameMenu;
 			PGMenu.AddBackBtnListener (goBackButton);
 
