@@ -52,6 +52,9 @@ namespace Survival_Game{
 			gameContent.Add ("player_s");
 			gameContent.Add ("player_r");
 			gameContent.Add ("player_l");
+			gameContent.Add ("wolf_s");
+			gameContent.Add ("wolf_r");
+			gameContent.Add ("wolf_l");
 			gameContent.Add ("Menu");
 			gameContent.Add ("PlayButton_Y");
 			gameContent.Add ("PlayButton");

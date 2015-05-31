@@ -45,10 +45,16 @@ namespace Survival_Game
 		public void OnNext (GameTime gameTime)
 		{
 			//if (currentGameState == GameState.Game) {
-				for (int i = 0; i < engine.Entities.Count; i++) {
-					if (engine.Entities [i].GetType () == typeof(Player)) {
-						HandlePlayer (engine.Entities [i]);
-					}
+			for (int i = 0; i < engine.Entities.Count; i++) {
+				if (engine.Entities [i].GetType () == typeof(Player)) {
+					HandlePlayer (engine.Entities [i]);
+
+				} 
+				else if(engine.Entities[i].GetType() == typeof(Wolf)){
+					Wolf wolf = (Wolf)engine.Entities[i];
+					wolf.UpdateWolf();
+				}
+					
 				}
 			//} 
 			//else if (currentGameState == GameState.InGameMenu || currentGameState == GameState.OptionMenu 

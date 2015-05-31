@@ -75,11 +75,6 @@ namespace Survival_Game{
 				engine.KeyBind.Add (keybind);
 			}
 
-			BoundingBox portionBounds = new BoundingBox(new Vector3(0, 0, 0),
-				new Vector3(Portion.PORTION_WIDTH, Portion.PORTION_HEIGHT, 0));
-			Portion portion = new Portion(portionBounds);
-			portion.AddPortion(generatedPortions, engine.Entities);
-
 			Player player1 = new Player ("player1", false, engine.GraphicsDevice.Viewport.Width / 2,
 				engine.GraphicsDevice.Viewport.Height / 2, 72, 62, 0,
 				new BoundingBox (new Vector3 (engine.GraphicsDevice.Viewport.Width / 2 - (72 / 4),
@@ -92,8 +87,6 @@ namespace Survival_Game{
 			Player player3 = new Player ("player3", false, 500, 400, 72, 62, 0,
 				new BoundingBox (new Vector3 (500 - (72 / 4), 400 - (62 / 4), 0),
 					new Vector3 (500 + (72 / 4), 400 + (62 / 4), 0)), 1, null, true);
-
-			entityObserver.CheckPortions(player1);
 
 			defaultview = engine.GraphicsDevice.Viewport;
 			leftview = defaultview;
@@ -168,6 +161,16 @@ namespace Survival_Game{
 				engine.AddEntity (player2);
 				engine.AddEntity (player3);
 			}
+			initPortions(player1);
+		}
+
+		/* Generates initial portions around the player. */
+		public void initPortions(Player player){
+			BoundingBox portionBounds = new BoundingBox(new Vector3(0, 0, 0),
+				new Vector3(Portion.PORTION_WIDTH, Portion.PORTION_HEIGHT, 0));
+			Portion portion = new Portion(portionBounds);
+			portion.AddPortion(generatedPortions, engine.Entities);
+			entityObserver.CheckPortions(player);
 		}
 
 		public static void Main(){
