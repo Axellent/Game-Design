@@ -75,11 +75,11 @@ namespace Survival_Game
 				}
 				compSet = false;
 			}
-
+			bool temp = timeCheck (gameTime);
 			for (int i = 0; i < engine.Entities.Count; i++) {
 				if (engine.Entities [i].GetType () == typeof(Player)) {
 					Player player = (Player)engine.Entities [i];
-					if(timeCheck(gameTime))
+					if(temp)
 						player.Hunger = player.Hunger - 2;
 				}
 			}
@@ -259,18 +259,11 @@ namespace Survival_Game
 					// TODO create a hit box that will allow for only checking infro of the player.
 					BoundingBox check  = new BoundingBox (new Vector3(player.X - (player.Width/3) -40, player.Y -  (player.Height/3) -40,0), 
 						new Vector3(player.X + (player.Width/2) + 40, player.Y - (player.Height/2) +40,0));
-					//Kolla om det är en buske som är framför
-					// ändra på allt som ska göras 
-
-					foreach(Entity ent in engine.Entities){ 
+						foreach(Entity ent in engine.Entities){ 
 						if (check.Intersects (ent.HitBox) && ent.GetType() == typeof(Bush)) {
 							Bush bush = (Bush)ent;
 							if (!bush.IsUsed) {
 								bush.IsUsed = true;
-								Console.WriteLine ("Den kom hit iallafall");
-								Console.WriteLine (player.X);
-								Console.WriteLine (bush.X);
-								Console.WriteLine (bush.ID);
 
 								player.Health += bush.AmountOfHealthRestored;
 								player.Hunger += bush.AmountOfHungerReduced;
@@ -310,7 +303,7 @@ namespace Survival_Game
 					Player player = (Player)engine.Entities[i];
 					player.IsMoving = false;
 					player.IsUsing = false;
-					engine.moveEntity (new Vector3(0,0,0), player.ID);
+					engine.MoveEntity (new Vector3(0,0,0), player.ID);
 				}
 			}
 		}

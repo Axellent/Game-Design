@@ -205,6 +205,8 @@ namespace Survival_Game{
 			entityObserver.CheckPortions(player);
 		}
 		public void InitializePlayers(){
+			int healthBarNO = 1;
+			int hungerBarNO = 1;
 			for (int i = 0; i < numPlayers.Count; i++) {
 				Player player = new Player (numPlayers[i].Item1, numPlayers[i].Item2, engine.GraphicsDevice.Viewport.Width / 2 + (80 * (i + 1)),
 					                engine.GraphicsDevice.Viewport.Height / 2, 72, 62, 0,
@@ -212,7 +214,17 @@ namespace Survival_Game{
 						                engine.GraphicsDevice.Viewport.Height / 2 - (62 / 4), 0),
 						                new Vector3 (engine.GraphicsDevice.Viewport.Width / 2 + (72 / 4),
 							                engine.GraphicsDevice.Viewport.Height / 2 + (62 / 4), 0)), 1, null, true);
+
+				HealthBar healthBar = new HealthBar ("healthBar" +healthBarNO, player.X, player.Y - 50, player.Health, 10, 0, new BoundingBox(new Vector3(player.X - 100, player.Y - 100,0),
+					new Vector3(player.X - 100, player.Y - 100,0)), 0, null, false, player);
+				HungerBar hungerBar = new HungerBar ("hungerBar" + hungerBarNO, player.X, player.Y - 70, player.Hunger, 10, 0, new BoundingBox(new Vector3(player.X - 100, player.Y - 100,0),
+					new Vector3(player.X - 100, player.Y - 100,0)), 0, null, false, player);
+
+				engine.AddEntity (healthBar);
+				engine.AddEntity (hungerBar);
 				players.Add (player);
+				healthBarNO++;
+				hungerBarNO++;
 			}
 		}
 		public static void Main(){
