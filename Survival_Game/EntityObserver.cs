@@ -310,7 +310,7 @@ namespace Survival_Game
 					Player player = (Player)engine.Entities[i];
 					player.IsMoving = false;
 					player.IsUsing = false;
-					engine.moveEntity (new Vector3(0,0,0), player.ID);
+					engine.MoveEntity (new Vector3(0,0,0), player.ID);
 				}
 			}
 		}

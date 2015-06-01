@@ -95,21 +95,12 @@ namespace Survival_Game
 			}
 		}
 
-<<<<<<< HEAD
-		public int Health{
-			get{
-				return health;
-			}
-			set{
-				health = value;
-=======
 		public bool IsUsing {
 			get {
 				return isUsing;
 			}
 			set {
 				isUsing = value;
->>>>>>> f34460647b263503290ad180ea6b52ad7bb4bd31
 			}
 		}
 
