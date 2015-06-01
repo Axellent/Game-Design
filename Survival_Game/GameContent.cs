@@ -97,7 +97,7 @@ namespace Survival_Game{
 			gameContent.Add ("player_R_Hand");
 			gameContent.Add ("player_L_Hand");
 			gameContent.Add ("health_Bar");
-			gameContent.Add("hunger_Bar");
+			gameContent.Add ("hunger_Bar");
 			//gameContent.Add ();
 			return gameContent;
 		}
