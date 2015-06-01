@@ -14,6 +14,7 @@ namespace Survival_Game{
 
 		static int tileNO = 1;
 		static int berryBushNO = 1;
+		static int wolfNO = 1;
 
 		public const int PORTION_WIDTH = 2000;
 		public const int PORTION_HEIGHT = 2000;
@@ -21,6 +22,8 @@ namespace Survival_Game{
 		public const int TILE_HEIGHT = 50;
 		public const int BUSH_WIDTH = 50;
 		public const int BUSH_HEIGHT = 40;
+		public const int WOLF_WIDTH = 75;
+		public const int WOLF_HEIGHT = 150;
 
 		public BoundingBox Bounds{
 			get{
@@ -71,8 +74,7 @@ namespace Survival_Game{
 
 		public void GenerateBerryBushes(List<Entity> entities){
 			Random rand = new Random();
-			int nEntities = rand.Next(10, 50);
-			bool intersects = false;
+			int nEntities = rand.Next(0, 20);
 
 			for(int i = 0; i < nEntities; i++) {
 				float randX = rand.Next((int)bounds.Min.X, (int)bounds.Max.X);
@@ -81,19 +83,34 @@ namespace Survival_Game{
 				BoundingBox bushBounds = new BoundingBox(new Vector3(randX, randY, 0),
 					new Vector3(randX + BUSH_WIDTH, randY + BUSH_HEIGHT, 0));
 
-				for(int j = 0; j < entities.Count; j++) {
-					intersects = false;
-					if(entities[i].HasCollision && bushBounds.Intersects(entities[i].HitBox)) {
-						intersects = true;
-						break;
-					}
-				}
-				if(!intersects) {
-					Bush berryBush = new Bush("bush" + berryBushNO, randX, randY, BUSH_WIDTH, BUSH_HEIGHT,
-						0, bushBounds, 1, null);
-					berryBushNO = berryBushNO + 1; 
+				Bush berryBush = new Bush("bush" + berryBushNO, randX, randY, BUSH_WIDTH, BUSH_HEIGHT, 0, bushBounds, 1, null);
+
+				if(!PhysicsManager.CheckEntityCollision(berryBush, entities)){
 					randomEntities.Add(berryBush);
 					entities.Add(berryBush);
+					berryBushNO++;
+				}
+			}
+		}
+
+		/* Generates new creatures into the game. */
+		public void GenerateBeasts(List<Entity> entities){
+			Random rand = new Random();
+			int nEntities = rand.Next(10, 20);
+
+			for(int i = 0; i < nEntities; i++) {
+				float randX = rand.Next((int)bounds.Min.X, (int)bounds.Max.X);
+				float randY = rand.Next((int)bounds.Min.Y, (int)bounds.Max.Y);
+
+				BoundingBox wolfBounds = new BoundingBox(new Vector3(randX, randY, 0),
+					new Vector3(randX + WOLF_WIDTH, randY + WOLF_HEIGHT, 0));
+
+				Wolf wolf = new Wolf("wolf" + wolfNO, randX, randY, WOLF_WIDTH, WOLF_HEIGHT, 0, wolfBounds, 1, null, false);
+
+				if(!PhysicsManager.CheckEntityCollision(wolf, entities)) {
+					randomEntities.Add(wolf);
+					entities.Add(wolf);
+					wolfNO++;
 				}
 			}
 		}
@@ -102,6 +119,7 @@ namespace Survival_Game{
 		public void AddPortion(List<Portion> generatedPortions, List<Entity> entities){
 			GenerateTiles(entities);
 			GenerateBerryBushes(entities);
+			GenerateBeasts(entities);
 			generatedPortions.Add(this);
 		}
 

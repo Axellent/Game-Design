@@ -98,7 +98,7 @@ namespace Game_Engine{
 
 		public delegate void Collision(EventArgs args);
 
-		public event  Collision Collisions;
+		public event Collision Collisions;
 
 		public void OnCollision(Entity entity2){
 			if (Collisions != null) {

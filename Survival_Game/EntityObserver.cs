@@ -3,6 +3,7 @@ using Game_Engine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Survival_Game
 {
@@ -16,15 +17,13 @@ namespace Survival_Game
 		List<Portion> generatedPortions;
 		private bool compSet;
 		TimeSpan oldtimespan;
-		private GameState currentGameState;
 		private int temp = 0;
 
-		public EntityObserver (GameEngine engine, List<Portion> generatedPortions, ref GameState currentGameState)
+		public EntityObserver (GameEngine engine, List<Portion> generatedPortions)
 		{
 			oldPlayers = new List<Player> ();
 			this.engine = engine;
 			this.generatedPortions = generatedPortions;
-			this.currentGameState = currentGameState;
 		}
 
 		public void AddDisposableObserver(IDisposable disposableObserver){
@@ -45,11 +44,16 @@ namespace Survival_Game
 		//Hint: Not fully working yet, needs to be more dynamic. The collision management only works at certain key input
 		public void OnNext (GameTime gameTime)
 		{
-			//if (currentGameState == GameState.Game) {
-			for (int i = 0; i < engine.Entities.Count; i++) {
-				if (engine.Entities [i].GetType () == typeof(Player)) {
-					HandlePlayer (engine.Entities [i]);
-				} else if (engine.Entities [i].GetType () == typeof(HealthBar)) {
+			if (MainGame.currentState == GameState.Game) {
+				for (int i = 0; i < engine.Entities.Count; i++) {
+					if (engine.Entities [i].GetType () == typeof(Player)) {
+						HandlePlayer (engine.Entities [i]);
+
+					} 
+					else if(engine.Entities[i].GetType() == typeof(Wolf)){
+						Wolf wolf = (Wolf)engine.Entities[i];
+						wolf.UpdateWolf(engine.Entities);
+					} else if (engine.Entities [i].GetType () == typeof(HealthBar)) {
 					HealthBar hb = (HealthBar)engine.Entities [i];
 					Player player = (Player)engine.Entities.Find (e => e.ID.Equals (hb.ConectedTo.ID));
 					hb.updatePosition (player.Health);
@@ -58,20 +62,20 @@ namespace Survival_Game
 					Player player = (Player)engine.Entities.Find (e => e.ID.Equals (hunb.ConectedTo.ID));
 					hunb.updatePosition (player.Hunger);
 				}
+
+				} 
 			}
-			//} 
-			//else if (currentGameState == GameState.InGameMenu || currentGameState == GameState.OptionMenu 
-			//	|| currentGameState == GameState.PlayGameMenu || currentGameState == GameState.StartMenu) {
-				if (engine.Entities.Exists(e=> e.GetType ().IsSubclassOf (typeof(MenuComponent)))) {
+			else if (MainGame.currentState == GameState.InGameMenu || MainGame.currentState == GameState.OptionMenu 
+				|| MainGame.currentState == GameState.PlayGameMenu || MainGame.currentState == GameState.StartMenu) {				
+					if (engine.Entities.Exists(e=> e.GetType ().IsSubclassOf (typeof(MenuComponent)))) {
 					TimeSpan time = gameTime.TotalGameTime;
 					if (oldtimespan.Ticks == 0 || time.TotalMilliseconds - oldtimespan.TotalMilliseconds > 200) { 
 						HandleMenuComponent (time);
 					}
-				//}
+				}
 				compSet = false;
 			}
 
-			//int hungerminus = timeCheck (gameTime);
 			for (int i = 0; i < engine.Entities.Count; i++) {
 				if (engine.Entities [i].GetType () == typeof(Player)) {
 					Player player = (Player)engine.Entities [i];
@@ -84,7 +88,7 @@ namespace Survival_Game
 
 		private void HandleMenuComponent (TimeSpan time){
 			List<Entity> menuComps = engine.Entities.FindAll (e => e.GetType ().IsSubclassOf (typeof(MenuComponent)));
-			KeyBind keybind = engine.Actions.Find (k => k.EntityID.Equals ("none"));
+			KeyBind<Keys> keybind = engine.KeyActions.Find (k => k.EntityID.Equals ("global"));
 			MenuComponent menuComp = (MenuComponent)menuComps.Find (m => ((MenuComponent)m).IsHighlighted);
 			if (keybind != null) {
 				switch (keybind.Action) {
@@ -125,12 +129,47 @@ namespace Survival_Game
 						} else {
 							((CheckBox)menuComp).IsChecked = true;
 						}
-					} 
-					else 
-						menuComp.OnSelect ();
+					} else if (menuComp.GetType () == typeof(Button)) {
+						HandlePlayerButtons ((Button)menuComp);
+					}
 					oldtimespan = time;
 					break;
+				case "menu":
+					
+					break;
 				}
+			}
+		}
+
+		public void HandlePlayerButtons(Button button){
+			switch(button.ID){
+			case "player1Btn":
+				if (!button.PlayerSelectedCalled)
+					button.OnPlayerSelect ("player1", false);
+				else
+					button.PlayerSelectedCalled = false;
+				break;
+			case "player2Btn":
+				if (!button.PlayerSelectedCalled)
+					button.OnPlayerSelect ("player2", false);
+				else
+					button.PlayerSelectedCalled = false;
+				break;
+			case "player3Btn":
+				if (!button.PlayerSelectedCalled)
+					button.OnPlayerSelect ("player3", true);
+				else
+					button.PlayerSelectedCalled = false;
+				break;
+			case "player4Btn":
+				if (!button.PlayerSelectedCalled)
+					button.OnPlayerSelect ("player4", true);
+				else
+					button.PlayerSelectedCalled = false;
+				break;
+			default:
+				button.OnSelect ();
+				break;
 			}
 		}
 
@@ -158,48 +197,61 @@ namespace Survival_Game
 
 
 		private void HandlePlayer(Entity entity){
-			Player player = (Player) entity;				//From here, move to a method.
-			List<KeyBind> playerKeyBinds = engine.Actions.FindAll (x => x.EntityID.Equals (player.ID));
-			if (playerKeyBinds.Count > 1) {
-				playerSpeed = (float)Math.Sqrt (Math.Pow (player.MovementSpeed, 2) / 2);
-			} else
-				playerSpeed = player.MovementSpeed;
+			Player player = (Player)entity;
+			List<string> actions = new List<string>();
+			int numberofBinds = 0;
+			if (player.IsController) {
+				engine.ButtonActions.FindAll (a => a.EntityID.Equals (player.ID)).ForEach (a => actions.Add (a.Action));
+				numberofBinds = actions.Count;
+				if (numberofBinds > 1) {
+					playerSpeed = (float)Math.Sqrt (Math.Pow (player.MovementSpeed, 2) / 2);
+				} else
+					playerSpeed = player.MovementSpeed;
+			} else {
+				engine.KeyActions.FindAll (a => a.EntityID.Equals (player.ID)).ForEach (a => actions.Add (a.Action));
+				numberofBinds = actions.Count;
+				if (numberofBinds > 1) {
+					playerSpeed = (float)Math.Sqrt (Math.Pow (player.MovementSpeed, 2) / 2);
+				} else
+					playerSpeed = player.MovementSpeed;
+			}
+
 			int actionMade = 1;
 
-			foreach (KeyBind keybind in playerKeyBinds) {
+			for (int i = 0; i < numberofBinds; i++) {
 				//player.IsMoving = true;
-
-				switch (keybind.Action) {
+				string action = actions [i];
+				switch (action) {
 				case "up":
 					player.IsMoving = true;
 					if (actionMade > 1)
-						engine.configureEntity (new Vector3 (player.Velocity.X, -playerSpeed, 0), (float)Math.PI - player.Rotation / 2, player.ID);
+						engine.ConfigureEntity (new Vector3 (player.Velocity.X, -playerSpeed, 0), (float)Math.PI - player.Rotation / 2, player.ID);
 					else
-						engine.configureEntity (new Vector3 (0, -playerSpeed, 0), (float)Math.PI, player.ID);
+						engine.ConfigureEntity (new Vector3 (0, -playerSpeed, 0), (float)Math.PI, player.ID);
 					CheckPortions (player);
 					break;
 				case "down":
 					player.IsMoving = true;
 					if (actionMade > 1)
-						engine.configureEntity (new Vector3 (player.Velocity.X, playerSpeed, 0), player.Rotation / 2, player.ID);
+						engine.ConfigureEntity (new Vector3 (player.Velocity.X, playerSpeed, 0), player.Rotation / 2, player.ID);
 					else
-						engine.configureEntity (new Vector3 (0, playerSpeed, 0), 0, player.ID);
+						engine.ConfigureEntity (new Vector3 (0, playerSpeed, 0), 0, player.ID);
 					CheckPortions (player);
 					break;
 				case "left":
 					player.IsMoving = true;
 					if (actionMade > 1)
-						engine.configureEntity (new Vector3 (-playerSpeed, player.Velocity.Y, 0), player.Rotation / 2 + (float)Math.PI / 4, player.ID);
+						engine.ConfigureEntity (new Vector3 (-playerSpeed, player.Velocity.Y, 0), player.Rotation / 2 + (float)Math.PI / 4, player.ID);
 					else
-						engine.configureEntity (new Vector3 (-playerSpeed, 0, 0), (float)Math.PI / 2, player.ID);
+						engine.ConfigureEntity (new Vector3 (-playerSpeed, 0, 0), (float)Math.PI / 2, player.ID);
 					CheckPortions (player);
 					break;
 				case "right":
 					player.IsMoving = true;
 					if (actionMade > 1)
-						engine.configureEntity (new Vector3 (playerSpeed, player.Velocity.Y, 0), - player.Rotation / 2 - (float)Math.PI / 4, player.ID);
+						engine.ConfigureEntity (new Vector3 (playerSpeed, player.Velocity.Y, 0), - player.Rotation / 2 - (float)Math.PI / 4, player.ID);
 					else
-						engine.configureEntity (new Vector3 (playerSpeed, 0, 0), -(float)Math.PI / 2, player.ID);
+						engine.ConfigureEntity (new Vector3 (playerSpeed, 0, 0), -(float)Math.PI / 2, player.ID);
 					CheckPortions (player);
 					break;
 				case "action": // TODO: Move to a function? So it can be more dynamic.
@@ -335,6 +387,7 @@ namespace Survival_Game
 				newPortion.AddPortion(generatedPortions, engine.Entities);
 			}
 		}
+
 		/* Evaluates to true if the BoundingBox intersects any of the generated portions. */
 		public bool IsGenerated(BoundingBox bounds){
 			for(int i = 0; i < generatedPortions.Count; i++) {

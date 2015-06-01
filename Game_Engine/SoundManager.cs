@@ -9,10 +9,16 @@ namespace Game_Engine{
 	//author: Rasmus Bäckerhall
 	public class SoundManager{
 
-		private float MasterVolume = 1.0F;		
-		private float backgroundVolume = 1.0F;
-		private float miscVolume;
+		private float masterVolume = 1.0F;
 
+		public float MasterVolume {
+			get {
+				return masterVolume;
+			}
+			set {
+				masterVolume = value;
+			}
+		}
 
 		public SoundManager(){
 		}
@@ -52,10 +58,10 @@ namespace Game_Engine{
 			try{
 				SoundEffectInstance effectInstance = effect.CreateInstance ();
 				effectInstance.IsLooped = isLooped;
-				effectInstance.Volume = MasterVolume * backgroundVolume;
+				effectInstance.Volume = masterVolume;
 				effectInstance.Play ();
 			}catch(NoAudioHardwareException e){
-				
+				Console.WriteLine (e);
 			}
 		}
 

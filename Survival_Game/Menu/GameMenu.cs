@@ -48,6 +48,22 @@ namespace Survival_Game
 		public void AddResumeBtnListener(Button.entitySelected buttonListener){
 			resumeBtn.selected += buttonListener;
 		}
+
+		public void AddOptionBtnListener(Button.entitySelected buttonListener){
+			optionBtn.selected += buttonListener;
+		}
+
+		public void AddExitMenuBtnListener(Button.entitySelected buttonListener){
+			exitMenuBtn.selected += buttonListener;
+		}
+
+		public void AddExitBtnListener(Button.entitySelected buttonListener){
+			exitBtn.selected += buttonListener;
+		}
+
+		public void AddSaveBtnListener(Button.entitySelected buttonListener){
+			saveBtn.selected += buttonListener;
+		}
 	}
 }
 

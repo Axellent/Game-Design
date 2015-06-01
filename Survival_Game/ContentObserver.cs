@@ -11,14 +11,12 @@ namespace Survival_Game
 	{
 		private GameEngine engine;
 		private IDisposable removeableObserver;
-		private GameState currentGameState;
 
 		const int nTileTypes = 2;
 
-		public ContentObserver (GameEngine engine, ref GameState currentGameState)
+		public ContentObserver (GameEngine engine)
 		{
 			this.engine = engine;
-			this.currentGameState = currentGameState;
 		}
 
 		public void AddDisposableObserver(IDisposable disposableObserver){
@@ -29,12 +27,14 @@ namespace Survival_Game
 		/*TODO iteration3: First of all add more content to the game engine, but  it should also 
 		 * be able to  content not only for a player but also other kinds of objects
 		*/
-		public void OnNext (List<Texture2D> value)
-		{
+		public void OnNext (List<Texture2D> value){
+			
 			for (int i = 0; i < engine.Entities.Count; i++) {
 				if (engine.Entities [i].GetType () == typeof(Player)) {
 					HandlePlayerContent (value, i);
-				} else if (engine.Entities [i].GetType () == typeof(Tile)) {
+				}
+
+				else if (engine.Entities [i].GetType () == typeof(Tile)) {
 					Tile tile = (Tile)engine.Entities [i];
 
 					if (tile.Texture == null) {
@@ -57,70 +57,27 @@ namespace Survival_Game
 						engine.AddTextureOnEntity ("hunger_Bar", hungerBar.ID);
 					}
 				}
-				if (engine.Entities [i].GetType () == typeof(Bush)) {
+				if (engine.Entities[i].GetType () == typeof(Bush)) {
 					Bush bush = (Bush)engine.Entities [i];
 
 					if (bush.Texture == null) {
 						bush.Texture = value.Find (x => x.Name.Equals ("bush_2"));
 					}
-					//engine.Entities [i] = bush;
+					//engine.Entities[i] = bush;
 					if(bush.IsUsed){
-						engine.AddTextureOnEntity ("bush_1", bush.ID);
-					}
-				} else if (engine.Entities [i].GetType () == typeof(Button)) {
-					Button button = (Button)engine.Entities [i];
+					engine.AddTextureOnEntity ("bush_1", bush.ID);
+				}
+					
+				}
 
-					switch (button.ID) {
-					case "playBtn":
-						if (button.Texture == null || !button.IsHighlighted) {
-							engine.AddTextureOnEntity ("PlayButton", button.ID);
-						} else if (button.IsHighlighted) {
-							engine.AddTextureOnEntity ("PlayButton_Y", button.ID);
-						}
-						break;
-					case "backBtn":
-						if (button.Texture == null || !button.IsHighlighted) {
-							engine.AddTextureOnEntity ("BackButton", button.ID);
-						} else if (button.IsHighlighted) {
-							engine.AddTextureOnEntity ("BackButton_Y", button.ID);
-						}
-						break;
-					case "optionsBtn":
-						if (button.Texture == null || !button.IsHighlighted) {
-							engine.AddTextureOnEntity ("OptionsButton", button.ID);
-						} else if (button.IsHighlighted) {
-							engine.AddTextureOnEntity ("OptionsButton_Y", button.ID);
-						}
-						break;
-					case "exitBtn":
-						if (button.Texture == null || !button.IsHighlighted) {
-							engine.AddTextureOnEntity ("ExitButton", button.ID);
-						} else if (button.IsHighlighted) {
-							engine.AddTextureOnEntity ("ExitButton_Y", button.ID);
-						}
-						break;
-					case "resumeBtn":
-						if (button.Texture == null || !button.IsHighlighted) {
-							engine.AddTextureOnEntity ("Resume", button.ID);
-						} else if (button.IsHighlighted) {
-							engine.AddTextureOnEntity ("Resume_Y", button.ID);
-						}
-						break;
-					case "saveBtn":
-						if (button.Texture == null || !button.IsHighlighted) {
-							engine.AddTextureOnEntity ("Save", button.ID);
-						} else if (button.IsHighlighted) {
-							engine.AddTextureOnEntity ("Save_Y", button.ID);
-						}
-						break;
-					case "exitMenuBtn":
-						if (button.Texture == null || !button.IsHighlighted) {
-							engine.AddTextureOnEntity ("ExitMenuButton", button.ID);
-						} else if (button.IsHighlighted) {
-							engine.AddTextureOnEntity ("ExitMenuButton", button.ID);
-						}
-						break;
-					}
+				if (engine.Entities[i].GetType() == typeof(Wolf)){ 
+					HandleWolfContent(value, i);
+				}
+
+				else if (engine.Entities [i].GetType () == typeof(Button)) {
+					Button button = (Button)engine.Entities [i];
+					HandleButtonTexture (button);
+
 				} else if (engine.Entities [i].GetType () == typeof(CheckBox)) {
 					CheckBox checkBox = (CheckBox)engine.Entities [i];
 					if (checkBox.Texture == null || !checkBox.IsHighlighted) {
@@ -143,6 +100,111 @@ namespace Survival_Game
 					OptionBar optionBar = (OptionBar)engine.Entities [i];
 					HandleOptionBar (optionBar);
 				}
+			}
+		}
+		public void HandleButtonTexture(Button button){
+			switch (button.ID) {
+			case "playBtn":
+				if (button.Texture == null || !button.IsHighlighted) {
+					engine.AddTextureOnEntity ("PlayButton", button.ID);
+				} else if (button.IsHighlighted) {
+					engine.AddTextureOnEntity ("PlayButton_Y", button.ID);
+				}
+				break;
+			case "backBtn":
+				if (!button.IsHighlighted) {
+					engine.AddTextureOnEntity ("BackButton", button.ID);
+				} else if (button.IsHighlighted) {
+					engine.AddTextureOnEntity ("BackButton_Y", button.ID);
+				}
+				break;
+			case "optionsBtn":
+				if (!button.IsHighlighted) {
+					engine.AddTextureOnEntity ("OptionsButton", button.ID);
+				} else if (button.IsHighlighted) {
+					engine.AddTextureOnEntity ("OptionsButton_Y", button.ID);
+				}
+				break;
+			case "exitBtn":
+				if (!button.IsHighlighted) {
+					engine.AddTextureOnEntity ("ExitButton", button.ID);
+				} else if (button.IsHighlighted) {
+					engine.AddTextureOnEntity ("ExitButton_Y", button.ID);
+				}
+				break;
+			case "resumeBtn":
+				if (!button.IsHighlighted) {
+					engine.AddTextureOnEntity ("Resume", button.ID);
+				} else if (button.IsHighlighted) {
+					engine.AddTextureOnEntity ("Resume_Y", button.ID);
+				}
+				break;
+			case "saveBtn":
+				if (!button.IsHighlighted) {
+					engine.AddTextureOnEntity ("Save", button.ID);
+				} else if (button.IsHighlighted) {
+					engine.AddTextureOnEntity ("Save_Y", button.ID);
+				}
+				break;
+			case "exitMenuBtn":
+				if (!button.IsHighlighted) {
+					engine.AddTextureOnEntity ("ExitMenuButton", button.ID);
+				} else if (button.IsHighlighted) {
+					engine.AddTextureOnEntity ("ExitMenuButton", button.ID);
+				}
+				break;
+			case "player1Btn":
+				if (!button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player1", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player1_S", button.ID);
+				} else if (button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player1_Y", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player1_S_Y", button.ID);
+				}
+				break;
+			case "player2Btn":
+				if (!button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player2", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player2_S", button.ID);
+				} else if (button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player2_Y", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player2_S_Y", button.ID);
+				}
+				break;
+			case "player3Btn":
+				if (!button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player3", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player3_S", button.ID);
+				} else if (button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player3_Y", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player3_S_Y", button.ID);
+				}
+				break;
+			case "player4Btn":
+				if (!button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player4", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player4_S", button.ID);
+				} else if (button.IsHighlighted) {
+					if (!button.PlayerSelectedCalled)
+						engine.AddTextureOnEntity ("Player4_Y", button.ID);
+					else
+						engine.AddTextureOnEntity ("Player4_S_Y", button.ID);
+				}
+				break;
 			}
 		}
 
@@ -260,6 +322,35 @@ namespace Survival_Game
 				player.Texture = texture.Find(x => x.Name.Equals("player_s"));
 			}
 			engine.Entities[index] = player;
+		}
+
+		public void HandleWolfContent(List<Texture2D> textures, int i){
+			Wolf wolf = (Wolf)engine.Entities[i];
+
+			if(wolf.Texture == null) {
+				wolf.Texture = textures.Find(x => x.Name.Equals("wolf_s"));
+			}
+			else{
+				if(wolf.IsMoving) {
+					if(wolf.Texture.Name.Equals("wolf_r") && wolf.FootTicker >= 10) {
+						wolf.FootTicker = 0;
+						wolf.Texture = textures.Find(x => x.Name.Equals("wolf_l"));
+					}
+					else if(wolf.Texture.Name.Equals("wolf_l") && wolf.FootTicker >= 10) {
+						wolf.FootTicker = 0;
+						wolf.Texture = textures.Find(x => x.Name.Equals("wolf_r"));
+					}
+					else if(wolf.FootTicker == 0) {
+						wolf.Texture = textures.Find(x => x.Name.Equals("wolf_r"));
+					}
+					wolf.FootTicker += wolf.MovementSpeed / 2;
+				}
+				else if(!wolf.Texture.Name.Equals("wolf_s")) {
+					wolf.FootTicker = 0;
+					wolf.Texture = textures.Find(x => x.Name.Equals("wolf_s"));
+				}
+			}
+			engine.Entities[i] = wolf;
 		}
 
 		public void OnError (Exception error)

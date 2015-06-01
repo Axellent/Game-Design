@@ -49,6 +49,9 @@ namespace Survival_Game{
 //			gameContent.Add (new KeyValuePair<bool, string> (false, "ExitMenuButton_Y"));
 			gameContent.Add ("tile_1");
 			gameContent.Add ("tile_2");
+			gameContent.Add ("wolf_s");
+			gameContent.Add ("wolf_r");
+			gameContent.Add ("wolf_l");
 			gameContent.Add ("player_s");
 			gameContent.Add ("player_r");
 			gameContent.Add ("player_l");
@@ -75,10 +78,26 @@ namespace Survival_Game{
 			gameContent.Add ("CheckBox_C_Y");
 			gameContent.Add ("ExitMenuButton");
 			gameContent.Add ("ExitMenuButton_Y");
-			gameContent.Add ("player_L_Hand");
+			gameContent.Add ("Player1");
+			gameContent.Add ("Player1_S");
+			gameContent.Add ("Player1_S_Y");
+			gameContent.Add ("Player1_Y");
+			gameContent.Add ("Player2");
+			gameContent.Add ("Player2_Y");
+			gameContent.Add ("Player2_S");
+			gameContent.Add ("Player2_S_Y");
+			gameContent.Add ("Player3");
+			gameContent.Add ("Player3_Y");
+			gameContent.Add ("Player3_S");
+			gameContent.Add ("Player3_S_Y");
+			gameContent.Add ("Player4");
+			gameContent.Add ("Player4_Y");
+			gameContent.Add ("Player4_S");
+			gameContent.Add ("Player4_S_Y");
 			gameContent.Add ("player_R_Hand");
+			gameContent.Add ("player_L_Hand");
 			gameContent.Add ("health_Bar");
-			gameContent.Add ("hunger_Bar");
+			gameContent.Add ("hunger_Bar")
 			//gameContent.Add ();
 			return gameContent;
 		}
@@ -98,65 +117,65 @@ namespace Survival_Game{
 			return content;
 		}
 
-		public List<KeyBind> MenuKeyBindSetup(){
-			List<KeyBind> keybinds = new List<KeyBind> ();
+		public List<KeyBind<Keys>> MenuKeyBindSetup(){
+			List<KeyBind<Keys>> keybinds = new List<KeyBind<Keys>> ();
 
-			KeyBind keybind1 = new KeyBind ();
-			keybind1.EntityID = "none";
-			keybind1.Keys.Add ("Up");
+			KeyBind<Keys> keybind1 = new KeyBind<Keys> ();
+			keybind1.EntityID = "global";
+			keybind1.Key = Keys.Up;
 			keybind1.Action = "up";
-			KeyBind keybind2 = new KeyBind ();
-			keybind2.EntityID = "none";
-			keybind2.Keys.Add ("Down");
+			KeyBind<Keys> keybind2 = new KeyBind<Keys> ();
+			keybind2.EntityID = "global";
+			keybind2.Key = Keys.Down;
 			keybind2.Action = "down";
-			KeyBind keybind3 = new KeyBind ();
-			keybind3.EntityID = "none";
-			keybind3.Keys.Add ("Enter");
+			KeyBind<Keys> keybind3 = new KeyBind<Keys> ();
+			keybind3.EntityID = "global";
+			keybind3.Key = Keys.Enter;
 			keybind3.Action = "enter";
-			KeyBind keybind4 = new KeyBind ();
-			keybind4.EntityID = "none";
-			keybind4.Keys.Add ("Left");
+			KeyBind<Keys> keybind4 = new KeyBind<Keys> ();
+			keybind4.EntityID = "global";
+			keybind4.Key = Keys.Left;
 			keybind4.Action = "left";
-			KeyBind keybind5 = new KeyBind ();
-			keybind5.EntityID = "none";
-			keybind5.Keys.Add ("Right");
+			KeyBind<Keys> keybind5 = new KeyBind<Keys> ();
+			keybind5.EntityID = "global";
+			keybind5.Key = Keys.Right;
 			keybind5.Action = "right";
+			KeyBind<Keys> keybind6 = new KeyBind<Keys> ();
+			keybind6.EntityID = "global";
+			keybind6.Key = Keys.Escape;
+			keybind6.Action = "menu";
 
 			keybinds.Add (keybind1);
 			keybinds.Add (keybind2);
 			keybinds.Add (keybind3);
 			keybinds.Add (keybind4);
 			keybinds.Add (keybind5);
+			keybinds.Add (keybind6);
 
 			return keybinds;
 		}
 
 		//Keyboard Setup 1 
-		public List<KeyBind> DefineKeybindingsSetup1(string playerID){
-			List<KeyBind> keybinds = new List<KeyBind> ();
-			KeyBind keybind1 = new KeyBind ();
-			keybind1.Keys.Add ("w");
-			keybind1.Keys.Add ("W");
+		public List<KeyBind<Keys>> DefineKeybindingsSetup1(string playerID){
+			List<KeyBind<Keys>> keybinds = new List<KeyBind<Keys>> ();
+			KeyBind<Keys> keybind1 = new KeyBind<Keys> ();
+			keybind1.Key = Keys.W;
 			keybind1.EntityID = playerID;
 			keybind1.Action = "up";
-			KeyBind keybind2 = new KeyBind ();
-			keybind2.Keys.Add ("a");
-			keybind2.Keys.Add ("A");
+			KeyBind<Keys> keybind2 = new KeyBind<Keys> ();
+			keybind2.Key = Keys.A;
 			keybind2.EntityID = playerID;
 			keybind2.Action = "left";
-			KeyBind keybind3 = new KeyBind ();
-			keybind3.Keys.Add ("s");
-			keybind3.Keys.Add ("S");
+			KeyBind<Keys> keybind3 = new KeyBind<Keys> ();
+			keybind3.Key = Keys.S;
 			keybind3.EntityID = playerID;
 			keybind3.Action = "down";
-			KeyBind keybind4 = new KeyBind ();
-			keybind4.Keys.Add ("d");
-			keybind4.Keys.Add ("D");
+			KeyBind<Keys> keybind4 = new KeyBind<Keys> ();
+			keybind4.Key = Keys.D;
 			keybind4.EntityID = playerID;
 			keybind4.Action = "right";
-			KeyBind keybind5 = new KeyBind ();
-			keybind5.Keys.Add ("f");
-			keybind5.Keys.Add ("F");
+			KeyBind<Keys> keybind5 = new KeyBind<Keys> ();
+			keybind5.Key = Keys.F;
 			keybind5.EntityID = playerID;
 			keybind5.Action = "action";
 
@@ -170,31 +189,26 @@ namespace Survival_Game{
 		}
 
 		//Keyboard Setup 2
-		public List<KeyBind> DefineKeybindingsSetup2(string playerID){
-			List<KeyBind> keybinds = new List<KeyBind> ();
-			KeyBind keybind1 = new KeyBind ();
-			keybind1.Keys.Add ("i");
-			keybind1.Keys.Add ("I");
+		public List<KeyBind<Keys>> DefineKeybindingsSetup2(string playerID){
+			List<KeyBind<Keys>> keybinds = new List<KeyBind<Keys>> ();
+			KeyBind<Keys> keybind1 = new KeyBind<Keys> ();
+			keybind1.Key = Keys.I;
 			keybind1.EntityID = playerID;
 			keybind1.Action = "up";
-			KeyBind keybind2 = new KeyBind ();
-			keybind2.Keys.Add ("j");
-			keybind2.Keys.Add ("J");
+			KeyBind<Keys> keybind2 = new KeyBind<Keys> ();
+			keybind2.Key = Keys.J;
 			keybind2.EntityID = playerID;
 			keybind2.Action = "left";
-			KeyBind keybind3 = new KeyBind ();
-			keybind3.Keys.Add ("k");
-			keybind3.Keys.Add ("K");
+			KeyBind<Keys> keybind3 = new KeyBind<Keys> ();
+			keybind3.Key = Keys.K;
 			keybind3.EntityID = playerID;
 			keybind3.Action = "down";
-			KeyBind keybind4 = new KeyBind ();
-			keybind4.Keys.Add ("l");
-			keybind4.Keys.Add ("L");
+			KeyBind<Keys> keybind4 = new KeyBind<Keys> ();
+			keybind4.Key = Keys.L;
 			keybind4.EntityID = playerID;
 			keybind4.Action = "right";
-			KeyBind keybind5 = new KeyBind ();
-			keybind5.Keys.Add ("P");
-			keybind5.Keys.Add ("p");
+			KeyBind<Keys> keybind5 = new KeyBind<Keys> ();
+			keybind5.Key = Keys.Add;
 			keybind5.EntityID = playerID;
 			keybind5.Action = "action";
 
@@ -208,33 +222,33 @@ namespace Survival_Game{
 		}
 
 		//gamePad setup
-		public List<KeyBind> DefineKeybindingsForGamePad(string playerID){
-			List<KeyBind> keybinds = new List<KeyBind> ();
-			KeyBind keybind1 = new KeyBind ();
-			keybind1.Keys.Add ("up");
-			keybind1.Keys.Add (playerID);
-			keybind1.Keys.Add ("up");
-			keybind1.IsController = true;
-			KeyBind keybind2 = new KeyBind ();
-			keybind2.Keys.Add ("left");
-			keybind2.Keys.Add (playerID);
-			keybind2.Keys.Add ("left");
-			keybind2.IsController = true;
-			KeyBind keybind3 = new KeyBind ();
-			keybind3.Keys.Add ("down");
-			keybind3.Keys.Add (playerID);
-			keybind3.Keys.Add ("down");
-			keybind3.IsController = true;
-			KeyBind keybind4 = new KeyBind ();
-			keybind4.Keys.Add ("right");
-			keybind4.Keys.Add (playerID);
-			keybind4.Keys.Add ("right");
-			keybind4.IsController = true;
-			KeyBind keybind5 = new KeyBind ();
-			keybind5.Keys.Add ("x");
-			keybind5.Keys.Add (playerID);
-			keybind5.Keys.Add ("action");
-			keybind5.IsController = true;
+		public List<KeyBind<Buttons>> DefineKeybindingsForGamePad(string playerID, int controllerIndex){
+			List<KeyBind<Buttons>> keybinds = new List<KeyBind<Buttons>> ();
+			KeyBind<Buttons> keybind1 = new KeyBind<Buttons> ();
+			keybind1.Key = Buttons.DPadUp;
+			keybind1.EntityID = playerID;
+			keybind1.Action = "up";
+			keybind1.ControllerIndex = controllerIndex;
+			KeyBind<Buttons> keybind2 = new KeyBind<Buttons> ();
+			keybind2.Key = Buttons.DPadLeft;
+			keybind2.EntityID = playerID;
+			keybind2.Action = "left";
+			keybind2.ControllerIndex = controllerIndex;
+			KeyBind<Buttons> keybind3 = new KeyBind<Buttons> ();
+			keybind3.Key = Buttons.DPadDown;
+			keybind3.EntityID = playerID;
+			keybind3.Action = "down";
+			keybind3.ControllerIndex = controllerIndex;
+			KeyBind<Buttons> keybind4 = new KeyBind<Buttons> ();
+			keybind4.Key = Buttons.DPadRight;
+			keybind4.EntityID = playerID;
+			keybind4.Action = "right";
+			keybind4.ControllerIndex = controllerIndex;
+			KeyBind<Buttons> keybind5 = new KeyBind<Buttons> ();
+			keybind5.Key = Buttons.X;
+			keybind5.EntityID = playerID;
+			keybind5.Action = "action";
+			keybind5.ControllerIndex = controllerIndex;
 
 			keybinds.Add (keybind1);
 			keybinds.Add (keybind2);
