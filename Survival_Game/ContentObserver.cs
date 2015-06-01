@@ -45,14 +45,29 @@ namespace Survival_Game
 					}
 					engine.Entities [i] = tile;
 				}
-
+				if (engine.Entities [i].GetType () == typeof(HealthBar)){
+					HealthBar healthBar = (HealthBar)engine.Entities [i];
+					if(healthBar.Texture == null){
+						engine.AddTextureOnEntity ("health_Bar", healthBar.ID);
+					}
+				}
+				if (engine.Entities [i].GetType () == typeof(HungerBar)){
+					HungerBar hungerBar = (HungerBar)engine.Entities [i];
+					if(hungerBar.Texture == null){
+						engine.AddTextureOnEntity ("hunger_Bar", hungerBar.ID);
+					}
+				}
 				if (engine.Entities[i].GetType () == typeof(Bush)) {
 					Bush bush = (Bush)engine.Entities [i];
 
 					if (bush.Texture == null) {
 						bush.Texture = value.Find (x => x.Name.Equals ("bush_2"));
 					}
-					engine.Entities[i] = bush;
+					//engine.Entities[i] = bush;
+					if(bush.IsUsed){
+					engine.AddTextureOnEntity ("bush_1", bush.ID);
+				}
+					
 				}
 
 				if (engine.Entities[i].GetType() == typeof(Wolf)){ 
@@ -285,22 +300,25 @@ namespace Survival_Game
 		public void HandlePlayerContent(List<Texture2D> texture, int index){
 			Player player = (Player)engine.Entities[index];
 
-			if(player.Texture != null) {
-				if(player.IsMoving) {
-					if(player.Texture.Name.Equals("player_r") && player.FootTicker >= 10) {
+			if (player.Texture != null) {
+				if (player.IsMoving) {
+					if (player.Texture.Name.Equals ("player_r") && player.FootTicker >= 10) {
 						player.FootTicker = 0;
-						player.Texture = texture.Find(x => x.Name.Equals("player_l"));
-					} else if(player.Texture.Name.Equals("player_l") && player.FootTicker >= 10) {
+						player.Texture = texture.Find (x => x.Name.Equals ("player_l"));
+					} else if (player.Texture.Name.Equals ("player_l") && player.FootTicker >= 10) {
 						player.FootTicker = 0;
-						player.Texture = texture.Find(x => x.Name.Equals("player_r"));
-					} else if(player.FootTicker == 0)
-						player.Texture = texture.Find(x => x.Name.Equals("player_r"));
+						player.Texture = texture.Find (x => x.Name.Equals ("player_r"));
+					} else if (player.FootTicker == 0)
+						player.Texture = texture.Find (x => x.Name.Equals ("player_r"));
 					player.FootTicker += player.MovementSpeed / 4;
-				} else if(!player.Texture.Name.Equals("player_s")) {
+				} else if (!player.Texture.Name.Equals ("player_s")) {
 					player.FootTicker = 0;
-					player.Texture = texture.Find(x => x.Name.Equals("player_s"));
+					player.Texture = texture.Find (x => x.Name.Equals ("player_s"));
+				} else if (player.IsUsing){
+					player.Texture = texture.Find (x => x.Name.Equals ("player_L_Hand"));
 				}
-			} else {
+			}
+			else {
 				player.Texture = texture.Find(x => x.Name.Equals("player_s"));
 			}
 			engine.Entities[index] = player;

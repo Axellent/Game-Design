@@ -17,6 +17,7 @@ namespace Survival_Game
 		List<Portion> generatedPortions;
 		private bool compSet;
 		TimeSpan oldtimespan;
+		private int temp = 0;
 
 		public EntityObserver (GameEngine engine, List<Portion> generatedPortions)
 		{
@@ -52,7 +53,15 @@ namespace Survival_Game
 					else if(engine.Entities[i].GetType() == typeof(Wolf)){
 						Wolf wolf = (Wolf)engine.Entities[i];
 						wolf.UpdateWolf(engine.Entities);
-					}
+					} else if (engine.Entities [i].GetType () == typeof(HealthBar)) {
+					HealthBar hb = (HealthBar)engine.Entities [i];
+					Player player = (Player)engine.Entities.Find (e => e.ID.Equals (hb.ConectedTo.ID));
+					hb.updatePosition (player.Health);
+				} else if (engine.Entities [i].GetType () == typeof(HungerBar)) {
+					HungerBar hunb = (HungerBar)engine.Entities [i];
+					Player player = (Player)engine.Entities.Find (e => e.ID.Equals (hunb.ConectedTo.ID));
+					hunb.updatePosition (player.Hunger);
+				}
 
 				} 
 			}
@@ -66,6 +75,15 @@ namespace Survival_Game
 				}
 				compSet = false;
 			}
+
+			for (int i = 0; i < engine.Entities.Count; i++) {
+				if (engine.Entities [i].GetType () == typeof(Player)) {
+					Player player = (Player)engine.Entities [i];
+					if(timeCheck(gameTime))
+						player.Hunger = player.Hunger - 2;
+				}
+			}
+
 		}
 
 		private void HandleMenuComponent (TimeSpan time){
@@ -164,6 +182,19 @@ namespace Survival_Game
 					optionBar.TenPercentage += addition;
 			}
 		}
+		// kanske returnera en bool?.
+		private bool timeCheck(GameTime gametime){
+			int secondsSinceGameStart = gametime.TotalGameTime.Seconds;
+			int reduceEvery = 10;
+			int tReduce = secondsSinceGameStart / reduceEvery;
+			if (tReduce > temp) {
+				temp = tReduce;
+				return true;
+			} else
+				return false;
+		}
+
+
 
 		private void HandlePlayer(Entity entity){
 			Player player = (Player)entity;
@@ -188,10 +219,11 @@ namespace Survival_Game
 			int actionMade = 1;
 
 			for (int i = 0; i < numberofBinds; i++) {
-				player.IsMoving = true;
+				//player.IsMoving = true;
 				string action = actions [i];
 				switch (action) {
 				case "up":
+					player.IsMoving = true;
 					if (actionMade > 1)
 						engine.ConfigureEntity (new Vector3 (player.Velocity.X, -playerSpeed, 0), (float)Math.PI - player.Rotation / 2, player.ID);
 					else
@@ -199,6 +231,7 @@ namespace Survival_Game
 					CheckPortions (player);
 					break;
 				case "down":
+					player.IsMoving = true;
 					if (actionMade > 1)
 						engine.ConfigureEntity (new Vector3 (player.Velocity.X, playerSpeed, 0), player.Rotation / 2, player.ID);
 					else
@@ -206,6 +239,7 @@ namespace Survival_Game
 					CheckPortions (player);
 					break;
 				case "left":
+					player.IsMoving = true;
 					if (actionMade > 1)
 						engine.ConfigureEntity (new Vector3 (-playerSpeed, player.Velocity.Y, 0), player.Rotation / 2 + (float)Math.PI / 4, player.ID);
 					else
@@ -213,13 +247,42 @@ namespace Survival_Game
 					CheckPortions (player);
 					break;
 				case "right":
+					player.IsMoving = true;
 					if (actionMade > 1)
 						engine.ConfigureEntity (new Vector3 (playerSpeed, player.Velocity.Y, 0), - player.Rotation / 2 - (float)Math.PI / 4, player.ID);
 					else
 						engine.ConfigureEntity (new Vector3 (playerSpeed, 0, 0), -(float)Math.PI / 2, player.ID);
 					CheckPortions (player);
 					break;
-				case "action":
+				case "action": // TODO: Move to a function? So it can be more dynamic.
+					player.IsUsing = true; 
+					// TODO create a hit box that will allow for only checking infro of the player.
+					BoundingBox check  = new BoundingBox (new Vector3(player.X - (player.Width/3) -40, player.Y -  (player.Height/3) -40,0), 
+						new Vector3(player.X + (player.Width/2) + 40, player.Y - (player.Height/2) +40,0));
+					//Kolla om det är en buske som är framför
+					// ändra på allt som ska göras 
+
+					foreach(Entity ent in engine.Entities){ 
+						if (check.Intersects (ent.HitBox) && ent.GetType() == typeof(Bush)) {
+							Bush bush = (Bush)ent;
+							if (!bush.IsUsed) {
+								bush.IsUsed = true;
+								Console.WriteLine ("Den kom hit iallafall");
+								Console.WriteLine (player.X);
+								Console.WriteLine (bush.X);
+								Console.WriteLine (bush.ID);
+
+								player.Health += bush.AmountOfHealthRestored;
+								player.Hunger += bush.AmountOfHungerReduced;
+								if (player.Health > player.MaxHealth) {
+									player.Health = player.MaxHealth;
+								}
+								if(player.Hunger > player.MaxHunger){
+									player.Hunger = player.MaxHunger;
+								}
+							}
+						}
+					}				
 					break;
 				default: 
 					break;
@@ -246,7 +309,8 @@ namespace Survival_Game
 				if(engine.Entities[i].GetType() == typeof(Player)) {
 					Player player = (Player)engine.Entities[i];
 					player.IsMoving = false;
-					engine.MoveEntity (new Vector3(0,0,0), player.ID);
+					player.IsUsing = false;
+					engine.moveEntity (new Vector3(0,0,0), player.ID);
 				}
 			}
 		}

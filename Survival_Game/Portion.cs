@@ -79,7 +79,7 @@ namespace Survival_Game{
 			for(int i = 0; i < nEntities; i++) {
 				float randX = rand.Next((int)bounds.Min.X, (int)bounds.Max.X);
 				float randY = rand.Next((int)bounds.Min.Y, (int)bounds.Max.Y);
-
+			
 				BoundingBox bushBounds = new BoundingBox(new Vector3(randX, randY, 0),
 					new Vector3(randX + BUSH_WIDTH, randY + BUSH_HEIGHT, 0));
 
