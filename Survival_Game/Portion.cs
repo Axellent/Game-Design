@@ -22,7 +22,7 @@ namespace Survival_Game{
 		public const int TILE_HEIGHT = 50;
 		public const int BUSH_WIDTH = 50;
 		public const int BUSH_HEIGHT = 40;
-		public const int WOLF_WIDTH = 75;
+		public const int WOLF_WIDTH = 100;
 		public const int WOLF_HEIGHT = 150;
 
 		public BoundingBox Bounds{

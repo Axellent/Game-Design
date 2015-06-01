@@ -51,7 +51,7 @@ namespace Game_Engine{
 		public void CollisionDetection(List<Entity> entities){
 			int i;
 
-			for(i = 0; i < entities.Count - 1; i++) {
+			for(i = 0; i < entities.Count; i++) {
 				if(entities[i].HasCollision) {
 					HandleEntityCollision(i, entities);
 				}
