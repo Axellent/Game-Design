@@ -162,11 +162,13 @@ namespace Game_Engine{
 		/* Changes the entitys velocity and rotation as desired. */
 		public void ConfigureEntity(Vector3 velocity, float rotation, string entityID){
 			MoveEntity(velocity, entityID);
-			SetEntityRotation(rotation, entityID);		}
+			SetEntityRotation(rotation, entityID);
+		}
 
 		/* Updates the entitys velocity. */
 		public void MoveEntity(Vector3 velocity, string entityID){
-			entities.Find (e => e.ID.Equals(entityID)).Velocity = velocity;		}
+			entities.Find (e => e.ID.Equals(entityID)).Velocity = velocity;
+		}
 
 		/* Updates the entitys rotation. */
 		public void SetEntityRotation(float rotation, string entityID){

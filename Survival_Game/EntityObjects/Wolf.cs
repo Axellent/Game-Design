@@ -60,26 +60,44 @@ namespace Survival_Game{
 			}
 
 			if(players.Count > 0) {
+				Player targetPlayer = ChooseTarget(players);
 				Entity collidedEntity = PhysicsManager.GetEntityCollision(this, entities);
 
-				if(this.HitBox.Intersects(players[0].HitBox)) {
+				if(this.HitBox.Intersects(targetPlayer.HitBox)) {
 					this.isMoving = true;
-					this.MoveTowards(players[0], -movementSpeed * 3);
+					this.MoveTowards(targetPlayer, -movementSpeed * 3);
 				}
 				else if(collidedEntity != null) {
-					//this.isMoving == true;
-					//this.MoveTowards(collidedEntity, -3);
 				}
 				else if(updateLimiter == 0) {
 					this.isMoving = true;
-					this.MoveTowards(players[0], movementSpeed);
-					RotateToVelocityVector(players[0]);
+					this.MoveTowards(targetPlayer, movementSpeed);
+					RotateToVelocityVector(targetPlayer);
 					updateLimiter = 10;
 				}
 				else {
 					updateLimiter--;
 				}
 			}
+		}
+
+		public Player ChooseTarget(List<Player> players){
+			Player chosen = players[0];
+			Vector3 chosenPlayerCenter = new Vector3(players[0].HitBox.Max.X - players[0].Width / 2, players[0].HitBox.Max.Y - players[0].Height / 2, 0);
+			Vector3 wolfCenter = new Vector3(this.HitBox.Max.X - this.Width / 2, this.HitBox.Max.Y - this.Height / 2, 0);
+			float chosenPlayerDist = Vector3.Distance(chosenPlayerCenter, wolfCenter);
+
+			for(int i = 1; i < players.Count; i++){
+				Vector3 playerCenter = new Vector3(players[i].HitBox.Max.X - players[i].Width / 2, players[i].HitBox.Max.Y - players[i].Height / 2, 0);
+				float newDist = Vector3.Distance(playerCenter, wolfCenter);
+
+				if(newDist < chosenPlayerDist) {
+					chosen = players[i];
+					chosenPlayerCenter = playerCenter;
+					chosenPlayerDist = newDist;
+				}
+			}
+			return chosen;
 		}
 
 		/* Rotates the wolf so that it roughly faces the velocity vector. */

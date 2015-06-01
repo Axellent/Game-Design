@@ -54,11 +54,19 @@ namespace Survival_Game
 			}
 		}
 
+		public int Health{
+			get{
+				return health;
+			}
+			set{
+				health = value;
+			}
+		}
+
 		//Player constructor. Inherits ActorEntity
 		public Player (string playerName, bool isController, float X, float Y, float width, float height,
 				float rotation, BoundingBox hitbox, int layer, Texture2D texture, bool playerControlled) 
-			: base(playerName, X, Y, width, height,  rotation, hitbox, layer, texture, playerControlled)
-		{
+				: base(playerName, X, Y, width, height,  rotation, hitbox, layer, texture, playerControlled){
 			movementSpeed = 2.0F;
 			isMoving = false;
 			health = 100;
