@@ -75,6 +75,10 @@ namespace Survival_Game{
 			gameContent.Add ("CheckBox_C_Y");
 			gameContent.Add ("ExitMenuButton");
 			gameContent.Add ("ExitMenuButton_Y");
+			gameContent.Add ("player_L_Hand");
+			gameContent.Add ("player_R_Hand");
+			gameContent.Add ("health_Bar");
+			gameContent.Add ("hunger_Bar");
 			//gameContent.Add ();
 			return gameContent;
 		}
@@ -189,7 +193,8 @@ namespace Survival_Game{
 			keybind4.EntityID = playerID;
 			keybind4.Action = "right";
 			KeyBind keybind5 = new KeyBind ();
-			keybind5.Keys.Add ("Add");
+			keybind5.Keys.Add ("P");
+			keybind5.Keys.Add ("p");
 			keybind5.EntityID = playerID;
 			keybind5.Action = "action";
 

@@ -77,7 +77,7 @@ namespace Survival_Game{
 			for(int i = 0; i < nEntities; i++) {
 				float randX = rand.Next((int)bounds.Min.X, (int)bounds.Max.X);
 				float randY = rand.Next((int)bounds.Min.Y, (int)bounds.Max.Y);
-
+			
 				BoundingBox bushBounds = new BoundingBox(new Vector3(randX, randY, 0),
 					new Vector3(randX + BUSH_WIDTH, randY + BUSH_HEIGHT, 0));
 
@@ -91,7 +91,7 @@ namespace Survival_Game{
 				if(!intersects) {
 					Bush berryBush = new Bush("bush" + berryBushNO, randX, randY, BUSH_WIDTH, BUSH_HEIGHT,
 						0, bushBounds, 1, null);
-
+					berryBushNO = berryBushNO + 1; 
 					randomEntities.Add(berryBush);
 					entities.Add(berryBush);
 				}

@@ -93,6 +93,15 @@ namespace Survival_Game{
 				new BoundingBox (new Vector3 (500 - (72 / 4), 400 - (62 / 4), 0),
 					new Vector3 (500 + (72 / 4), 400 + (62 / 4), 0)), 1, null, true);
 
+
+			HealthBar healthBar1 = new HealthBar ("healthBar1", player1.X, player1.Y - 50, player1.Health, 10, 0, new BoundingBox(new Vector3(player1.X - 100, player1.Y - 100,0),
+				new Vector3(player1.X - 100, player1.Y - 100,0)), 0, null, false, player1);
+			HungerBar hungerBar1 = new HungerBar ("hungerBar1", player1.X, player1.Y - 70, player1.Hunger, 10, 0, new BoundingBox(new Vector3(player1.X - 100, player1.Y - 100,0),
+				new Vector3(player1.X - 100, player1.Y - 100,0)), 0, null, false, player1);
+
+			engine.AddEntity (healthBar1);
+			engine.AddEntity (hungerBar1);
+
 			defaultview = engine.GraphicsDevice.Viewport;
 			leftview = defaultview;
 			rightview = defaultview;
