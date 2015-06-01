@@ -175,7 +175,7 @@ namespace Survival_Game{
 			keybind4.EntityID = playerID;
 			keybind4.Action = "right";
 			KeyBind<Keys> keybind5 = new KeyBind<Keys> ();
-			keybind5.Key = Keys.F;
+			keybind5.Key = Keys.E;
 			keybind5.EntityID = playerID;
 			keybind5.Action = "action";
 
@@ -208,7 +208,7 @@ namespace Survival_Game{
 			keybind4.EntityID = playerID;
 			keybind4.Action = "right";
 			KeyBind<Keys> keybind5 = new KeyBind<Keys> ();
-			keybind5.Key = Keys.Add;
+			keybind5.Key = Keys.O;
 			keybind5.EntityID = playerID;
 			keybind5.Action = "action";
 

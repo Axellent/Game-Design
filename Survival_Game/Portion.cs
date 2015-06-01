@@ -96,7 +96,7 @@ namespace Survival_Game{
 		/* Generates new creatures into the game. */
 		public void GenerateBeasts(List<Entity> entities){
 			Random rand = new Random();
-			int nEntities = rand.Next(10, 20);
+			int nEntities = rand.Next(5, 15);
 
 			for(int i = 0; i < nEntities; i++) {
 				float randX = rand.Next((int)bounds.Min.X, (int)bounds.Max.X);
