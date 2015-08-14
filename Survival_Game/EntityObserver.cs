@@ -185,7 +185,7 @@ namespace Survival_Game
 		// kanske returnera en bool?.
 		private bool timeCheck(GameTime gametime){
 			int secondsSinceGameStart = gametime.TotalGameTime.Seconds;
-			int reduceEvery = 10;
+			int reduceEvery = 6;
 			int tReduce = secondsSinceGameStart / reduceEvery;
 			if (tReduce > temp) {
 				temp = tReduce;
