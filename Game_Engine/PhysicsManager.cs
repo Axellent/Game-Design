@@ -20,20 +20,25 @@ namespace Game_Engine{
 			}
 		}
 
-		public void UpdateEntities(List<Entity> entities){
+		private void UpdateEntities(List<Entity> entities){
 			List<Entity> temp = entities.FindAll(e => e.GetType() == typeof(ActorEntity) || e.GetType().IsSubclassOf(typeof(ActorEntity)));
 			for (int i = 0; i < temp.Count; i++) {
 				temp[i].X += temp[i].Velocity.X;
 				temp[i].Y += temp[i].Velocity.Y;
+				UpdateEntityHitbox (temp [i]);
+				while (CheckEntityCollision (temp [i], entities)) {
+					HandleCollision (temp [i]);
+					UpdateEntityHitbox (temp [i]);
+				}
 			}
 		}
 
-		public void UpdateHitboxes(List<Entity> entities){
-
-			foreach(Entity entity in entities){
-				UpdateEntityHitbox(entity);
-			}
-		}
+		//  public void UpdateHitboxes(List<Entity> entities){
+		//
+		//   foreach(Entity entity in entities){
+		//    UpdateEntityHitbox(entity);
+		//   }
+		//  }
 
 		private void UpdateEntityHitbox(Entity entity){
 			entity.HitBox = new BoundingBox(new Vector3(entity.X - (entity.Width / 3),
@@ -44,18 +49,7 @@ namespace Game_Engine{
 
 		public void UpdatePhysics(List<Entity> entities){
 			UpdateEntities(entities);
-			UpdateHitboxes(entities);
-			CollisionDetection(entities);
-		}
-			
-		public void CollisionDetection(List<Entity> entities){
-			int i;
-
-			for(i = 0; i < entities.Count; i++) {
-				if(entities[i].HasCollision) {
-					HandleEntityCollision(i, entities);
-				}
-			}
+			//UpdateHitboxes(entities);
 		}
 
 		public static bool CheckEntityCollision(Entity entity, List<Entity> entities){
@@ -80,91 +74,25 @@ namespace Game_Engine{
 			return null;
 		}
 
-		public void HandleEntityCollision(int i, List<Entity> entities){
-			int j;
-
-			for(j = i + 1; j < entities.Count; j++) {
-				if(entities[j].HasCollision && entities[i].HitBox.Intersects(entities[j].HitBox)){
-					HandleCollision(entities[i], entities[j]);
-					entities[i].OnCollision (entities[j]);
-				}
-			}
+		private void HandleCollision(Entity entity){
+			entity.Y += DivideByLower(Math.Abs(entity.Velocity.Y), Math.Abs(entity.Velocity.X), entity.Velocity.Y < 0);
+			entity.X += DivideByLower(Math.Abs(entity.Velocity.X), Math.Abs(entity.Velocity.Y), entity.Velocity.X < 0);
 		}
 
-		private void HandleCollision(Entity entity1, Entity entity2){
-			if (entity1.Velocity.X == 0 && entity1.Velocity.Y == 0) {
-				entity2.X -= entity2.Velocity.X;
-				entity2.Y -= entity2.Velocity.Y;
-			} else if (entity2.Velocity.X == 0 && entity2.Velocity.Y == 0) {
-				entity1.X -= entity1.Velocity.X;
-				entity1.Y -= entity1.Velocity.Y;
+		private float DivideByLower(float num1, float num2, bool isNegative){
+			float changer;
+			if (num1 < num2) {
+				changer = num1 / num2;
+				if (!isNegative)
+					changer *= -1;
+			} else if (num1 == 0){ 
+				changer = 0;
 			} else {
-				
-				int entity1_X = (int)entity1.Velocity.X;
-				float entity1_X_rest = (float)entity1.Velocity.X % 1;
-				int entity1_Y = (int)entity1.Velocity.Y;
-				float entity1_Y_rest = (float)entity1.Velocity.Y % 1;
-				int entity2_X = (int)entity2.Velocity.X;
-				float entity2_X_rest = (float)entity2.Velocity.X % 1;
-				int entity2_Y = (int)entity2.Velocity.Y;
-				float entity2_Y_rest = (float)entity2.Velocity.Y % 1;
-
-				int i = 0;
-				while (entity1.HitBox.Intersects (entity2.HitBox)) {
-					if (i % 2 == 0) {
-						if (entity1_X != 0) {
-							if (entity1_X > 0) {
-								entity1.X -= 1;
-								entity1_X--;
-							} else {
-								entity1.X += 1;
-								entity1_X++;
-							}
-						} else if (entity1_X == 0) {
-							entity1.X -= entity1_X_rest;
-						}
-						if (entity1_Y != 0) {
-							if (entity1_Y > 0) {
-								entity1.Y -= 1;
-								entity1_Y--;
-							} else {
-								entity1.Y += 1;
-								entity1_Y++;
-							} 
-						} else if (entity1_Y == 0) {
-							entity1.Y -= entity1_Y_rest;
-						}
-						UpdateEntityHitbox (entity1);
-					} else {
-						if (entity2_X != 0) {
-							if (entity2_X > 0) {
-								entity2.X -= 1;
-								entity2_X--;
-							} else {
-								entity2.X += 1;
-								entity2_X++;
-							}
-						} else if (entity2_X == 0) {
-							entity2.X -= entity2_X_rest;
-						} 
-						if (entity2_Y != 0) {
-							if (entity2_Y > 0) {
-								entity2.Y -= 1;
-								entity2_Y--;
-							} else {
-								entity2.Y += 1;
-								entity2_Y++;
-							}
-						} else if (entity2_Y == 0) {
-							entity2.Y -= entity2_Y_rest;
-						}
-						UpdateEntityHitbox (entity2);
-					}
-					i++;
-				}
+				changer = -1;
+				if (isNegative) changer = 1;
 			}
+			return changer;
 		}
 	}
 }
-
 
